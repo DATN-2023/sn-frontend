@@ -1,9 +1,9 @@
 import * as Vue from 'vue'
 import App from './App.vue'
-import Vuex from 'vuex'
 import router from "../router";
 import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
+import store from "@/store";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VUE_APP_FIREBASE_API_KEY || 'AIzaSyBgXVtMkTVYqKDyPk2MnbR4ZXkQ44pYDJs',
@@ -22,5 +22,5 @@ const firebase = initializeApp(firebaseConfig);
 
 const app = Vue.createApp(App)
 app.use(router)
-app.use(Vuex)
+app.use(store)
 app.mount('#app')

@@ -7,13 +7,18 @@
       <div class="my-2">
         <input name="phone" type="text" class="border-black border rounded" v-model="phone">
       </div>
-      <button class="bg-sky-500 mt-2 p-2 rounded w-full" @click="login">Đăng nhập</button>
+      <button class="bg-sky-500 mt-2 p-2 rounded w-full" @click="handleSignInGoogle">Đăng nhập</button>
     </div>
   </div>
 </template>
 
 <script>
-import { getAuth, getRedirectResult, GoogleAuthProvider } from "firebase/auth";
+import {getAuth, signInWithPopup, getRedirectResult, GoogleAuthProvider} from "firebase/auth";
+import platform from 'platform'
+
+const googleProvider = new GoogleAuthProvider();
+const auth = getAuth();
+
 export default {
   name: "Login",
   data() {
@@ -22,29 +27,17 @@ export default {
     }
   },
   methods: {
-    login() {
-      const auth = getAuth();
-      console.log(auth)
-      getRedirectResult(auth)
+    handleSignInGoogle() {
+      signInWithPopup(auth, googleProvider)
           .then((result) => {
-            // This gives you a Google Access Token. You can use it to access Google APIs.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
+            console.log(result)
+            // const user = result.user;
+            // console.log(result.user.displayName)
+            this.user = result.user.displayName;
+            this.isSignedIn = true;
           }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
+            console.log(error);
+          });
     }
   },
 
