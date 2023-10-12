@@ -20,12 +20,54 @@ const state = () => ({
 })
 
 const getters = {
-    test: () => {
-        console.log('test')
-    }
+    token(state) {
+        return state.token
+    },
+    isGuest(state) {
+        return state.isGuest
+    },
+    userInfo(state) {
+        return state.userInfo
+    },
+    isLoggedIn(state) {
+        return state.isLoggedIn
+    },
+    visibleTransitionGuest(state) {
+        return state.visibleTransitionGuest
+    },
+    transitionGuestData(state) {
+        return state.transitionGuestData
+    },
+    intervalPing(state) {
+        return state.intervalPing
+    },
 }
 
 const actions = {
+    setVistorId({commit}, data) {
+        commit('SET_VISISTOR_ID', data)
+    },
+    setUserInfo({commit}, data) {
+        commit('SET_USERINFO', data)
+    },
+    removeUserInfo({commit}) {
+        commit('REMOVE_USERINFO')
+    },
+    setToken({commit}, token) {
+        commit('SET_TOKEN', token)
+    },
+    checkGuest({commit}, payload) {
+        commit('CHECK_GUEST', payload)
+    },
+    removeToken({commit}) {
+        commit('REMOVE_TOKEN')
+    },
+    changeLoginStatus({commit}, status) {
+        commit('CHANGE_LOGIN_STATUS', status)
+    },
+    toggleTransitionGuestModal({commit}, payload) {
+        commit('TOGGLE_TRANSITION_GUEST_MODAL', payload)
+    },
     async enterGuest({commit, dispatch}) {
         try {
             const vistorId = await dispatch('getVisitorId')
@@ -65,9 +107,35 @@ const actions = {
 }
 
 const mutations = {
-    CHECK_GUEST(state, payload) {
-        state.isGuest = payload
-        this.$cookies.set(GUEST_KEY, payload)
+    TOGGLE_TRANSITION_GUEST_MODAL(state, payload) {
+        state.visibleTransitionGuest = !state.visibleTransitionGuest
+        if (state.visibleTransitionGuest && payload) {
+            state.transitionGuestData = payload
+        } else {
+            state.transitionGuestData = {
+                leads: [],
+                favorites: [],
+                sellCars: []
+            }
+        }
+    },
+    SET_VISISTOR_ID(state, payload) {
+        state.visitorId = payload
+        if (process.client) {
+            localStorage.setItem(VISITOR_ID, JSON.stringify(payload))
+        }
+    },
+    SET_USERINFO(state, payload) {
+        state.userInfo = payload
+        if (process.client) {
+            localStorage.setItem(USER_KEY, JSON.stringify(payload))
+        }
+    },
+    REMOVE_USERINFO(state) {
+        state.userInfo = {}
+        if (process.client) {
+            localStorage.removeItem(USER_KEY)
+        }
     },
     SET_TOKEN(state, payload) {
         state.token = payload
@@ -76,6 +144,23 @@ const mutations = {
             localStorage.setItem(TOKEN_KEY, payload)
         }
     },
+    REMOVE_TOKEN(state) {
+        state.token = null
+        this.$cookies.remove(TOKEN_KEY)
+        if (process.client) {
+            localStorage.removeItem(TOKEN_KEY)
+        }
+    },
+    CHECK_GUEST(state, payload) {
+        state.isGuest = payload
+        this.$cookies.set(GUEST_KEY, payload)
+    },
+    CHANGE_LOGIN_STATUS(state, status) {
+        state.isLoggedIn = status
+    },
+    SET_INTERVAL_PING(state, payload) {
+        state.intervalPing = payload
+    }
 }
 
 export default {

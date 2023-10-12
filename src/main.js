@@ -1,9 +1,11 @@
 import * as Vue from 'vue'
 import App from './App.vue'
+import VueCookies from 'vue-cookies'
+import store from "@/store";
 import router from "../router";
 import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
-import store from "@/store";
+import initAxios from './api'
 
 const firebaseConfig = {
     apiKey: import.meta.env.VUE_APP_FIREBASE_API_KEY || 'AIzaSyBgXVtMkTVYqKDyPk2MnbR4ZXkQ44pYDJs',
@@ -16,11 +18,10 @@ const firebaseConfig = {
     measurementId: import.meta.env.VUE_APP_FIREBASE_MEASUREMENT_ID || 'G-N6P4XVLF0L'
 };
 
-// Initialize Firebase
-console.log('test')
 const firebase = initializeApp(firebaseConfig);
 
 const app = Vue.createApp(App)
-app.use(router)
+app.use(VueCookies, { expires: '7d'})
 app.use(store)
+app.use(router)
 app.mount('#app')

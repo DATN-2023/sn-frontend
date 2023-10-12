@@ -1,0 +1,7 @@
+export const USER_KEY = 'userInfo'
+export const TOKEN_KEY = 'token'
+export const GUEST_KEY = 'guest'
+export const VISITOR_ID = 'visitor_id'
+export const VISITOR_ID_TYPE = 'visitor_id_type'
+export const FAVORITE_CARS = 'favorite_cars'
+export const FAKE_DEVICEID = 'FAKE_DEVICEID'
