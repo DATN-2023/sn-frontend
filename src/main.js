@@ -6,6 +6,7 @@ import router from "../router";
 import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
 import initAxios from './api'
+import axios from "axios";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VUE_APP_FIREBASE_API_KEY || 'AIzaSyBgXVtMkTVYqKDyPk2MnbR4ZXkQ44pYDJs',
@@ -21,7 +22,8 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 
 const app = Vue.createApp(App)
+initAxios({$axios: axios, store, app, $cookies: window.$cookies})
 app.use(VueCookies, { expires: '7d'})
-app.use(store)
 app.use(router)
+app.use(store)
 app.mount('#app')

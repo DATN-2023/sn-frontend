@@ -1,8 +1,7 @@
 import platform from "platform";
 import config from "@/config/config";
-import api from "@/api";
-
-const {authApi} = api
+import authApi from "@/api/auth";
+import {GUEST_KEY, TOKEN_KEY, USER_KEY, VISITOR_ID} from "@/config/constants";
 
 const state = () => ({
     intervalPing: null,
@@ -104,6 +103,19 @@ const actions = {
             return Math.random().toString(36)
         }
     },
+    async login({ dispatch }, dataSubmit) {
+        try {
+            console.log('test above')
+            const {data} = await authApi.login(dataSubmit)
+            console.log('test')
+            if(data) {
+                dispatch('setToken', data.token)
+                dispatch('setUserInfo', data.user)
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
 }
 
 const mutations = {

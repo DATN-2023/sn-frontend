@@ -15,6 +15,7 @@
 <script>
 import {getAuth, signInWithPopup, getRedirectResult, GoogleAuthProvider} from "firebase/auth";
 import platform from 'platform'
+import {getFingerPrintBrowser} from "@/config";
 
 const googleProvider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -23,17 +24,56 @@ export default {
   name: "Login",
   data() {
     return {
+      loading: null,
       phone: ''
     }
   },
   methods: {
+    async getDataLogin(user) {
+      const { accessToken, email, displayName, photoURL, phoneNumber } = user
+
+      const deviceId = await getFingerPrintBrowser()
+
+      const data = {
+        deviceType: 3,
+        token: accessToken,
+        deviceId,
+        versionCode: '1',
+        name: displayName,
+        avatar: photoURL,
+        deviceName: platform.description,
+        fcmToken: '',
+        signature: '1',
+        phone: phoneNumber
+      }
+
+      if (!phoneNumber) {
+        delete data.phone
+      }
+
+      return data
+    },
     handleSignInGoogle() {
       signInWithPopup(auth, googleProvider)
-          .then((result) => {
+          .then( async (result) => {
             console.log(result)
             // const user = result.user;
             // console.log(result.user.displayName)
-            this.user = result.user.displayName;
+            const data = await this.getDataLogin(result.user)
+            try {
+              this.loading = true
+              console.log('data ', data)
+              await this.$store.dispatch.auth('login', data)
+              if(this.$route.query.redirect === '/dang-ky') {
+                this.$router.push('/')
+              } else {
+                this.$router.push(this.$route.query.redirect || '/')
+              }
+              this.loading = false
+            } catch (err) {
+              this.loading = false
+            }
+            console.log('User', result.user)
             this.isSignedIn = true;
           }).catch((error) => {
             console.log(error);
