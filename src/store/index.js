@@ -1,4 +1,4 @@
-import { createStore, createLogger } from 'vuex'
+import {createStore, createLogger} from 'vuex'
 import auth from './modules/authen'
 
 const debug = process.env.NODE_ENV !== 'production'

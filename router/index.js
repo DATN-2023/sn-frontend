@@ -36,7 +36,6 @@ router.beforeEach(async (to, from) => {
                     versionCode: '1'
                 }
                 const {data: res} = await authApi.enterGuest(data)
-                console.log(res)
                 this.$cookies.set(TOKEN_KEY, res.token)
                 store.dispatch('auth/checkGuest', true)
                 window.$cookies.remove(FAKE_DEVICEID)

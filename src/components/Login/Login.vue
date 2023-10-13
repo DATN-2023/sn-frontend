@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       loading: null,
+      isSignedIn: null,
       phone: ''
     }
   },
@@ -56,14 +57,10 @@ export default {
     handleSignInGoogle() {
       signInWithPopup(auth, googleProvider)
           .then( async (result) => {
-            console.log(result)
-            // const user = result.user;
-            // console.log(result.user.displayName)
             const data = await this.getDataLogin(result.user)
             try {
               this.loading = true
-              console.log('data ', data)
-              await this.$store.dispatch.auth('login', data)
+              await this.$store.dispatch('auth/login', data)
               if(this.$route.query.redirect === '/dang-ky') {
                 this.$router.push('/')
               } else {
@@ -73,10 +70,9 @@ export default {
             } catch (err) {
               this.loading = false
             }
-            console.log('User', result.user)
             this.isSignedIn = true;
           }).catch((error) => {
-            console.log(error);
+            console.error(error);
           });
     }
   },
