@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
 import initAxios from './api'
 import axios from "axios";
+import 'virtual:windi.css'
 
 const firebaseConfig = {
     apiKey: import.meta.env.VUE_APP_FIREBASE_API_KEY || 'AIzaSyBgXVtMkTVYqKDyPk2MnbR4ZXkQ44pYDJs',
