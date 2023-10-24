@@ -8,11 +8,11 @@ import store from "@/store";
 const routes = [
     {
       path: '/login',
-      component: () => import("../src/pages/Login.vue")
+      component: () => import("../pages/Login.vue")
     },
     {
         path: '/',
-        component: () => import("../src/pages/Main.vue")
+        component: () => import("../pages/Main.vue")
     }
 ]
 

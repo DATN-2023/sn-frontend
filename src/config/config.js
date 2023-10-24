@@ -1,6 +1,7 @@
 const config = {
     urlConfig: {
-        authUrl: import.meta.env.VUE_AUTH_URL || 'http://localhost:8003'
+        authUrl: import.meta.env.VUE_AUTH_URL || 'http://localhost:8005',
+        serverUrl: import.meta.env.VUE_SERVER_URL || 'http://localhost:8000'
     },
     deviceTypes: {
         ANDROID: 1,

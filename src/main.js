@@ -2,7 +2,7 @@ import * as Vue from 'vue'
 import App from './App.vue'
 import VueCookies from 'vue-cookies'
 import store from "@/store";
-import router from "../router";
+import router from "@/router";
 import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
 import initAxios from './api'

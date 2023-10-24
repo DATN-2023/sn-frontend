@@ -47,5 +47,8 @@ export default function ({$axios, store, app, $cookies}) {
         statusCodes: [appConfig.httpCode.TOKEN_EXPIRED, appConfig.httpCode.UNAUTHORIZED],
         retryInstance: $axios
     })
-    // $axios.interceptors.request.use(refreshAuthLogic)
+    $axios.interceptors.request.use((config) => {
+        config.headers['x-access-token'] = $cookies.get(TOKEN_KEY)
+        return config
+    })
 }
