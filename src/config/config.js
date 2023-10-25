@@ -20,6 +20,10 @@ const config = {
         UNAUTHORIZED: 401,
         USER_BLOCK: 412,
         DEVICE_BLOCK: 413
+    },
+    feedType: {
+        POST: 1,
+        SHARE: 2
     }
 }
 export default config

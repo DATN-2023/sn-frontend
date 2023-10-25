@@ -126,7 +126,7 @@ const props = defineProps({
         </div>
         <ul :class="`flex flex-col w-full pt-5 ${props.isExpanded ? '' : 'justify-center flex '}`">
             <li v-for="(menu, index) in menus.menusList" :key="menu.name"
-                :class="` w-full py-2  flex items-center ${props.isExpanded ? 'mb-2' : 'justify-center mb-4'} ${menu.index == menus.active ? 'text-ll-primary' : ''} cursor-pointer active:scale-95 transform transition-transform select-none`"
+                :class="` w-full py-2  flex items-center ${props.isExpanded ? 'mb-2' : 'justify-center mb-4'} ${menu.index === menus.active ? 'text-ll-primary' : ''} cursor-pointer active:scale-95 transform transition-transform select-none`"
                 @click="menus.active = menu.index, $.emit('onCloseNavbar', false)">
                 <div v-html="menu.icon"></div>
                 <p v-if="props.isExpanded" class="ml-5 text-sm">{{ menu.name }}</p>

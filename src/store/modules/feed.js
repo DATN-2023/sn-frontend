@@ -21,8 +21,10 @@ const actions = {
         try {
             const data = await feed.createFeed(dataSubmit)
             console.log(data)
+            return data
         } catch (e) {
             console.error('error')
+            return {}
         }
     },
     async getFeed({dispatch, commit}, query) {
@@ -30,6 +32,7 @@ const actions = {
             return await feed.getFeeds(query)
         } catch (e) {
             console.error('error')
+            return []
         }
     },
     async getFeedById({dispatch, commit}, id) {

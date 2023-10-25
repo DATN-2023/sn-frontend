@@ -1,8 +1,10 @@
 <script>
 
-import {onMounted, reactive, ref, watch} from 'vue';
 import Post from '../components/Post.vue';
-import {Posts} from './processFeedPosts';
+import config from "@/config/config";
+import FilePond from '@/App.vue'
+
+const {feedType} = config
 
 export default {
   props: {
@@ -10,51 +12,47 @@ export default {
     showPostComposer: {
       type: Boolean,
       required: true
-    }
+    },
+    feedPosts: Array
   },
   data() {
     return {
-      feedPosts: Posts,
       leftPosts: [],
-      rightPosts: []
+      rightPosts: [],
+      content: '',
+      images: [],
+      type: feedType.POST
     }
   },
   methods: {
-    sortList() {
-      this.feedPosts.forEach((post, index) => {
-        if ((index % 2) !== 0) {
-          this.leftPosts.push(post);
-        } else {
-          this.rightPosts.push(post);
-        }
-      });
-    },
-    createFeed() {
-
+    async createFeed() {
+      const body = {
+        content: this.content,
+        images: this.images,
+        type: this.type
+      }
+      const data = await this.$store.dispatch('feed/createFeed', body)
+      console.log('done')
     }
   },
-  watch: {
-    feedPosts() {
-      this.sortList()
-    }
-  },
-  mounted() {
-    this.sortList()
-  },
-  components: {Post}
+  components: {
+    Post
+  }
 }
 
 </script>
 
 <template>
   <div
-      :class="`grid-cols-1 w-full grid ${oneColumn ? 'md:grid-cols-1 px-20 pt-5' : 'md:grid-cols-2'} transition-all`">
+      :class="`grid-cols-1 w-full grid md:grid-cols-1 px-60 pt-5 transition-all`">
     <div
         :class="` transition-all ${oneColumn ? 'col-span-1' : 'col-span-1 md:col-span-2 mt-2'}  ${showPostComposer ? 'h-70 p-5' : 'h-0 p-0'} overflow-hidden mx-2 bg-ll-neutral dark:bg-ld-neutral rounded-md  flex flex-col relative`">
-            <textarea class="w-full h-full rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
+            <textarea v-model="content"
+                      class="w-full h-full rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
                       placeholder="What's happening?" resize="none"></textarea>
       <div class="w-full flex items-center justify-between pt-3 ">
         <div class="flex">
+          <file-bond />
           <button @click="$emit('onMenuClick')"
                   class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center  border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-500 active:scale-95 transition-transform transform">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -75,7 +73,7 @@ export default {
         <div class="flex">
 
           <button @click="createFeed"
-              class=" text-sm px-3 py-2 bg-ll-primary text-white dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
+                  class=" text-sm px-3 py-2 bg-ll-primary text-white dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-6 h-6 mr-2">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -99,11 +97,11 @@ export default {
       </button>
     </div>
     <div class="flex flex-col p-2 ">
-      <Post v-for="(post, index) in rightPosts" :post="post" :key="index"></Post>
+      <Post v-for="(post, index) in feedPosts" :post="post" :key="index"></Post>
     </div>
-    <div class="flex flex-col p-2 ">
-      <Post v-for="(post, index) in leftPosts" :post="post" :key="index"></Post>
-    </div>
+    <!--    <div class="flex flex-col p-2 ">-->
+    <!--      <Post v-for="(post, index) in leftPosts" :post="post" :key="index"></Post>-->
+    <!--    </div>-->
 
   </div>
 </template>
