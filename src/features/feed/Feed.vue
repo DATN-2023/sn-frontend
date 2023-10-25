@@ -2,7 +2,6 @@
 
 import Post from '../components/Post.vue';
 import config from "@/config/config";
-import FilePond from '@/App.vue'
 
 const {feedType} = config
 
@@ -50,9 +49,18 @@ export default {
             <textarea v-model="content"
                       class="w-full h-full rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
                       placeholder="What's happening?" resize="none"></textarea>
+      <div><file-pond
+          name="test"
+          ref="pond"
+          class-name="my-pond"
+          label-idle="Drop files here..."
+          allow-multiple="true"
+          accepted-file-types="image/jpeg, image/png"
+          v-bind:files="myFiles"
+          v-on:init="handleFilePondInit"
+      /></div>
       <div class="w-full flex items-center justify-between pt-3 ">
         <div class="flex">
-          <file-bond />
           <button @click="$emit('onMenuClick')"
                   class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center  border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-500 active:scale-95 transition-transform transform">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
