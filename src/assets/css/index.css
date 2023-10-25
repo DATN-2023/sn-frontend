@@ -30,3 +30,7 @@ body #app {
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.filepond--credits {
+    display: none !important;
+}
