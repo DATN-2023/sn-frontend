@@ -29,7 +29,7 @@ const actions = {
     },
     async getFeed({dispatch, commit}, query) {
         try {
-            return await feed.getFeeds(query)
+            return feed.getFeeds(query)
         } catch (e) {
             console.error('error')
             return []

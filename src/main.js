@@ -7,20 +7,9 @@ import { initializeApp } from "firebase/app";
 import './assets/css/index.css'
 import initAxios from './api'
 import axios from "axios";
+import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/lara-light-teal/theme.css'
 import 'virtual:windi.css'
-import vueFilePond from 'vue-filepond'
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-
-// Import image preview and file type validation plugins
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-
-// Create component
-const FilePond = vueFilePond(
-    FilePondPluginFileValidateType,
-    FilePondPluginImagePreview
-);
 
 
 const firebaseConfig = {
@@ -39,7 +28,7 @@ const firebase = initializeApp(firebaseConfig);
 const app = Vue.createApp(App)
 initAxios({$axios: axios, store, app, $cookies: window.$cookies})
 app.use(VueCookies, { expires: '7d'})
-app.use(router)
 app.use(store)
-app.component('FilePond', FilePond)
+app.use(router)
+app.use(PrimeVue)
 app.mount('#app')

@@ -751,13 +751,6 @@
   resolved "https://registry.npmjs.org/@soda/get-current-script/-/get-current-script-1.0.2.tgz"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
-"@tailwindcss/forms@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.5.6.tgz"
-  integrity sha512-Fw+2BJ0tmAwK/w01tEFL5TiaJBX1NLT1/YbWgvm7ws3Qcn11kiXxzNTEQDMs5V3mQemhB56l3u0i9dwdzSQldA==
-  dependencies:
-    mini-svg-data-uri "^1.2.3"
-
 "@trysound/sax@0.2.0":
   version "0.2.0"
   resolved "https://registry.npmjs.org/@trysound/sax/-/sax-0.2.0.tgz"
@@ -3405,11 +3398,6 @@ mini-css-extract-plugin@^2.5.3:
   dependencies:
     schema-utils "^4.0.0"
 
-mini-svg-data-uri@^1.2.3:
-  version "1.4.4"
-  resolved "https://registry.npmjs.org/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz"
-  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
-
 minimalistic-assert@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz"
@@ -4085,6 +4073,11 @@ pretty-error@^4.0.0:
   dependencies:
     lodash "^4.17.20"
     renderkid "^3.0.0"
+
+primevue@^3.37.0:
+  version "3.37.0"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.37.0.tgz#8788f6a4aba29613ba66d7c710445453273936d3"
+  integrity sha512-azwnnQS4+HHJHrh07P0cz+8Nvqo6C08znwvPDyiILwVPkwIrTtgNVmYQtQ9HjLgwax+lC7scMetJpdKcNQU//g==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -4917,6 +4910,11 @@ vue-loader@^17.0.0:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
     watchpack "^2.4.0"
+
+vue-media-upload@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/vue-media-upload/-/vue-media-upload-2.1.2.tgz"
+  integrity sha512-ZvqRX4Wwn1J45nzmxDEIRlIFPAboqx98k+S6jMCHhVxt4H0LTXzpdZRee6MbIKYBzGu72pcenrqLzMjlXF4KDQ==
 
 vue-router@4:
   version "4.2.5"

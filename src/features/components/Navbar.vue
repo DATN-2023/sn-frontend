@@ -134,7 +134,7 @@ const props = defineProps({
             </li>
         </ul>
 
-        <button @click="$.emit('onComposePost'), $.emit('onCloseNavbar', false)"
+        <button @click="$.emit('onComposePost'), $.emit('onCloseNavbar', false), $.emit('onPostCreation', true)"
             class="bg-ll-primary dark:bg-ld-primary text-white rounded-lg py-3 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
             <p v-if="props.isExpanded">Share on Space</p>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
