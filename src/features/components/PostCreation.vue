@@ -23,7 +23,6 @@ export default {
             name: file.name
           })
         }
-        this.isUploaded = true
       }
     },
     async uploadFile(file) {
@@ -31,15 +30,18 @@ export default {
       await this.$store.dispatch('upload/uploadFile', {url: data.url, file, type: file.type})
       return {name: data.name}
     },
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
     async createFeed() {
-      console.log('testt')
+      this.isUploaded = true
+      await this.sleep(10000)
       if (this.files.length > 0) {
         for (const file of this.files) {
           const {name} = await this.uploadFile(file)
           this.images.push(`/${name}`)
         }
       }
-      console.log('checkkk')
       const body = {
         content: this.content,
         images: this.images,
@@ -49,8 +51,8 @@ export default {
       this.files = []
       this.preview = []
       this.images = []
-      this.isUploaded = true
       this.content = ''
+      this.isUploaded = false
       this.$emit("turnOffVisible")
     },
     onUploadFiles() {
@@ -94,15 +96,14 @@ export default {
         </button>
       </div>
       <div class="flex">
-
         <button @click="createFeed"
                 class=" text-sm px-3 py-2 bg-ll-primary text-white dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin />
+          <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round"
                   d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
           </svg>
-
           Share
         </button>
       </div>

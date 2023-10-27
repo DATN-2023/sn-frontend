@@ -10,6 +10,9 @@ import axios from "axios";
 import PrimeVue from 'primevue/config';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import 'virtual:windi.css'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 
 const firebaseConfig = {
@@ -24,6 +27,7 @@ const firebaseConfig = {
 };
 
 const firebase = initializeApp(firebaseConfig);
+library.add(faSpinner)
 
 const app = Vue.createApp(App)
 initAxios({$axios: axios, store, app, $cookies: window.$cookies})
@@ -31,4 +35,5 @@ app.use(VueCookies, { expires: '7d'})
 app.use(store)
 app.use(router)
 app.use(PrimeVue)
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
