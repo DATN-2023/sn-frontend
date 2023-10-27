@@ -1,7 +1,8 @@
 const config = {
     urlConfig: {
         authUrl: import.meta.env.VUE_AUTH_URL || 'http://localhost:8005',
-        serverUrl: import.meta.env.VUE_SERVER_URL || 'http://localhost:8000'
+        serverUrl: import.meta.env.VUE_SERVER_URL || 'http://localhost:8000',
+        imageUrl: import.meta.env.VUE_IMAGE_URL || 'http://localhost:9000/social-network'
     },
     deviceTypes: {
         ANDROID: 1,

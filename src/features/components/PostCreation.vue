@@ -6,11 +6,13 @@ export default {
       content: '',
       isUploaded: false,
       files: [],
-      preview: []
+      preview: [],
+      images: []
     }
   },
   methods: {
     async changeFileUpload(event) {
+      console.log('eventTarget', event.target.result)
       if (event.target.files && event.target.files[0]) {
         const files = event.target.files
         this.files.push(...files)
@@ -30,21 +32,26 @@ export default {
       return {name: data.name}
     },
     async createFeed() {
-      const images = []
+      console.log('testt')
       if (this.files.length > 0) {
         for (const file of this.files) {
           const {name} = await this.uploadFile(file)
-          images.push(name)
+          this.images.push(`/${name}`)
         }
       }
-      console.log(images)
+      console.log('checkkk')
       const body = {
         content: this.content,
         images: this.images,
         type: this.type
       }
-      const data = await this.$store.dispatch('feed/createFeed', body)
-      console.log('done')
+      await this.$store.dispatch('feed/createFeed', body)
+      this.files = []
+      this.preview = []
+      this.images = []
+      this.isUploaded = true
+      this.content = ''
+      this.$emit("turnOffVisible")
     },
     onUploadFiles() {
       this.$refs.upload.click()

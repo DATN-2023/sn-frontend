@@ -1,5 +1,8 @@
 <script>
 
+import config from "@/config/config";
+const {urlConfig: {imageUrl}} = config
+
 export default {
   props: {
     post: {
@@ -12,6 +15,9 @@ export default {
       let description = this.post.content.trim().split('\n').join('<br>');
       description = description.replace(/#(\S*)/g, '<a class="text-ll-primary" href="/search/$1">#$1</a>');
       return description;
+    },
+    genImageUrl(endpoint) {
+      return `${imageUrl}${endpoint}`
     }
   }
 }
@@ -54,7 +60,7 @@ export default {
     <div v-if="post.images.length > 0"
          :class="`images w-full h-70 bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 1) ? 'grid-cols-2' : 'grid-cols-1'} gap-2`">
       <div class="h-full">
-        <img :src="`${post.images[0]}`" class="w-full h-70   object-cover" alt="">
+        <img :src="genImageUrl(post.images[0])" class="w-full h-70   object-cover" alt="">
       </div>
       <div v-if="post.images.length > 1" :class="`
             
@@ -64,15 +70,15 @@ export default {
             
 
             gap-2`">
-        <img v-if="post.images.length > 1" :src="`${post.images[1]}`"
+        <img v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
              :class="`w-full h-full   object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
              alt="">
-        <img v-if="post.images.length > 2" :src="`${post.images[2]}`"
+        <img v-if="post.images.length > 2" :src="genImageUrl(post.images[2])"
              :class="`w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
              alt="">
-        <img v-if="post.images.length > 3" :src="`${post.images[3]}`"
+        <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
              :class="`w-full h-full   object-cover ${post.images.length === 4 && 'col-span-2'}`" alt="">
-        <img v-if="post.images.length > 4" :src="`${post.images[4]}`"
+        <img v-if="post.images.length > 4" :src="genImageUrl(post.images[4])"
              :class="`w-full h-2/4   object-cover ${post.images.length === 5 && 'col-span-3 row-span-1'}`"
              alt="">
 

@@ -55,7 +55,7 @@ export default {
     </template>
     <template #body>
       <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-        <PostCreation></PostCreation>
+        <PostCreation @turnOffVisible="visible = !visible"></PostCreation>
       </Dialog>
       <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar" :showPostComposer="showComposePost"
             @on-close-compose-post="showComposePost = !showComposePost" ></Feed>

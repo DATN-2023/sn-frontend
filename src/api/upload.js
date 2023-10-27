@@ -3,12 +3,10 @@ import config from "@/config/config";
 
 const {urlConfig: {serverUrl}} = config
 export const uploadApi = {
-    async getPresignedUrl(name, type) {
+    async getPresignedUrl(name) {
         try {
             const options = {
-                headers: {
-                    'Content-Type': type
-                },
+                headers: {},
                 url: `${serverUrl}/presignedUrl`,
                 json: true,
                 params: {name},
@@ -23,14 +21,12 @@ export const uploadApi = {
     },
     async uploadFile(url, file, type) {
         try {
-            const arrBuf = await file.arrayBuffer()
-            const blob = new Blob([new Uint8Array(arrBuf)], {type})
+            // const arrBuf = await file.arrayBuffer()
+            // const blob = new Blob([new Uint8Array(arrBuf)], {type})
             const options = {
-                headers: {
-                    'Content-Type': blob.type
-                },
+                headers: {},
                 url: `${url}`,
-                data: blob,
+                data: file,
                 method: 'PUT'
             }
             const {data} = await axios(options)
