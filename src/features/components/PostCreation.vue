@@ -12,7 +12,6 @@ export default {
   },
   methods: {
     async changeFileUpload(event) {
-      console.log('eventTarget', event.target.result)
       if (event.target.files && event.target.files[0]) {
         const files = event.target.files
         this.files.push(...files)
@@ -35,7 +34,6 @@ export default {
     },
     async createFeed() {
       this.isUploaded = true
-      await this.sleep(10000)
       if (this.files.length > 0) {
         for (const file of this.files) {
           const {name} = await this.uploadFile(file)
@@ -68,7 +66,7 @@ export default {
             <textarea v-model="content"
                       class="w-full h-150px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
                       placeholder="What's happening?" resize="none"></textarea>
-    <div v-if="isUploaded" class="flex-wrap flex justify-center items-center">
+    <div class="flex-wrap flex justify-center items-center">
       <div class="w-300px flex-auto p-2" v-for="file in preview">
         <img :src="file.src" :alt="file.name">
       </div>

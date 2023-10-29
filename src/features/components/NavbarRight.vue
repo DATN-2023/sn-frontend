@@ -56,7 +56,7 @@ const trendings = reactive([
                         class="w-full h-full  rounded-full object-cover" alt="">
                 </div>
                 <div class="flex flex-col ml-2">
-                    <p class="text-lg font-bold text-gray-800 dark:text-gray-300">Lukebana</p>
+                    <p class="text-lg font-bold text-gray-800 dark:text-gray-300">Quytest</p>
                     <p class="-mt-1 text-xs">@luk3d</p>
                 </div>
 

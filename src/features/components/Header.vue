@@ -10,7 +10,7 @@
                 </svg>
             </button>
 
-            <p class="text-xl font-normal font-bold">Hivy.Space</p>
+            <p class="text-xl font-normal font-bold">EGOSNET</p>
         </div>
 
         <div

@@ -49,10 +49,10 @@ export default {
               @on-close-navbar="(v) => { showLeftNavbar = v }">
       </Navbar>
     </template>
-    <template #rightNavbar>
-      <NavbarRight>
-      </NavbarRight>
-    </template>
+<!--    <template #rightNavbar>-->
+<!--      <NavbarRight>-->
+<!--      </NavbarRight>-->
+<!--    </template>-->
     <template #body>
       <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
         <PostCreation @turnOffVisible="visible = !visible"></PostCreation>

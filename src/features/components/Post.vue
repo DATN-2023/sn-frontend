@@ -33,7 +33,7 @@ export default {
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-300">Lukebana</p>
+          <p class="text-2xl font-bold text-gray-800 dark:text-gray-300">Quytest</p>
           <p class="-mt-1">@luk3d</p>
         </div>
 
@@ -63,11 +63,11 @@ export default {
         <img :src="genImageUrl(post.images[0])" class="w-full h-70   object-cover" alt="">
       </div>
       <div v-if="post.images.length > 1" :class="`
-            
+
             h-70 grid ${post.images.length === 2 ? 'grid-cols-1 grid-rows-1' : ''}
              ${post.images.length === 3 ? 'grid-cols-1 grid-rows-2' : ''}
             ${post.images.length === 4 ? 'grid-cols-2 grid-rows-2' : ''}
-            
+
 
             gap-2`">
         <img v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
