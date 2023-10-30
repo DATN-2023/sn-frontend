@@ -8,7 +8,7 @@ import './assets/css/index.css'
 import initAxios from './api'
 import axios from "axios";
 import PrimeVue from 'primevue/config';
-// import 'primevue/resources/themes/lara-light-teal/theme.css'
+import 'primevue/resources/themes/lara-light-teal/theme.css'
 import 'virtual:windi.css'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'

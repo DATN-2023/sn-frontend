@@ -106,7 +106,7 @@ const props = defineProps({
                 </div>
             </div>
             <p v-if="props.isExpanded" class="text-xl font-bold text-gray-800 dark:text-gray-300">Quytest</p>
-            <p class="-mt-1 text-sm" v-if="props.isExpanded">The creator of this platform</p>
+            <p class="-mt-1 text-sm" v-if="props.isExpanded">toi la quy</p>
         </div>
 
         <div v-if="props.isExpanded"

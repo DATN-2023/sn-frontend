@@ -39,7 +39,7 @@ export default {
 
 <template>
   <div
-      :class="`2xl:grid-cols-2 w-full grid md:grid-cols-1 2xl:px-60 pt-5 transition-all`">
+      :class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
     <div class="flex flex-col p-2">
       <Post v-for="(post, index) in feedPosts" :post="post" :key="index"></Post>
     </div>

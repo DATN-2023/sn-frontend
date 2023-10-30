@@ -72,7 +72,7 @@ export default {
 
         </div>
       </div>
-      <Button class="active:scale-95 transform transition-transform" type="button" label="Toggle" @click="toggle"
+      <div class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6" @click="toggle"
               aria-haspopup="true" aria-controls="overlay_menu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
           <path fill-rule="evenodd"
@@ -80,7 +80,7 @@ export default {
                 clip-rule="evenodd"/>
         </svg>
 
-      </Button>
+      </div>
       <Menu ref="menu" id="overlay_menu" :model="items" :popup="true"/>
     </div>
 
