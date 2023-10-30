@@ -15,7 +15,7 @@
 
         <div
             class="bg-ll-base dakr:bg-ld-base rounded-md border  border-ll-border dark:border-ld-border w-2/4 h-3/4 flex items-center">
-            <input type="text" placeholder="Search on hivy..."
+            <input type="text" placeholder="Search on egosnet..."
                 class="px-2 bg-transparent text-md outline-none w-full h-full">
 
             <button class="p-2 active:scale-95 transform transition-transform">

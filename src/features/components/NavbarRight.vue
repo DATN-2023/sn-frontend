@@ -57,7 +57,7 @@ const trendings = reactive([
                 </div>
                 <div class="flex flex-col ml-2">
                     <p class="text-lg font-bold text-gray-800 dark:text-gray-300">Quytest</p>
-                    <p class="-mt-1 text-xs">@luk3d</p>
+                    <p class="-mt-1 text-xs">@quyhot</p>
                 </div>
 
                 <div class="flex text-ll-primary">
