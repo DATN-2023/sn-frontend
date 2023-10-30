@@ -22,12 +22,21 @@ export default {
   },
   mounted() {
     this.getFeeds()
-    console.log('mounted')
   },
   methods: {
     async getFeeds() {
       const feeds = await this.$store.dispatch('feed/getFeed')
       this.feeds = feeds.data
+    },
+    onCreatePost(body) {
+      const userInfo = this.$store.getters['auth/userInfo']
+      // console.log('userInfo', userInfo)
+      // console.log('post', body)
+      body.user = {
+        name: userInfo?.name || 'anonymous',
+        avatar: userInfo?.avatar || ''
+      }
+      this.feeds.unshift(body)
     }
   }
 }
@@ -55,7 +64,7 @@ export default {
 <!--    </template>-->
     <template #body>
       <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-        <PostCreation @turnOffVisible="visible = !visible"></PostCreation>
+        <PostCreation @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
       <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar" :showPostComposer="showComposePost"
             @on-close-compose-post="showComposePost = !showComposePost" ></Feed>

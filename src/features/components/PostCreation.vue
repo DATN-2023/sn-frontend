@@ -45,13 +45,14 @@ export default {
         images: this.images,
         type: this.type
       }
-      await this.$store.dispatch('feed/createFeed', body)
+      const post = await this.$store.dispatch('feed/createFeed', body)
       this.files = []
       this.preview = []
       this.images = []
       this.content = ''
       this.isUploaded = false
       this.$emit("turnOffVisible")
+      this.$emit("onCreatePost", post)
     },
     onUploadFiles() {
       this.$refs.upload.click()
