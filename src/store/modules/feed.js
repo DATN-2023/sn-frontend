@@ -59,6 +59,15 @@ const actions = {
             return {}
         }
     },
+    async deleteFeed({dispatch, commit}, id) {
+        try {
+            // console.log(data)
+            return await feed.deleteFeed(id)
+        } catch (e) {
+            console.error('error deleteFeed')
+            return {}
+        }
+    },
 }
 
 export default {

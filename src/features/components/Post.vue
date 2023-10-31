@@ -60,8 +60,32 @@ export default {
         }
         await this.$store.dispatch('feed/createReaction', data)
       }
+    },
+    async onDeletePost() {
+      await this.$store.dispatch('feed/deleteFeed', this.$props.post._id)
     }
   },
+  mounted() {
+    const userInfo = this.$store.getters['auth/userInfo']
+    const id = userInfo ? userInfo._id : ''
+    if (this.$props.post.createdBy === id) {
+      this.items = [
+        {
+          label: 'Xem chi tiết'
+        },
+        {
+          label: 'Sửa bài viết'
+        },
+        {
+          label: 'Xóa bài viết'
+        }
+      ]
+    } else {
+      this.items = [{
+        label: 'Xem chi tiết'
+      }]
+    }
+  }
 }
 
 </script>
