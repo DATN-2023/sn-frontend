@@ -80,6 +80,37 @@ const authApi = {
             console.error('error getFeeds')
             return {}
         }
-    }
+    },
+    async createReaction (body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/reactions`,
+                json: true,
+                data: body,
+                method: 'POST'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error createFeed')
+            return {}
+        }
+    },
+    async deleteReaction (id) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/reactions/feeds/${id}`,
+                json: true,
+                method: 'DELETE'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error createFeed')
+            return {}
+        }
+    },
 }
 export default authApi

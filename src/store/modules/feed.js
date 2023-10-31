@@ -19,9 +19,8 @@ const getters = {
 const actions = {
     async createFeed({dispatch, commit}, dataSubmit) {
         try {
-            const data = await feed.createFeed(dataSubmit)
-            console.log(data)
-            return data
+            // console.log(data)
+            return await feed.createFeed(dataSubmit)
         } catch (e) {
             console.error('error')
             return {}
@@ -41,7 +40,25 @@ const actions = {
         } catch (e) {
             console.error('error')
         }
-    }
+    },
+    async createReaction({dispatch, commit}, id) {
+        try {
+            // console.log(data)
+            return await feed.createReaction(id)
+        } catch (e) {
+            console.error('error createReaction')
+            return {}
+        }
+    },
+    async deleteReaction({dispatch, commit}, id) {
+        try {
+            // console.log(data)
+            return await feed.deleteReaction(id)
+        } catch (e) {
+            console.error('error deleteReaction')
+            return {}
+        }
+    },
 }
 
 export default {

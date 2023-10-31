@@ -25,6 +25,18 @@ const config = {
     feedType: {
         POST: 1,
         SHARE: 2
+    },
+    reactionTargetType: {
+        FEED: 1,
+        COMMENT: 2
+    },
+    reactionType: {
+        LIKE: 1,
+        LOVE: 2,
+        LAUGH: 3,
+        WOW: 4,
+        SAD: 5,
+        ANGRY: 6
     }
 }
 export default config

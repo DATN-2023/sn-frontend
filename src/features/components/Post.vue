@@ -3,7 +3,7 @@
 import config from "@/config/config";
 import {formatDate} from "@/config";
 
-const {urlConfig: {imageUrl}} = config
+const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
 
 export default {
@@ -23,7 +23,10 @@ export default {
           label: 'Sửa bài viết'
         },
         {
-          label: 'Xóa bài viết'
+          label: 'Xóa bài viết',
+          command: () => {
+
+          }
         }
       ]
     }
@@ -42,8 +45,22 @@ export default {
     },
     toggle(event) {
       this.$refs.menu.toggle(event);
+    },
+    async onLike() {
+      this.$props.post.liked = !this.$props.post.liked
+      if (!this.$props.post.liked) {
+        this.$props.post.reactionTotal = this.$props.post.reactionTotal - 1
+        await this.$store.dispatch('feed/deleteReaction', this.$props.post._id)
+      } else {
+        this.$props.post.reactionTotal = this.$props.post.reactionTotal + 1
+        const data = {
+          targetId: this.$props.post._id,
+          type: reactionType.LIKE,
+          targetType: reactionTargetType.FEED
+        }
+        await this.$store.dispatch('feed/createReaction', data)
+      }
     }
-
   },
 }
 
@@ -72,8 +89,10 @@ export default {
 
         </div>
       </div>
-      <div class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6" @click="toggle"
-              aria-haspopup="true" aria-controls="overlay_menu">
+      <div
+          class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6"
+          @click="toggle"
+          aria-haspopup="true" aria-controls="overlay_menu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
           <path fill-rule="evenodd"
                 d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
@@ -114,16 +133,19 @@ export default {
     <p v-html="generateDescription()" :class="`${post.images.length === 0 ? ' my-4 text-xl' : ''}`"></p>
 
     <div class="flex justify-between pt-4 border-t border-ll-border dark:border-ld-border mt-4">
-      <button class="flex items-center active:scale-95 transform transition-transform">
-
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+      <button class="flex items-center active:scale-95 transform transition-transform" @click="onLike">
+        <svg v-if="post.liked" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+             class="bi bi-heart-fill text-red-600" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round"
                 d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
         </svg>
         <p class="ml-2">{{ post.reactionTotal }}</p>
       </button>
-      <button class="flex items-center active:scale-95 transform transition-transform">
+      <button class="flex items-center active:scale-95 transform transition-transform ">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round"
