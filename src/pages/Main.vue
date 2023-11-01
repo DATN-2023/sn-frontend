@@ -37,6 +37,11 @@ export default {
         avatar: userInfo?.avatar || ''
       }
       this.feeds.unshift(body)
+    },
+    setUp(visible) {
+      if (!visible) {
+        this.visible = false;
+      }
     }
   }
 }
@@ -54,20 +59,22 @@ export default {
       </Header>
     </template>
     <template #navbar>
-      <Navbar :is-expanded="showLeftNavbar" @on-compose-post="showComposePost = !showComposePost" @onPostCreation="(data) => visible = data"
+      <Navbar :is-expanded="showLeftNavbar" @on-compose-post="showComposePost = !showComposePost"
+              @onPostCreation="(data) => visible = data"
               @on-close-navbar="(v) => { showLeftNavbar = v }">
       </Navbar>
     </template>
-<!--    <template #rightNavbar>-->
-<!--      <NavbarRight>-->
-<!--      </NavbarRight>-->
-<!--    </template>-->
+    <!--    <template #rightNavbar>-->
+    <!--      <NavbarRight>-->
+    <!--      </NavbarRight>-->
+    <!--    </template>-->
     <template #body>
-      <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
+      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
         <PostCreation @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
-      <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar" :showPostComposer="showComposePost"
-            @on-close-compose-post="showComposePost = !showComposePost" ></Feed>
+      <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
+            :showPostComposer="showComposePost"
+            @on-close-compose-post="showComposePost = !showComposePost"></Feed>
     </template>
   </AppShell>
 </template>

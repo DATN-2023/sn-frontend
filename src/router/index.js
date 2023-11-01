@@ -34,7 +34,7 @@ router.beforeEach(async (to, from) => {
             const result = await fp.get()
             const visitorId = result.visitorId
             window.$cookies.set(VISITOR_ID, visitorId)
-            store.dispatch('auth/checkGuest', true)
+            await store.dispatch('auth/checkGuest', true)
         } else {
             const isFakeId = !!window.$cookies.get(FAKE_DEVICEID)
             if (isFakeId) {
@@ -45,7 +45,7 @@ router.beforeEach(async (to, from) => {
                 }
                 const {data: res} = await authApi.enterGuest(data)
                 this.$cookies.set(TOKEN_KEY, res.token)
-                store.dispatch('auth/checkGuest', true)
+                await store.dispatch('auth/checkGuest', true)
                 window.$cookies.remove(FAKE_DEVICEID)
             }
         }

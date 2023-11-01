@@ -15,20 +15,8 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          label: 'Xem chi tiết'
-        },
-        {
-          label: 'Sửa bài viết'
-        },
-        {
-          label: 'Xóa bài viết',
-          command: () => {
-
-          }
-        }
-      ]
+      visible: false,
+      items: []
     }
   },
   methods: {
@@ -63,6 +51,13 @@ export default {
     },
     async onDeletePost() {
       await this.$store.dispatch('feed/deleteFeed', this.$props.post._id)
+      this.visible = false
+      this.$emit('onDeletePost')
+    },
+    setUp(visible) {
+      if (!visible) {
+        this.visible = false;
+      }
     }
   },
   mounted() {
@@ -77,7 +72,10 @@ export default {
           label: 'Sửa bài viết'
         },
         {
-          label: 'Xóa bài viết'
+          label: 'Xóa bài viết',
+          command: () => {
+            this.visible = true
+          }
         }
       ]
     } else {
@@ -125,6 +123,17 @@ export default {
 
       </div>
       <Menu ref="menu" id="overlay_menu" :model="items" :popup="true"/>
+      <Dialog :visible="visible" :modal="true" header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
+        <template #header>
+          <div class="inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold white-space-nowrap">Bạn chắc chắn muốn xoá bài viết này?</span>
+          </div>
+        </template>
+        <div class="card flex flex-wrap gap-2 justify-content-center">
+          <Button @click="onDeletePost" class="bg-ll-primary dark:bg-ld-primary text-white p-2 w-30 mr-4 hover:bg-sky-600" label="Chấp nhận"></Button>
+          <Button @click="" class="hover:bg-gray-400 bg-gray-300 p-2 w-30" label="Huỷ bỏ" severity="danger"></Button>
+        </div>
+      </Dialog>
     </div>
 
     <div v-if="post.images.length > 0"

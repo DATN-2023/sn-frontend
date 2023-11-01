@@ -1,16 +1,9 @@
 <script>
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
-
 export default {
   data() {
     return {
       visible: false
     }
-  },
-  components: {
-    Button,
-    Dialog
   }
 }
 </script>

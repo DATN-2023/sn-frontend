@@ -16,8 +16,8 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import Menu from 'primevue/menu';
 import Button from 'primevue/button';
-
-
+import Dialog from 'primevue/dialog';
+import ConfirmPopup from 'primevue/confirmpopup';
 
 
 const firebaseConfig = {
@@ -43,4 +43,6 @@ app.use(PrimeVue)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('Menu', Menu)
 app.component('Button', Button)
+app.component('Dialog', Dialog)
+app.component('ConfirmPopup', ConfirmPopup)
 app.mount('#app')
