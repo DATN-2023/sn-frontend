@@ -36,9 +36,10 @@ const actions = {
     },
     async getFeedById({dispatch, commit}, id) {
         try {
-            return await feed.getFeedById(id)
+            return feed.getFeedById(id)
         } catch (e) {
-            console.error('error')
+            console.error('error getFeedById')
+            return {}
         }
     },
     async createReaction({dispatch, commit}, id) {

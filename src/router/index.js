@@ -17,6 +17,10 @@ const routes = [
     {
         path: '/test',
         component: () => import("@/features/HelloWorld.vue")
+    },
+    {
+        path: '/feed/:title',
+        component: () => import("@/pages/DetailFeed.vue")
     }
 ]
 

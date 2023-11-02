@@ -1,7 +1,7 @@
 <script>
 
 import config from "@/config/config";
-import {formatDate} from "@/config";
+import {formatDate, stringToSlug} from "@/config";
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
@@ -61,6 +61,9 @@ export default {
       if (!visible) {
         this.visible = false;
       }
+    },
+    getFeedEndpoint() {
+      return `/feed/${stringToSlug(this.$props.post.content.substring(0, 20))}-${this.$props.post._id}`
     }
   },
   mounted() {
@@ -69,7 +72,11 @@ export default {
     if (this.$props.post.createdBy === id) {
       this.items = [
         {
-          label: 'Xem chi tiết'
+          label: 'Xem chi tiết',
+          command: () => {
+            const path = this.getFeedEndpoint()
+            this.$router.push({path})
+          }
         },
         {
           label: 'Sửa bài viết'
@@ -83,7 +90,11 @@ export default {
       ]
     } else {
       this.items = [{
-        label: 'Xem chi tiết'
+        label: 'Xem chi tiết',
+        command: () => {
+          const path = this.getFeedEndpoint()
+          this.$router.push({path})
+        }
       }]
     }
   }
@@ -133,8 +144,11 @@ export default {
           </div>
         </template>
         <div class="card flex flex-wrap gap-2 justify-content-center">
-          <Button @click="onDeletePost" class="bg-ll-primary dark:bg-ld-primary text-white p-2 w-30 mr-4 hover:bg-sky-600" style="border: none;" label="Chấp nhận"></Button>
-          <Button @click="onCancelDeletePost" class="hover:bg-gray-400 bg-gray-300 p-2 w-30 border-none" label="Huỷ bỏ" style="border: none;" severity="danger"></Button>
+          <Button @click="onDeletePost"
+                  class="bg-ll-primary dark:bg-ld-primary text-white p-2 w-30 mr-4 hover:bg-sky-600"
+                  style="border: none;" label="Chấp nhận"></Button>
+          <Button @click="onCancelDeletePost" class="hover:bg-gray-400 bg-gray-300 p-2 w-30 border-none" label="Huỷ bỏ"
+                  style="border: none;" severity="danger"></Button>
         </div>
       </Dialog>
     </div>
