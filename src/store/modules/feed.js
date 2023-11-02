@@ -80,16 +80,15 @@ const actions = {
     },
     async deleteComment({dispatch, commit}, id) {
         try {
-            // console.log(data)
             return await feed.deleteComment(id)
         } catch (e) {
-            console.error('error deleteReaction')
+            console.error('error deleteComment')
             return {}
         }
     },
     async getComments({dispatch, commit}, q) {
         try {
-            // console.log(data)
+            console.log(q)
             return await feed.getComments(q)
         } catch (e) {
             console.error('error getComments')

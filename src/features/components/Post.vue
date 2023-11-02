@@ -22,7 +22,8 @@ export default {
       visible: false,
       items: [],
       isUploaded: false,
-      hideCommentBox: false
+      hideCommentBox: false,
+      comments: []
     }
   },
   methods: {
@@ -74,6 +75,11 @@ export default {
     async createComment() {
       this.isUploaded = true
       const comment = await this.$store.dispatch()
+    },
+    async getComments() {
+      const data = await this.$store.dispatch('feed/getComments', {feed: this.$props.post._id})
+      this.comments = data.data
+      console.log('comments', this.comments)
     }
   },
   mounted() {
@@ -107,7 +113,12 @@ export default {
         }
       }]
     }
-  }
+  },
+  watch: {
+    post (newVal, oldVal) {
+      this.getComments()
+    }
+  },
 }
 
 </script>
@@ -235,8 +246,11 @@ export default {
       <!--        </svg>-->
       <!--      </button>-->
     </div>
-    <div :class="[hideCommentBox ? 'hidden' : '', 'mt-2 border-t-1 flex space-x-4']">
-      <textarea class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none" placeholder="Viết bình luận..."></textarea>
+    <div
+        :class="[hideCommentBox ? 'hidden' : '', 'mt-2 border-t-1 flex space-x-4 border-ll-border dark:border-ld-border']">
+      <textarea
+          class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none"
+          placeholder="Viết bình luận..."></textarea>
       <button @click="createComment"
               class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
         <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
@@ -249,7 +263,7 @@ export default {
       </button>
     </div>
     <div>
-      <Comment></Comment>
+      <Comment v-for="(comment, index) in comments" :comment="comment"></Comment>
     </div>
   </div>
 

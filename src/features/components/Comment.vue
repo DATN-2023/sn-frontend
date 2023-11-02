@@ -6,9 +6,13 @@ const {urlConfig: {imageUrl}} = config
 
 export default defineComponent({
   name: "Comment",
+  props: {
+    comment: {
+      type: Array
+    }
+  },
   data() {
     return {
-      comment: {},
       liked: true
     }
   },
@@ -27,7 +31,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mt-4">
+  <div class="w-full px-5 py-2 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col">
     <div class="">
       <div class="flex items-center gap-2">
         <div
@@ -37,7 +41,7 @@ export default defineComponent({
         </div>
         <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2">
           <p class="text-sm font-bold text-gray-800 dark:text-gray-100">{{ comment?.user?.name || 'Anonymous' }}</p>
-          <p class="text-sm break-words" v-html="generateDescription()" :class="`${comment?.images && comment.images.length === 0 ? ' my-4 text-xl' : ''}`"></p>
+          <p class="text-sm break-words" v-html="generateDescription()"></p>
         </div>
 
 <!--        <div class="flex text-ll-primary">-->
