@@ -34,3 +34,7 @@ body #app {
 .filepond--credits {
     display: none !important;
 }
+
+.p-button:focus {
+    border: none !important;
+}

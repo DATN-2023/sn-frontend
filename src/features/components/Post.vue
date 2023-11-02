@@ -54,6 +54,9 @@ export default {
       this.visible = false
       this.$emit('onDeletePost')
     },
+    onCancelDeletePost() {
+      this.visible = false
+    },
     setUp(visible) {
       if (!visible) {
         this.visible = false;
@@ -130,8 +133,8 @@ export default {
           </div>
         </template>
         <div class="card flex flex-wrap gap-2 justify-content-center">
-          <Button @click="onDeletePost" class="bg-ll-primary dark:bg-ld-primary text-white p-2 w-30 mr-4 hover:bg-sky-600" label="Chấp nhận"></Button>
-          <Button @click="" class="hover:bg-gray-400 bg-gray-300 p-2 w-30" label="Huỷ bỏ" severity="danger"></Button>
+          <Button @click="onDeletePost" class="bg-ll-primary dark:bg-ld-primary text-white p-2 w-30 mr-4 hover:bg-sky-600" style="border: none;" label="Chấp nhận"></Button>
+          <Button @click="onCancelDeletePost" class="hover:bg-gray-400 bg-gray-300 p-2 w-30 border-none" label="Huỷ bỏ" style="border: none;" severity="danger"></Button>
         </div>
       </Dialog>
     </div>
