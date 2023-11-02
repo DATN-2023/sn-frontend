@@ -108,7 +108,38 @@ const authApi = {
             const { data } = await axios(options)
             return data
         } catch (e) {
-            console.error('error createFeed')
+            console.error('error deleteReaction')
+            return {}
+        }
+    },
+    async createComment (body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/comments`,
+                json: true,
+                data: body,
+                method: 'POST'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error createComment')
+            return {}
+        }
+    },
+    async deleteComment (id) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/comments/feeds/${id}`,
+                json: true,
+                method: 'DELETE'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error deleteComment')
             return {}
         }
     },

@@ -6,10 +6,11 @@ import AppShell from "@/features/components/AppShell.vue";
 import Header from "@/features/components/Header.vue";
 import PostCreation from "@/features/components/PostCreation.vue";
 import Post from "@/features/components/Post.vue"
+import CommentBox from "@/features/components/CommentBox.vue";
 
 export default defineComponent({
   name: "DetailFeed",
-  components: {PostCreation, Header, AppShell, Feed, Navbar, Post},
+  components: {PostCreation, Header, AppShell, Feed, Navbar, Post, CommentBox},
   data() {
     return {
       showLeftNavbar: true,
@@ -81,7 +82,7 @@ export default defineComponent({
         <PostCreation @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
       <div class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
-        <div class="flex flex-col p-2">
+        <div class="flex flex-col px-2">
           <Post :post="post" class=""></Post>
         </div>
       </div>

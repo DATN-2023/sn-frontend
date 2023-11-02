@@ -38,3 +38,7 @@ body #app {
 .p-button:focus {
     border: none !important;
 }
+
+textarea:focus {
+    box-shadow: none !important;
+}

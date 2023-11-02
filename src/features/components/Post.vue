@@ -2,11 +2,15 @@
 
 import config from "@/config/config";
 import {formatDate, stringToSlug} from "@/config";
+import CommentBox from "@/features/components/CommentBox.vue";
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
 
 export default {
+  components: {
+    CommentBox
+  },
   props: {
     post: {
       type: Object,
@@ -16,7 +20,8 @@ export default {
   data() {
     return {
       visible: false,
-      items: []
+      items: [],
+      isUploaded: false
     }
   },
   methods: {
@@ -64,6 +69,10 @@ export default {
     },
     getFeedEndpoint() {
       return `/feed/${stringToSlug(this.$props.post.content.substring(0, 20))}-${this.$props.post._id}`
+    },
+    async createComment() {
+      this.isUploaded = true
+      const comment = await this.$store.dispatch()
     }
   },
   mounted() {
@@ -102,7 +111,7 @@ export default {
 
 </script>
 <template>
-  <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mb-4">
+  <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mt-4">
     <div class="flex justify-between">
       <div class="flex items-center">
         <div
@@ -224,6 +233,19 @@ export default {
       <!--                d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>-->
       <!--        </svg>-->
       <!--      </button>-->
+    </div>
+    <div class="mt-2 border-t-1 flex space-x-4">
+      <textarea class="mt-3 w-full border-1 border-gray-300 resize-y h-45px p-2 rounded focus:outline-none focus:border-black focus:shadow-none" placeholder="Viết bình luận..."></textarea>
+      <button @click="createComment"
+              class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
+        <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="w-6 h-6 mr-2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+        </svg>
+        Bình luận
+      </button>
     </div>
   </div>
 

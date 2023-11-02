@@ -69,6 +69,24 @@ const actions = {
             return {}
         }
     },
+    async createComment({dispatch, commit}, dataSubmit) {
+        try {
+            // console.log(data)
+            return await feed.createComment(dataSubmit)
+        } catch (e) {
+            console.error('error createReaction')
+            return {}
+        }
+    },
+    async deleteComment({dispatch, commit}, id) {
+        try {
+            // console.log(data)
+            return await feed.deleteComment(id)
+        } catch (e) {
+            console.error('error deleteReaction')
+            return {}
+        }
+    },
 }
 
 export default {
