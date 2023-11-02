@@ -6,11 +6,11 @@ import AppShell from "@/features/components/AppShell.vue";
 import Header from "@/features/components/Header.vue";
 import PostCreation from "@/features/components/PostCreation.vue";
 import Post from "@/features/components/Post.vue"
-import CommentBox from "@/features/components/CommentBox.vue";
+import Comment from "@/features/components/Comment.vue"
 
 export default defineComponent({
   name: "DetailFeed",
-  components: {PostCreation, Header, AppShell, Feed, Navbar, Post, CommentBox},
+  components: {PostCreation, Header, AppShell, Feed, Navbar, Post, Comment},
   data() {
     return {
       showLeftNavbar: true,
@@ -86,7 +86,6 @@ export default defineComponent({
           <Post :post="post" class=""></Post>
         </div>
       </div>
-
     </template>
   </AppShell>
 </template>

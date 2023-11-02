@@ -143,5 +143,21 @@ const authApi = {
             return {}
         }
     },
+    async getComments (q) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/comments`,
+                json: true,
+                params: q,
+                method: 'GET'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error getComments')
+            return []
+        }
+    },
 }
 export default authApi

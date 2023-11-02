@@ -87,6 +87,15 @@ const actions = {
             return {}
         }
     },
+    async getComments({dispatch, commit}, q) {
+        try {
+            // console.log(data)
+            return await feed.getComments(q)
+        } catch (e) {
+            console.error('error getComments')
+            return []
+        }
+    }
 }
 
 export default {

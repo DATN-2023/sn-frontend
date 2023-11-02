@@ -2,14 +2,14 @@
 
 import config from "@/config/config";
 import {formatDate, stringToSlug} from "@/config";
-import CommentBox from "@/features/components/CommentBox.vue";
+import Comment from "@/features/components/Comment.vue";
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
 
 export default {
   components: {
-    CommentBox
+    Comment
   },
   props: {
     post: {
@@ -21,7 +21,8 @@ export default {
     return {
       visible: false,
       items: [],
-      isUploaded: false
+      isUploaded: false,
+      hideCommentBox: false
     }
   },
   methods: {
@@ -234,8 +235,8 @@ export default {
       <!--        </svg>-->
       <!--      </button>-->
     </div>
-    <div class="mt-2 border-t-1 flex space-x-4">
-      <textarea class="mt-3 w-full border-1 border-gray-300 resize-y h-45px p-2 rounded focus:outline-none focus:border-black focus:shadow-none" placeholder="Viết bình luận..."></textarea>
+    <div :class="[hideCommentBox ? 'hidden' : '', 'mt-2 border-t-1 flex space-x-4']">
+      <textarea class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none" placeholder="Viết bình luận..."></textarea>
       <button @click="createComment"
               class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
         <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
@@ -246,6 +247,9 @@ export default {
         </svg>
         Bình luận
       </button>
+    </div>
+    <div>
+      <Comment></Comment>
     </div>
   </div>
 
