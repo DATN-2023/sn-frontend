@@ -1,6 +1,13 @@
 <script>
+import {genImageUrl} from "@/config";
+
 export default {
   name: "PostCreation",
+  props: {
+    post: {
+      type: Object
+    }
+  },
   data() {
     return {
       content: '',
@@ -54,6 +61,38 @@ export default {
       this.$emit("turnOffVisible")
       this.$emit("onCreatePost", post)
     },
+    async updateFeed() {
+      this.isUploaded = true
+      if (this.files.length > 0) {
+        for (const file of this.files) {
+          const {name} = await this.uploadFile(file)
+          this.images.push(`/${name}`)
+        }
+      }
+      const body = {
+        ...this.$props.post,
+        content: this.content,
+        images: this.images,
+        type: this.$props.post.type
+      }
+      this.$props.post.content = this.content
+      this.$props.post.images = this.images
+      await this.$store.dispatch('feed/updateFeed', {id: this.$props.post._id, body})
+      this.files = []
+      this.preview = []
+      this.images = []
+      this.content = ''
+      this.isUploaded = false
+      this.$emit("turnOffVisible")
+      this.$emit("onUpdatePost")
+    },
+    onHandleCreateOrUpdate() {
+      if (this.$props.post._id) {
+        this.updateFeed()
+      } else {
+        this.createFeed()
+      }
+    },
     onUploadFiles() {
       this.$refs.upload.click()
     },
@@ -61,6 +100,14 @@ export default {
       this.preview.splice(index, 1)
       this.images.splice(index, 1)
       this.files.splice(index, 1)
+    }
+  },
+  mounted() {
+    const post = this.$props.post
+    if (post._id) {
+      this.content = post.content
+      this.images = post.images
+      this.preview = post.images.map(image => ({src: genImageUrl(image), name: image.split('/').pop()}))
     }
   }
 }
@@ -76,9 +123,9 @@ export default {
       <div class="w-300px flex-auto p-2" v-for="(file, index) in preview">
         <div class="relative inline-block pt-2">
           <img :src="file.src" :alt="file.name">
-<!--          <img src="https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="test" class="">-->
+          <!--          <img src="https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="test" class="">-->
           <button @click="onDeleteImage(index)"
-              class="w-8 h-8 absolute -top-0 -right-2 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border rounded-full flex items-center active:scale-95 transform transition-transform">
+                  class="w-8 h-8 absolute -top-0 -right-2 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border rounded-full flex items-center active:scale-95 transform transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-full h-full">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -111,7 +158,7 @@ export default {
         <!--        </button>-->
       </div>
       <div class="flex">
-        <button @click="createFeed"
+        <button @click="onHandleCreateOrUpdate"
                 class=" text-sm px-3 py-2 bg-ll-primary text-white dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
           <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
           <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -24,7 +24,8 @@ export default {
       isUploaded: false,
       hideCommentBox: false,
       comments: [],
-      commentContent: ''
+      commentContent: '',
+      showComment: true
     }
   },
   methods: {
@@ -103,35 +104,42 @@ export default {
           command: () => {
             const path = this.getFeedEndpoint()
             this.$router.push({path})
-          },
-          class: "bg-ll-border dark:bg-ld-border"
+          }
         },
         {
-          label: 'Sửa bài viết',
-          class: "bg-ll-border dark:bg-ld-border"
+          label: 'Sửa bài viết'
         },
         {
           label: 'Xóa bài viết',
           command: () => {
             this.visible = true
-          },
-          class: "bg-ll-border dark:bg-ld-border"
+          }
         }
       ]
     } else {
-      this.items = [{
-        label: 'Xem chi tiết',
-        command: () => {
-          const path = this.getFeedEndpoint()
-          this.$router.push({path})
+      this.items = [
+        {
+          label: 'Xem chi tiết',
+          command: () => {
+            const path = this.getFeedEndpoint()
+            this.$router.push({path})
+          },
         },
-        class: "bg-ll-border dark:bg-ld-border"
-      }]
+        {
+          label: 'Sửa bài viết',
+          command: () => {
+            this.$emit("onEditPost")
+          }
+        },
+      ]
     }
   },
   watch: {
-    post(newVal, oldVal) {
-      this.getComments()
+    async post(newVal, oldVal) {
+      if (!newVal.updated) await this.getComments()
+      else {
+        delete this.$props.post.updated
+      }
     }
   },
 }
@@ -172,7 +180,7 @@ export default {
         </svg>
 
       </div>
-      <Menu ref="menu" id="overlay_menu" :model="items" :popup="true"/>
+      <Menu class="bg-ll-neutral dark:bg-ld-neutral text-sm" ref="menu" id="overlay_menu" :model="items" :popup="true"/>
       <Dialog :visible="visible" :modal="true" header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
         <template #header>
           <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -280,7 +288,7 @@ export default {
         </button>
       </div>
     </Transition>
-    <div v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
+    <div v-show="showComment" v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
       <Comment v-for="(comment, index) in comments" :comment="comment"></Comment>
     </div>
   </div>

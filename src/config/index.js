@@ -1,4 +1,7 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import config from "./config";
+
+const {urlConfig: {imageUrl}} = config
 
 export async function getFingerPrintBrowser() {
     const fpPromise = FingerprintJS.load()
@@ -23,7 +26,7 @@ export function formatDate(date) {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
 }
 
-export function stringToSlug (str) {
+export function stringToSlug(str) {
     const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ'
     const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy'
     for (let i = 0, l = from.length; i < l; i++) {
@@ -35,4 +38,8 @@ export function stringToSlug (str) {
         .replace(/ +/g, '-')
 
     return str
+}
+
+export function genImageUrl(endpoint) {
+    return `${imageUrl}${endpoint}`
 }

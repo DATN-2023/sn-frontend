@@ -45,7 +45,7 @@ const actions = {
     async createReaction({dispatch, commit}, id) {
         try {
             // console.log(data)
-            return await feed.createReaction(id)
+            return feed.createReaction(id)
         } catch (e) {
             console.error('error createReaction')
             return {}
@@ -53,7 +53,7 @@ const actions = {
     },
     async deleteReaction({dispatch, commit}, id) {
         try {
-            return await feed.deleteReaction(id)
+            return feed.deleteReaction(id)
         } catch (e) {
             console.error('error deleteReaction')
             return {}
@@ -62,7 +62,7 @@ const actions = {
     async deleteFeed({dispatch, commit}, id) {
         try {
             // console.log(data)
-            return await feed.deleteFeed(id)
+            return feed.deleteFeed(id)
         } catch (e) {
             console.error('error deleteFeed')
             return {}
@@ -78,7 +78,7 @@ const actions = {
     },
     async deleteComment({dispatch, commit}, id) {
         try {
-            return await feed.deleteComment(id)
+            return feed.deleteComment(id)
         } catch (e) {
             console.error('error deleteComment')
             return {}
@@ -86,10 +86,18 @@ const actions = {
     },
     async getComments({dispatch, commit}, q) {
         try {
-            console.log(q)
-            return await feed.getComments(q)
+            return  feed.getComments(q)
         } catch (e) {
             console.error('error getComments')
+            return []
+        }
+    },
+    async updateFeed({dispatch, commit}, data) {
+        try {
+            const {id, body} = data
+            return feed.updateFeed(id, body)
+        } catch (e) {
+            console.error('error updateFeed')
             return []
         }
     }

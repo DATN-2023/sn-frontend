@@ -48,6 +48,9 @@ export default defineComponent({
       const id = title.split('-').pop()
       const post = await this.$store.dispatch('feed/getFeedById', id)
       this.post = post
+    },
+    onEditPost() {
+      this.visible = !this.visible
     }
   },
   mounted() {
@@ -79,11 +82,11 @@ export default defineComponent({
     <!--    </template>-->
     <template #body>
       <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
-        <PostCreation @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
+        <PostCreation :post="post" @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
       <div class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
         <div class="flex flex-col px-2">
-          <Post :post="post" class=""></Post>
+          <Post :post="post" class="" @onEditPost="onEditPost()"></Post>
         </div>
       </div>
     </template>

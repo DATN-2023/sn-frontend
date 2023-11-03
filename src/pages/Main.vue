@@ -17,7 +17,9 @@ export default {
       showRightNavbar: true,
       showComposePost: true,
       visible: false,
-      feeds: []
+      feeds: [],
+      editionPost: {},
+      indexEditionPost: null
     }
   },
   mounted() {
@@ -42,6 +44,16 @@ export default {
       if (!visible) {
         this.visible = false;
       }
+    },
+    onEditPost(index) {
+      this.editionPost = JSON.parse(JSON.stringify(this.feeds[index]))
+      this.indexEditionPost = index
+      this.visible = !this.visible
+    },
+    onUpdatePost() {
+      this.editionPost.updated = 1
+      this.feeds[this.indexEditionPost] = this.editionPost
+      this.editionPost = {}
     }
   }
 }
@@ -70,11 +82,12 @@ export default {
     <!--    </template>-->
     <template #body>
       <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
-        <PostCreation @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
+        <PostCreation :post="editionPost" @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
       </Dialog>
       <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
             :showPostComposer="showComposePost"
-            @on-close-compose-post="showComposePost = !showComposePost"></Feed>
+            @on-close-compose-post="showComposePost = !showComposePost"
+            @onEditPost="(index) => onEditPost(index)"></Feed>
     </template>
   </AppShell>
 </template>
