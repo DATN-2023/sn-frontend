@@ -15,6 +15,10 @@ export default {
     post: {
       type: Object,
       required: true
+    },
+    isDetailPage: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -130,6 +134,9 @@ export default {
         }
       ]
     }
+    if (this.$props.isDetailPage) {
+      this.items.shift()
+    }
   },
   watch: {
     async post(newVal, oldVal) {
@@ -166,7 +173,7 @@ export default {
 
         </div>
       </div>
-      <div
+      <div v-show="items.length"
           class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6 hover:bg-ll-border hover:dark:bg-ld-border"
           @click="toggle"
           aria-haspopup="true" aria-controls="overlay_menu">

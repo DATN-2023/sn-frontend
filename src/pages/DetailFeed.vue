@@ -86,7 +86,7 @@ export default defineComponent({
       </Dialog>
       <div class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
         <div class="flex flex-col px-2">
-          <Post :post="post" class="" @onEditPost="onEditPost()"></Post>
+          <Post :post="post" :isDetailPage="true" class="" @onEditPost="onEditPost()"></Post>
         </div>
       </div>
     </template>
