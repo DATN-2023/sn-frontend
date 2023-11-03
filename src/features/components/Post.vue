@@ -107,7 +107,10 @@ export default {
           }
         },
         {
-          label: 'Sửa bài viết'
+          label: 'Sửa bài viết',
+          command: () => {
+            this.$emit("onEditPost")
+          }
         },
         {
           label: 'Xóa bài viết',
@@ -124,13 +127,7 @@ export default {
             const path = this.getFeedEndpoint()
             this.$router.push({path})
           },
-        },
-        {
-          label: 'Sửa bài viết',
-          command: () => {
-            this.$emit("onEditPost")
-          }
-        },
+        }
       ]
     }
   },
