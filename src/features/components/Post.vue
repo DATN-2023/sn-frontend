@@ -23,7 +23,8 @@ export default {
       items: [],
       isUploaded: false,
       hideCommentBox: false,
-      comments: []
+      comments: [],
+      commentContent: ''
     }
   },
   methods: {
@@ -74,7 +75,17 @@ export default {
     },
     async createComment() {
       this.isUploaded = true
-      const comment = await this.$store.dispatch()
+      const body = {
+        content: this.commentContent,
+        feed: this.$props.post._id,
+        rank: 1
+      }
+      const comment = await this.$store.dispatch('feed/createComment', body)
+      comment.user = this.$store.getters['auth/userInfo']
+      this.comments.unshift(comment)
+      this.$props.post.commentTotal++
+      this.commentContent = ''
+      this.isUploaded = false
     },
     async getComments() {
       const data = await this.$store.dispatch('feed/getComments', {feed: this.$props.post._id})
@@ -92,16 +103,19 @@ export default {
           command: () => {
             const path = this.getFeedEndpoint()
             this.$router.push({path})
-          }
+          },
+          class: "bg-ll-border dark:bg-ld-border"
         },
         {
-          label: 'Sửa bài viết'
+          label: 'Sửa bài viết',
+          class: "bg-ll-border dark:bg-ld-border"
         },
         {
           label: 'Xóa bài viết',
           command: () => {
             this.visible = true
-          }
+          },
+          class: "bg-ll-border dark:bg-ld-border"
         }
       ]
     } else {
@@ -110,12 +124,13 @@ export default {
         command: () => {
           const path = this.getFeedEndpoint()
           this.$router.push({path})
-        }
+        },
+        class: "bg-ll-border dark:bg-ld-border"
       }]
     }
   },
   watch: {
-    post (newVal, oldVal) {
+    post(newVal, oldVal) {
       this.getComments()
     }
   },
@@ -147,7 +162,7 @@ export default {
         </div>
       </div>
       <div
-          class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6"
+          class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6 hover:bg-ll-border hover:dark:bg-ld-border"
           @click="toggle"
           aria-haspopup="true" aria-controls="overlay_menu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -216,7 +231,8 @@ export default {
         </svg>
         <p class="ml-2">{{ post.reactionTotal }}</p>
       </button>
-      <button class="flex items-center active:scale-95 transform transition-transform ">
+      <button class="flex items-center active:scale-95 transform transition-transform "
+              @click="hideCommentBox = !hideCommentBox">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -246,28 +262,47 @@ export default {
       <!--        </svg>-->
       <!--      </button>-->
     </div>
-    <div
-        :class="[hideCommentBox ? 'hidden' : '', 'mt-2 border-t-1 flex space-x-4 border-ll-border dark:border-ld-border']">
-      <textarea
-          class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none"
-          placeholder="Viết bình luận..."></textarea>
-      <button @click="createComment"
-              class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
-        <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
-        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor" class="w-6 h-6 mr-2">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
-        </svg>
-        Bình luận
-      </button>
-    </div>
-    <div>
+    <Transition name="slide-fade">
+      <div v-if="hideCommentBox"
+           class="mt-2 border-t-1 flex space-x-4 border-ll-border dark:border-ld-border">
+      <textarea v-model="commentContent"
+                class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none"
+                placeholder="Viết bình luận..."></textarea>
+        <button @click="createComment"
+                class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
+          <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+          </svg>
+          Bình luận
+        </button>
+      </div>
+    </Transition>
+    <div v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
       <Comment v-for="(comment, index) in comments" :comment="comment"></Comment>
     </div>
   </div>
 
 </template>
-<style lang="">
+<style>
+.slide-fade-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(0.3, 0, 0.6, 1);
+}
+
+.slide-fade-leave-to {
+  transform: translateY(-10px);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+}
+
 
 </style>

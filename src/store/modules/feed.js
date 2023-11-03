@@ -53,7 +53,6 @@ const actions = {
     },
     async deleteReaction({dispatch, commit}, id) {
         try {
-            // console.log(data)
             return await feed.deleteReaction(id)
         } catch (e) {
             console.error('error deleteReaction')
@@ -71,10 +70,9 @@ const actions = {
     },
     async createComment({dispatch, commit}, dataSubmit) {
         try {
-            // console.log(data)
-            return await feed.createComment(dataSubmit)
+            return feed.createComment(dataSubmit)
         } catch (e) {
-            console.error('error createReaction')
+            console.error('error createComment')
             return {}
         }
     },
