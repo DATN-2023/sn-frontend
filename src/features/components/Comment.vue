@@ -54,9 +54,16 @@ export default defineComponent({
           <img :src="comment?.user?.avatar || ''"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
-        <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2">
+        <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2 relative">
           <p class="text-sm font-bold text-gray-800 dark:text-gray-100">{{ comment?.user?.name || 'Anonymous' }}</p>
           <p class="text-sm break-words" v-html="generateDescription()"></p>
+          <div v-if="comment.reactionTotal" class="absolute bg-ll-border rounded-lg dark:bg-ld-border -bottom-2 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                 class="bi bi-heart-fill text-red-600 inline" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+            <p class="pl-1 inline" style="font-size: 13px;">{{ comment.reactionTotal }}</p>
+          </div>
         </div>
       </div>
     </div>
