@@ -132,7 +132,7 @@ const authApi = {
         try {
             const options = {
                 headers: {},
-                url: `${serverUrl}/comments/feeds/${id}`,
+                url: `${serverUrl}/comments/${id}`,
                 json: true,
                 method: 'DELETE'
             }
@@ -157,6 +157,22 @@ const authApi = {
         } catch (e) {
             console.error('error getComments')
             return []
+        }
+    },
+    async updateComment (id, body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/comments/${id}`,
+                json: true,
+                data: body,
+                method: 'PUT'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error updateComment')
+            return {}
         }
     },
 }

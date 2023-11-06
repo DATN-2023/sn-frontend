@@ -95,7 +95,10 @@ export default {
     async getComments() {
       const data = await this.$store.dispatch('feed/getComments', {feed: this.$props.post._id})
       this.comments = data.data
-      console.log('comments', this.comments)
+    },
+    onDeleteComment(index) {
+      this.comments.splice(index, 1)
+      this.$props.post.commentTotal--
     }
   },
   mounted() {
@@ -293,7 +296,7 @@ export default {
       </div>
     </Transition>
     <div v-show="showComment" v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
-      <Comment v-for="(comment, index) in comments" :comment="comment"></Comment>
+      <Comment v-for="(comment, index) in comments" :comment="comment" @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>
 

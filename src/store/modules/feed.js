@@ -86,7 +86,7 @@ const actions = {
     },
     async getComments({dispatch, commit}, q) {
         try {
-            return  feed.getComments(q)
+            return feed.getComments(q)
         } catch (e) {
             console.error('error getComments')
             return []
@@ -98,6 +98,15 @@ const actions = {
             return feed.updateFeed(id, body)
         } catch (e) {
             console.error('error updateFeed')
+            return []
+        }
+    },
+    async updateComment({dispatch, commit}, data) {
+        try {
+            const {id, body} = data
+            return feed.updateComment(id, body)
+        } catch (e) {
+            console.error('error updateComment')
             return []
         }
     }
