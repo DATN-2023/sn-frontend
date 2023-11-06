@@ -107,6 +107,19 @@ const actions = {
         } catch (err) {
             console.error(err)
         }
+    },
+    async logout({router, dispatch, commit, getters}) {
+        await authApi.logout()
+        dispatch('removeUserInfo')
+        dispatch('removeToken')
+        await dispatch('enterGuest')
+    },
+    async refreshToken({dispatch}) {
+        console.log('testtt refresh')
+        const res = await authApi.refreshToken()
+        console.log('refreshToken', res)
+        dispatch('setToken', res.token)
+        return res.token
     }
 }
 
