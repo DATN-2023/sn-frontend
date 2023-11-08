@@ -21,6 +21,10 @@ const routes = [
     {
         path: '/feed/:title',
         component: () => import("@/pages/DetailFeed.vue")
+    },
+    {
+        path: '/user/:id',
+        component: () => import("@/pages/Personal.vue")
     }
 ]
 
