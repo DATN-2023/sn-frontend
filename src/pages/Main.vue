@@ -19,7 +19,8 @@ export default {
       visible: false,
       feeds: [],
       editionPost: {},
-      indexEditionPost: null
+      indexEditionPost: null,
+      showNavBar: true
     }
   },
   mounted() {
@@ -61,7 +62,7 @@ export default {
 </script>
 <template>
   <AppShell :navbarExpanded="showLeftNavbar" :rightNavbarExpanded="showRightNavbar" :full-sidebar="true"
-            @on-change-theme="warn">
+            @on-change-theme="warn" :showNavBar="showNavBar">
     <template #header>
       <Header @on-menu-click="
     showLeftNavbar = !showLeftNavbar;
@@ -84,10 +85,12 @@ export default {
       <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
         <PostCreation :post="editionPost" @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
       </Dialog>
-      <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
-            :showPostComposer="showComposePost"
-            @on-close-compose-post="showComposePost = !showComposePost"
-            @onEditPost="(index) => onEditPost(index)"></Feed>
+      <div class="mx-auto md:w-full 2xl:w-2/4">
+        <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
+              :showPostComposer="showComposePost"
+              @on-close-compose-post="showComposePost = !showComposePost"
+              @onEditPost="(index) => onEditPost(index)"></Feed>
+      </div>
     </template>
   </AppShell>
 </template>
