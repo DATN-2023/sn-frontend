@@ -41,7 +41,7 @@ export default {
 
 <template>
   <div
-      :class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
+      :class="`w-full transition-all`">
     <div class="flex flex-col p-2">
       <Post v-for="(post, index) in feedPosts" :post="post" :key="index" @onDeletePost="() => this.onDeletePost(index)"
             @onEditPost="() => this.$emit('onEditPost', index)"></Post>

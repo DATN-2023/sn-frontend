@@ -1,207 +1,210 @@
 export const Posts = [
     {
-        id: 0,
-        tittle: null,
-        content: ` ONE PIECE
-        Gold Roger was known as the Pirate King, the strongest and most infamous being to have sailed the Grand Line. The capture and death of Roger by the World Government brought a change throughout the world. His last words before his death revealed the location of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece (which promises an unlimited amount of riches and fame), and quite possibly the most coveted of titles for the person who found it, the title of the Pirate King.`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653f7446572497aa76083e5f",
+        "content": "1 2 3 4 5 6 7",
+        "images": [
+            "/photo-1575936123452-b67c3203c357-1698657350.648.avif",
+            "/pexels-joao-marcos-goncalves-pedroso-6599857-1699002046.968.jpg"
         ],
-        reactions: [],
-        images: [
-            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx21-tXMN3Y20PIL9.jpg",
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 1,
+        "shareTotal": 0,
+        "reactionTotal": 1,
+        "updatedAt": 1698981905,
+        "type": 1,
+        "createdAt": 1698657350,
+        "__v": 0,
+        "liked": 1,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: ` SPY×FAMILY Part 2
-        The second half of SPYxFAMILY.`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653f6234572497aa76083e5d",
+        "content": "quytest",
+        "images": [
+            "/digitalcameraphoto-1080x675-1698999060.465.jpg"
         ],
-        reactions: [],
-        images: [
-            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx142838-ECZSqfknAqAT.jpg",
-            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx139630-oc4l8OtJ4tRQ.jpg",
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698981905,
+        "type": 1,
+        "createdAt": 1698652724,
+        "__v": 0,
+        "liked": 1,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: ` Cara, a vida é uma merda 😅🤭`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
-        ],
-        reactions: [],
-        images: [
-
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "_id": "653f51be572497aa76083e20",
+        "content": "test",
+        "images": [],
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698632569,
+        "type": 1,
+        "createdAt": 1698648510,
+        "__v": 0,
+        "liked": 0,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: `
-nevelix Красотка😍😍😍
-
-opyxepace @nevelix ❤️`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653f4d88572497aa76083e0a",
+        "content": "quytest tao",
+        "images": [
+            "/9d9dd9e4-e84a-402e-ba8f-daa659e6e6c5-photoword003-1698647432.648.webp",
+            "/hinh-anh-1698647432.688.jpg",
+            "/part-blurry-image-1698647432.721.webp",
+            "/photo-1575936123452-b67c3203c357-1698647432.749.avif"
         ],
-        reactions: [],
-        images: [
-            "https://images.pexels.com/photos/8214192/pexels-photo-8214192.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 1,
+        "updatedAt": 1698632569,
+        "type": 1,
+        "createdAt": 1698647432,
+        "__v": 0,
+        "liked": 1,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: `
-        stephengiann Been a while since i last drew the gang. For the new peeps, these are my ocs Rage, Yuri and Chloe. I will start posting new ones and sheets as well along with fanart. Save share and follow for burgers 🍔
-        #explore #explorepage #foryou #ocs #originalcharacter #animethighs #rakugaki #artstyle #roughsketch #sketch #dailysketch #ocartwork`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653f1b4d572497aa76083dea",
+        "content": "quytest",
+        "images": [
+            "/9d9dd9e4-e84a-402e-ba8f-daa659e6e6c5-photoword003-1698634573.052.webp",
+            "/part-blurry-image-1698634573.130.webp"
         ],
-        reactions: [],
-        images: [
-            "https://images.pexels.com/photos/14250724/pexels-photo-14250724.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/6775243/pexels-photo-6775243.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        ]
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698632569,
+        "type": 1,
+        "createdAt": 1698634573,
+        "__v": 0,
+        "liked": 0,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: `
-        
-y_a_o_t_l
-🌸
-.
-.
-.
-#illustrations #draw #drawingoftheday #pencilsketch #art #artwork #sketch #sketchbook #sketching #pencildrawing #dibujo #pencilart #drawing #drawingsketch #oc #artists #pencilsketch #illust #illustragram #fashion #illustrationoftheday #arts #picoftheday #ilustración #drawingart #otaku #illustration #sketchart #sketchoftheday #illustrationartists
-`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653b3ced00c4869e32c9e06c",
+        "content": "casdcasdc",
+        "images": [
+            "/0076lbvzly1hbs7hvtdczj31hc0u07eh-1698381037.105.jpg"
         ],
-        reactions: [],
-        images: [
-            "https://images.pexels.com/photos/5644036/pexels-photo-5644036.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/5728078/pexels-photo-5728078.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/7034723/pexels-photo-7034723.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698374745,
+        "type": 1,
+        "createdAt": 1698381037,
+        "__v": 0,
+        "liked": 0,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: `
-        
-y_a_o_t_l
-🌸
-.
-.
-.
-#illustrations #draw #drawingoftheday #pencilsketch #art #artwork #sketch #sketchbook #sketching #pencildrawing #dibujo #pencilart #drawing #drawingsketch #oc #artists #pencilsketch #illust #illustragram #fashion #illustrationoftheday #arts #picoftheday
-`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653b3bd400c4869e32c9e068",
+        "content": "asdcasdc",
+        "images": [
+            "/carsandcoffee2400x1350-1698380756.091.jpg"
         ],
-        reactions: [],
-        images: [
-            "https://images.pexels.com/photos/13458913/pexels-photo-13458913.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/13984623/pexels-photo-13984623.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/6988608/pexels-photo-6988608.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698374745,
+        "type": 1,
+        "createdAt": 1698380756,
+        "__v": 0,
+        "liked": 0,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
     },
     {
-        id: 0,
-        tittle: null,
-        content: `
-        
-Adipisicing cillum duis minim nisi et proident id. Aliquip cupidatat proident ex aliqua eu sit do officia cillum elit enim. Ad irure commodo incididunt voluptate est dolore cupidatat excepteur exercitation Lorem Lorem. Fugiat do dolor irure ipsum culpa amet incididunt.
-<br>
-#illustrations #draw #drawingoftheday #pencilsketch #art #artwork #sketch #sketchbook #sketching #pencildrawing
-`,
-        author: {
-
-        },
-        createdBy: 0,
-        sharedBy: [],
-        categories: [
-            ""
+        "_id": "653b395300c4869e32c9e062",
+        "content": "testtttttt",
+        "images": [
+            "/photo-1575936123452-b67c3203c357-1699239120.894.avif",
+            "/part-blurry-image-1699239120.947.webp",
+            "/9d9dd9e4-e84a-402e-ba8f-daa659e6e6c5-photoword003-1699239120.973.webp",
+            "/hinh-anh-1699239121.008.jpg"
         ],
-        reactions: [],
-        images: [
-            "https://images.pexels.com/photos/14013604/pexels-photo-14013604.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/12463279/pexels-photo-12463279.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/13747843/pexels-photo-13747843.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/14341494/pexels-photo-14341494.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            "https://images.pexels.com/photos/14036568/pexels-photo-14036568.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        ],
-        reactionTotal: 0,
-        commentTotal: 0,
-        shareTotal: 0,
-        type: 1
-    },
-];
+        "createdBy": "6528aef783f80db422e260ca",
+        "commentTotal": 0,
+        "shareTotal": 0,
+        "reactionTotal": 0,
+        "updatedAt": 1698374745,
+        "type": 1,
+        "createdAt": 1698380115,
+        "__v": 0,
+        "liked": 0,
+        "user": {
+            "dob": "2023-10-13T02:40:17.174Z",
+            "_id": "6528aef783f80db422e260ca",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7Lmxg-pFP7Udv3mpjwZsurnfTdRl3BTpzYgAKHviiZdQ=s96-c",
+            "name": "Quý Phạm",
+            "email": "quyhot1@gmail.com",
+            "uid": "nhExUbdkY3eUdTU8g1JB6k7scMV2",
+            "fcmToken": ""
+        }
+    }
+]
 
 
