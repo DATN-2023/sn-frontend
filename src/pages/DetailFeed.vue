@@ -23,7 +23,8 @@ export default defineComponent({
         },
         images: [],
         content: ''
-      }
+      },
+      showNavBar: true,
     }
   },
   methods: {
@@ -61,7 +62,7 @@ export default defineComponent({
 
 <template>
   <AppShell :navbarExpanded="showLeftNavbar" :rightNavbarExpanded="showRightNavbar" :full-sidebar="true"
-            @on-change-theme="warn">
+            @on-change-theme="warn" :show-nav-bar="showNavBar">
     <template #header>
       <Header @on-menu-click="
     showLeftNavbar = !showLeftNavbar;

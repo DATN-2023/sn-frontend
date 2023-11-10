@@ -4,7 +4,6 @@ import Header from "@/features/components/Header.vue";
 import Navbar from "@/features/components/Navbar.vue";
 import AppShell from "@/features/components/AppShell.vue";
 import UserDetail from "@/features/components/UserDetail.vue";
-import {Posts} from "@/features/feed/processFeedPosts";
 
 export default {
   name: "Personal",
@@ -15,10 +14,11 @@ export default {
       showRightNavbar: true,
       showComposePost: true,
       visible: false,
-      feeds: Posts,
+      feeds: [],
       editionPost: {},
       indexEditionPost: null,
-      showNavBar: false
+      showNavBar: false,
+      user: {}
     }
   },
   methods: {
@@ -31,7 +31,21 @@ export default {
       this.editionPost.updated = 1
       this.feeds[this.indexEditionPost] = this.editionPost
       this.editionPost = {}
+    },
+    async getUserById() {
+      const {id} = this.$route.params
+      this.user = await this.$store.dispatch('user/getUserById', id)
+    },
+    async getFeedsOfUser() {
+      const {id} = this.$route.params
+      const data = await this.$store.dispatch('feed/getFeedsOfUser', id)
+      this.feeds = data.data || []
+      console.log('feeds', this.feeds)
     }
+  },
+  async mounted() {
+    this.getUserById()
+    this.getFeedsOfUser()
   }
 }
 </script>
@@ -49,12 +63,14 @@ export default {
       </Header>
     </template>
     <template #body>
-      <div class="flex flex-col h-[350px] mt-2">
-        <img class="self-center w-5/6 h-full object-cover rounded"
-             src="https://cdn-v2.carpla.vn/1920x/customer/avatar/unnamed-1693453845.387.jpg" alt="banner">
+      <div class="flex flex-col">
+        <div class="self-center w-5/6 h-full">
+          <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
+               :src="user.banner || 'http://localhost:9000/social-network/photo-1575936123452-b67c3203c357-1698657350.648.avif' " alt="">
+        </div>
         <div class="w-2/3 self-center flex gap-x-8">
           <div class="basis-1/3">
-            <UserDetail></UserDetail>
+            <UserDetail :user="user"></UserDetail>
           </div>
           <div class="basis-2/3">
             <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"

@@ -98,7 +98,7 @@ const actions = {
             return feed.updateFeed(id, body)
         } catch (e) {
             console.error('error updateFeed')
-            return []
+            return {}
         }
     },
     async updateComment({dispatch, commit}, data) {
@@ -107,7 +107,14 @@ const actions = {
             return feed.updateComment(id, body)
         } catch (e) {
             console.error('error updateComment')
-            return []
+            return {}
+        }
+    },
+    async getFeedsOfUser({dispatch, commit}, id) {
+        try {
+            return feed.getFeedsOfUser(id)
+        } catch (e) {
+            return {}
         }
     }
 }

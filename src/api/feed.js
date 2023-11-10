@@ -175,5 +175,20 @@ const authApi = {
             return {}
         }
     },
+    async getFeedsOfUser (id) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/feeds/users/${id}`,
+                json: true,
+                method: 'GET'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error getFeedsOfUser')
+            return {}
+        }
+    },
 }
 export default authApi
