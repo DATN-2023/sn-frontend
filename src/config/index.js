@@ -41,5 +41,7 @@ export function stringToSlug(str) {
 }
 
 export function genImageUrl(endpoint) {
-    return `${imageUrl}${endpoint}`
+    const protocol = endpoint.split('://')
+    if (protocol === 'http' || protocol === 'https') return endpoint
+    else return `${imageUrl}${endpoint}`
 }
