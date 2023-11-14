@@ -34,6 +34,38 @@ const userApi = {
             return {}
         }
     },
+    async createFriend (body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${urlConfig.serverUrl}/friends`,
+                json: true,
+                method: 'POST',
+                data: body
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error createFriend')
+            return {}
+        }
+    },
+    async updateFriend (id, body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${urlConfig.serverUrl}/friends/${id}`,
+                json: true,
+                method: 'PUT',
+                data: body
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error updateFriend')
+            return {}
+        }
+    },
 }
 
 export default userApi

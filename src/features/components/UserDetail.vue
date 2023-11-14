@@ -1,7 +1,9 @@
 <script>
 import {defineComponent} from 'vue'
 import {genImageUrl} from "@/config";
+import config from "@/config/config";
 
+const {friendRequestConfig} = config
 export default defineComponent({
   name: "UserDetail",
   props: {
@@ -34,6 +36,23 @@ export default defineComponent({
     async updateUser(id, body) {
       return this.$store.dispatch('user/updateUser', {id, body})
     },
+    checkFriend() {
+      return this.$props.user?.friendStatus === friendRequestConfig.ACCEPT
+    },
+    checkNotFriend() {
+      return this.$props.user?.friendStatus === friendRequestConfig.UNFRIEND
+    },
+    checkPending() {
+      return this.$props.user?.friendStatus === friendRequestConfig.PENDING
+    },
+    async createFriend() {
+      const body = {
+        receiver: this.$props.user._id,
+        type: friendRequestConfig.PENDING
+      }
+      const friend = await this.$store.dispatch('user/createFriend', body)
+      this.$props.user.friendStatus === friend.type
+    }
   }
 })
 </script>
@@ -42,7 +61,7 @@ export default defineComponent({
   <div class="relative bg-ll-neutral dark:bg-ld-neutral w-full p-2 rounded">
     <img
         class="absolute border-4 rounded-full w-[150px] h-[150px] object-cover left-33 -top-20 border-ll-border dark:border-ld-border"
-        :src="genImageUrl(user.avatar)" alt="image">
+        :src="genImageUrl(user.avatar || '')" alt="image">
     <div>
       <input type="file" ref="upload" hidden="" @change="changeFileUpload">
     </div>
@@ -73,6 +92,18 @@ export default defineComponent({
     <button
         class="mt-8 border-1 w-full rounded-lg p-2 mt-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
       Chỉnh sửa trang cá nhân
+    </button>
+    <button v-show="checkFriend()" @click="createFriend"
+            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+      Bạn bè
+    </button>
+    <button v-show="checkPending()" @click="createFriend"
+            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+      x Hủy yêu cầu
+    </button>
+    <button v-show="checkNotFriend()" @click="createFriend"
+            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+      + Kết bạn
     </button>
   </div>
 </template>

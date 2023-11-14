@@ -37,6 +37,11 @@ const config = {
         WOW: 4,
         SAD: 5,
         ANGRY: 6
+    },
+    friendRequestConfig: {
+        PENDING: 1,
+        ACCEPT: 2,
+        UNFRIEND: 3
     }
 }
 export default config

@@ -18,6 +18,21 @@ const actions = {
         } catch (e) {
             return {}
         }
+    },
+    async updateFriend({}, dataSubmit) {
+        try {
+            const {id, body} = dataSubmit
+            return userApi.updateFriend(id, body)
+        } catch (e) {
+            return {}
+        }
+    },
+    async createFriend({}, dataSubmit) {
+        try {
+            return userApi.createFriend(dataSubmit)
+        } catch (e) {
+            return {}
+        }
     }
 }
 export default {
