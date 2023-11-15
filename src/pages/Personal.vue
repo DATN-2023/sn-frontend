@@ -36,11 +36,20 @@ export default {
     },
     async getUserById() {
       const {id} = this.$route.params
-      this.user = await this.$store.dispatch('user/getUserById', id)
+      if (id === 'me') {
+        this.user = await this.$store.dispatch('user/getUserById', 'me')
+      } else {
+        this.user = await this.$store.dispatch('user/getUserById', id)
+      }
     },
     async getFeedsOfUser() {
       const {id} = this.$route.params
-      const data = await this.$store.dispatch('feed/getFeedsOfUser', id)
+      let data
+      if (id === 'me') {
+        data = await this.$store.dispatch('feed/getFeedsOfUser', this.user.customerId)
+      } else {
+        data = await this.$store.dispatch('feed/getFeedsOfUser', id)
+      }
       this.feeds = data.data || []
     },
     async updateUser(id, body) {
@@ -68,7 +77,7 @@ export default {
     },
   },
   async mounted() {
-    this.getUserById()
+    await this.getUserById()
     this.getFeedsOfUser()
   }
 }

@@ -2,10 +2,12 @@
 import {defineComponent} from 'vue'
 import {genImageUrl} from "@/config";
 import config from "@/config/config";
+import PostCreation from "@/features/components/PostCreation.vue";
 
 const {friendRequestConfig} = config
 export default defineComponent({
   name: "UserDetail",
+  components: {PostCreation},
   props: {
     user: {
       type: Object
@@ -57,6 +59,40 @@ export default defineComponent({
       this.$props.user.friendId = ''
       this.$props.user.followerTotal--
     },
+    displayEditPersonal() {
+      return this.$route.params.id === 'me'
+    },
+    setUp(visible) {
+      if (!visible) {
+        this.visible = false;
+      }
+    },
+    onEditUserPopup() {
+      this.visible = true
+      this.description = this.$props.user.description
+      this.date = new Date(this.$props.user.dob * 1000)
+      this.name = this.$props.user.name
+      this.place = this.$props.user.place
+    },
+    async onUpdateUser() {
+      const body = this.$props.user
+      const id = body._id
+      delete body._id
+      console.log('date', this.date / 1000)
+      body.description = this.description
+      body.name = this.name
+      body.dob = Math.floor(this.date / 1000)
+      body.place = this.place
+    }
+  },
+  data() {
+    return {
+      visible: false,
+      description: '',
+      date: null,
+      place: '',
+      name: ''
+    }
   }
 })
 </script>
@@ -90,22 +126,41 @@ export default defineComponent({
       </div>
       <div class="text-center">
         <div class="bold text-ll-primary">Bài viết</div>
-        <div>{{  user.feedTotal || 0  }}</div>
+        <div>{{ user.feedTotal || 0 }}</div>
       </div>
     </div>
-    <button
-        class="mt-8 border-1 w-full rounded-lg p-2 mt-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+    <button v-show="displayEditPersonal()" @click="onEditUserPopup"
+            class="mt-8 border-1 w-full rounded-lg p-2 mb-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
       Chỉnh sửa trang cá nhân
     </button>
-    <button v-show="checkFollow()" @click="unfollowUser"
-            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
-      Đang theo dõi
-    </button>
-    <button v-show="checkUnfollow()" @click="followUser"
-            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
-      Theo dõi
-    </button>
+    <div v-show="!displayEditPersonal()">
+      <button v-show="checkFollow()" @click="unfollowUser"
+              class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+        Đang theo dõi
+      </button>
+      <button v-show="checkUnfollow()" @click="followUser"
+              class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+        Theo dõi
+      </button>
+    </div>
   </div>
+  <Dialog :visible="visible" modal header="Chỉnh sửa thông tin cá nhân" @update:visible="setUp"
+          :style="{ width: '30vw' }">
+    <div class="bold py-2">Tên:</div>
+    <input type="text" class="w-full rounded" v-model="name">
+    <div class="bold py-2">Mô tả về bản thân:</div>
+    <textarea v-model="description" class="w-full p-2 h-70px text-sm rounded"></textarea>
+    <div class="bold py-2">Địa chỉ:</div>
+    <input v-model="place" type="text" class="w-full rounded">
+    <div class="bold py-2">Ngày sinh:</div>
+    <div>
+      <Calendar v-model="date"/>
+    </div>
+    <button @click="onUpdateUser"
+            class="border-1 p-2 mt-6 rounded bg-ll-primary dark:bg-ld-primary text-white bold hover:bg-blue-700">Cập
+      nhật
+    </button>
+  </Dialog>
 </template>
 
 <style scoped>

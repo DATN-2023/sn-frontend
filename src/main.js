@@ -10,6 +10,8 @@ import axios from "axios";
 import PrimeVue from 'primevue/config';
 import 'virtual:windi.css'
 import 'primevue/resources/themes/lara-light-teal/theme.css'
+import Calendar from 'primevue/calendar'
+
 // import 'primevue/resources/themes/lara-dark-teal/theme.css'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -45,5 +47,6 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('Menu', Menu)
 app.component('Button', Button)
 app.component('Dialog', Dialog)
+app.component('Calendar', Calendar)
 app.component('ConfirmPopup', ConfirmPopup)
 app.mount('#app')
