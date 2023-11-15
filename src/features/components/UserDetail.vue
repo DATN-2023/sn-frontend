@@ -36,23 +36,27 @@ export default defineComponent({
     async updateUser(id, body) {
       return this.$store.dispatch('user/updateUser', {id, body})
     },
-    checkFriend() {
-      return this.$props.user?.friendStatus === friendRequestConfig.ACCEPT
+    checkFollow() {
+      return this.$props.user?.following
     },
-    checkNotFriend() {
-      return this.$props.user?.friendStatus === friendRequestConfig.UNFRIEND
+    checkUnfollow() {
+      return !this.$props.user?.following
     },
-    checkPending() {
-      return this.$props.user?.friendStatus === friendRequestConfig.PENDING
-    },
-    async createFriend() {
+    async followUser() {
       const body = {
-        receiver: this.$props.user._id,
-        type: friendRequestConfig.PENDING
+        receiver: this.$props.user.customerId
       }
       const friend = await this.$store.dispatch('user/createFriend', body)
-      this.$props.user.friendStatus === friend.type
-    }
+      this.$props.user.following = true
+      this.$props.user.friendId = friend._id
+      this.$props.user.followerTotal++
+    },
+    async unfollowUser() {
+      await this.$store.dispatch('user/deleteFriend', this.$props.user.friendId)
+      this.$props.user.following = false
+      this.$props.user.friendId = ''
+      this.$props.user.followerTotal--
+    },
   }
 })
 </script>
@@ -77,33 +81,29 @@ export default defineComponent({
     <div class="text-center p-2">{{ user.description }}</div>
     <div class="mt-6 flex justify-between">
       <div class="text-center">
-        <div class="bold text-ll-primary">Bạn bè</div>
-        <div>{{ user.friendTotal }}</div>
+        <div class="bold text-ll-primary">Người theo dõi</div>
+        <div>{{ user.followerTotal || 0 }}</div>
       </div>
       <div class="text-center">
-        <div class="bold text-ll-primary">Bài đăng</div>
-        <div>{{ user.feedTotal }}</div>
+        <div class="bold text-ll-primary">Đang theo dõi</div>
+        <div>{{ user.followeeTotal || 0 }}</div>
       </div>
       <div class="text-center">
-        <div class="bold text-ll-primary">Lượt thích</div>
-        <div>3</div>
+        <div class="bold text-ll-primary">Bài viết</div>
+        <div>{{  user.feedTotal || 0  }}</div>
       </div>
     </div>
     <button
         class="mt-8 border-1 w-full rounded-lg p-2 mt-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
       Chỉnh sửa trang cá nhân
     </button>
-    <button v-show="checkFriend()" @click="createFriend"
+    <button v-show="checkFollow()" @click="unfollowUser"
             class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
-      Bạn bè
+      Đang theo dõi
     </button>
-    <button v-show="checkPending()" @click="createFriend"
+    <button v-show="checkUnfollow()" @click="followUser"
             class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
-      x Hủy yêu cầu
-    </button>
-    <button v-show="checkNotFriend()" @click="createFriend"
-            class="mt-6 mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
-      + Kết bạn
+      Theo dõi
     </button>
   </div>
 </template>

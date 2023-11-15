@@ -66,6 +66,21 @@ const userApi = {
             return {}
         }
     },
+    async deleteFriend (id) {
+        try {
+            const options = {
+                headers: {},
+                url: `${urlConfig.serverUrl}/friends/${id}`,
+                json: true,
+                method: 'DELETE'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error deleteFriend')
+            return {}
+        }
+    },
 }
 
 export default userApi

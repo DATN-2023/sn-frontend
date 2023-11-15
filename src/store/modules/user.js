@@ -33,6 +33,13 @@ const actions = {
         } catch (e) {
             return {}
         }
+    },
+    async deleteFriend({}, id) {
+        try {
+            return userApi.deleteFriend(id)
+        } catch (e) {
+            return {}
+        }
     }
 }
 export default {
