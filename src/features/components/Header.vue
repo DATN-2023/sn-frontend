@@ -10,7 +10,7 @@
                 </svg>
             </button>
 
-            <p class="text-xl font-normal font-bold">EGOSNET</p>
+            <p @click="() => this.$router.push({path: '/'})" class="text-xl cursor-pointer font-normal font-bold">EGOSNET</p>
         </div>
 
         <div

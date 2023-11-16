@@ -99,6 +99,9 @@ export default {
     onDeleteComment(index) {
       this.comments.splice(index, 1)
       this.$props.post.commentTotal--
+    },
+    onRoutingUser() {
+      this.$router.push({path: `/user/${this.$props.post?.user?._id}`})
     }
   },
   mounted() {
@@ -156,13 +159,13 @@ export default {
   <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mt-4">
     <div class="flex justify-between">
       <div class="flex items-center">
-        <div
-            class="avatar rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
+        <div @click="onRoutingUser"
+            class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
           <img :src="post.user.avatar || ''"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-300">{{ post.user.name || 'Anonymous' }}</p>
+          <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post.user.name || 'Anonymous' }}</p>
           <p class="-mt-1">{{ formatDate(new Date(post.createdAt * 1000)) }}</p>
         </div>
 
