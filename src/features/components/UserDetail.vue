@@ -83,6 +83,9 @@ export default defineComponent({
       body.name = this.name
       body.dob = Math.floor(this.date / 1000)
       body.place = this.place
+      const user = await this.$store.dispatch('user/updateUser', {id, body})
+      console.log('user', user)
+      this.visible = false
     }
   },
   data() {
