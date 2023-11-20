@@ -21,6 +21,8 @@ import Menu from 'primevue/menu';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ConfirmPopup from 'primevue/confirmpopup';
+import Carousel from 'primevue/carousel';
+
 
 
 const firebaseConfig = {
@@ -49,4 +51,5 @@ app.component('Button', Button)
 app.component('Dialog', Dialog)
 app.component('Calendar', Calendar)
 app.component('ConfirmPopup', ConfirmPopup)
+app.component('Carousel', Carousel)
 app.mount('#app')
