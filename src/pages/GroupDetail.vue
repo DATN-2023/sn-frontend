@@ -101,12 +101,12 @@ export default defineComponent({
     <template #navbar>
       <Navbar :is-expanded="showLeftNavbar" @on-compose-post="showComposePost = !showComposePost"
               @onPostCreation="(data) => visible = data"
-              @on-close-navbar="(v) => { showLeftNavbar = v }">
+              @on-close-navbar="(v) => { showLeftNavbar = v }" :activate-index="1">
       </Navbar>
     </template>
     <template #body>
       <div class="self-center w-5/6 bg-ll-neutral dark:bg-ld-neutral">
-        <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
+        <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
              :src="[user?.banner ? genImageUrl(user.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
              alt="">
         <!--        <div>-->

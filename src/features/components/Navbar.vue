@@ -1,6 +1,10 @@
 <script>
 
+import PostCreation from "@/features/components/PostCreation.vue";
+import GroupCreation from "@/features/components/GroupCreation.vue";
+
 export default {
+  components: {GroupCreation, PostCreation},
   data() {
     return {
       menus: {
@@ -18,16 +22,17 @@ export default {
                 `,
             path: '/'
           },
-          // {
-          //     index: 1,
-          //     name: "Explore",
-          //     icon: `
-          //     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          //     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-          //     </svg>
-          //
-          //         `
-          // },
+          {
+            index: 1,
+            name: "Group",
+            icon: `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+              </svg>
+
+                  `,
+            path: '/group'
+          },
           // {
           //     index: 6,
           //     name: "Notifications",
@@ -77,93 +82,131 @@ export default {
           // },
         ]
       },
-      user: {}
+      user: {},
+      groupVisible: false
     }
   },
   props: {
     isExpanded: {
       type: Boolean,
       required: true
+    },
+    activateIndex: {
+      type: Number,
+      default: 0
+    },
+    showAddFeed: {
+      type: Boolean,
+      default: 1
     }
   },
   methods: {
     getAvatar() {
       this.user = this.$store.getters['auth/userInfo']
+    },
+    setUp(visible) {
+      if (!visible) {
+        this.groupVisible = false;
+      }
+    },
+  },
+  watch: {
+    activateIndex(newVal, oldVal) {
+      this.menus.active = newVal
     }
   },
   mounted() {
     this.getAvatar()
+    this.menus.active = this.$props.activateIndex
   }
 }
 
 
 </script>
 <template>
-    <div
-        :class="`w-full h-full flex flex-col ${this.$props.isExpanded ? 'p-10 px-5' : 'p-2'} relative overflow-y-auto overflow-x-hidden`">
-        <div class="profile flex flex-col justify-center items-center">
-            <div
-                :class="`avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
-                <img :src="user?.avatar || ''" class="w-full h-full  rounded-full object-cover"
-                    alt="">
+  <div
+      :class="`w-full h-full flex flex-col ${this.$props.isExpanded ? 'p-10 px-5' : 'p-2'} relative overflow-y-auto overflow-x-hidden`">
+    <div class="profile flex flex-col justify-center items-center">
+      <div
+          :class="`avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
+        <img :src="user?.avatar || ''" class="w-full h-full  rounded-full object-cover"
+             alt="">
 
-                <div
-                    :class="`${this.$props.isExpanded ? 'w-8 h-8 border-4 right-0 bottom-3' : 'w-5 h-5 border-2 -right-2 bottom-0'}  bg-ll-primary rounded-full   absolute  border-ll-base dark:border-ld-base text-white flex justify-center items-center`">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+        <div
+            :class="`${this.$props.isExpanded ? 'w-8 h-8 border-4 right-0 bottom-3' : 'w-5 h-5 border-2 -right-2 bottom-0'}  bg-ll-primary rounded-full   absolute  border-ll-base dark:border-ld-base text-white flex justify-center items-center`">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+          </svg>
 
-                </div>
-            </div>
-            <p v-if="this.$props.isExpanded" class="text-xl font-bold text-gray-800 dark:text-gray-300">{{ user?.name || 'anonymous' }}</p>
-<!--            <p class="-mt-1 text-sm" v-if="this.$props.isExpanded">toi la quy</p>-->
         </div>
-
-        <div v-if="this.$props.isExpanded"
-            class="w-full flex justify-between mt-5 pb-5 border-b border-ll-border dark:border-ld-border">
-            <div class="flex flex-col justify-center items-center">
-                <p class="text-lg font-bold text-gray-800 dark:text-gray-300">255</p>
-                <p class="-mt-1 text-xs">Posts</p>
-            </div>
-            <div class="flex flex-col justify-center items-center">
-                <p class="text-lg font-bold text-gray-800 dark:text-gray-300">298.45K</p>
-                <p class="-mt-1 text-xs">Followers</p>
-            </div>
-            <div class="flex flex-col justify-center items-center">
-                <p class="text-lg font-bold text-gray-800 dark:text-gray-300">20.5M</p>
-                <p class="-mt-1 text-xs">Following</p>
-            </div>
-        </div>
-        <ul :class="`flex flex-col w-full pt-5 ${this.$props.isExpanded ? '' : 'justify-center flex '}`">
-            <li v-for="(menu, index) in menus.menusList" :key="menu.name"
-                :class="` w-full py-2  flex items-center ${this.$props.isExpanded ? 'mb-2' : 'justify-center mb-4'} ${menu.index === menus.active ? 'text-ll-primary' : ''} cursor-pointer active:scale-95 transform transition-transform select-none`"
-                @click="this.$router.push(menu.path), $.emit('onCloseNavbar', false)">
-                <div v-html="menu.icon"></div>
-                <p v-if="this.$props.isExpanded" class="ml-5 text-sm">{{ menu.name }}</p>
-
-            </li>
-        </ul>
-
-        <button @click="$.emit('onComposePost'), $.emit('onCloseNavbar', false), $.emit('onPostCreation', true)"
-            class="bg-ll-primary dark:bg-ld-primary text-white rounded-lg py-3 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
-            <p v-if="this.$props.isExpanded">Đăng bài</p>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" :class="`${this.$props.isExpanded ? 'w-6 h-6 ml-5' : 'w-full h-full'}`">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-            </svg>
-
-        </button>
-
-        <button @click="$.emit('onCloseNavbar', false)"
-            class="md:hidden w-8 h-8 absolute top-2 -right-1 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border   rounded-full flex items-center mr-2 active:scale-95 transform transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-full h-full">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-
-        </button>
+      </div>
+      <p v-if="this.$props.isExpanded" class="text-xl font-bold text-gray-800 dark:text-gray-300">
+        {{ user?.name || 'anonymous' }}</p>
+      <!--            <p class="-mt-1 text-sm" v-if="this.$props.isExpanded">toi la quy</p>-->
     </div>
+
+    <div v-if="this.$props.isExpanded"
+         class="w-full flex justify-between mt-5 pb-5 border-b border-ll-border dark:border-ld-border">
+      <div class="flex flex-col justify-center items-center">
+        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">255</p>
+        <p class="-mt-1 text-xs">Posts</p>
+      </div>
+      <div class="flex flex-col justify-center items-center">
+        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">298.45K</p>
+        <p class="-mt-1 text-xs">Followers</p>
+      </div>
+      <div class="flex flex-col justify-center items-center">
+        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">20.5M</p>
+        <p class="-mt-1 text-xs">Following</p>
+      </div>
+    </div>
+    <ul :class="`flex flex-col w-full pt-5 ${this.$props.isExpanded ? '' : 'justify-center flex '}`">
+      <li v-for="(menu, index) in menus.menusList" :key="menu.name"
+          :class="` w-full py-2  flex items-center ${this.$props.isExpanded ? 'mb-2' : 'justify-center mb-4'} ${menu.index === menus.active ? 'text-ll-primary' : ''} cursor-pointer active:scale-95 transform transition-transform select-none`"
+          @click="this.$router.push(menu.path), $.emit('onCloseNavbar', false), menus.active = menu.index">
+        <div v-html="menu.icon"></div>
+        <p v-if="this.$props.isExpanded" class="ml-5 text-sm">{{ menu.name }}</p>
+
+      </li>
+    </ul>
+
+    <button v-show="showAddFeed"
+            @click="$.emit('onComposePost'), $.emit('onCloseNavbar', false), $.emit('onPostCreation', true)"
+            class="bg-ll-primary dark:bg-ld-primary text-white rounded-lg py-3 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
+      <p v-if="this.$props.isExpanded">Đăng bài</p>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" :class="`${this.$props.isExpanded ? 'w-6 h-6 ml-5' : 'w-full h-full'}`">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
+      </svg>
+
+    </button>
+
+    <button v-show="!showAddFeed"
+            @click="groupVisible = true, $.emit('onComposePost'), $.emit('onCloseNavbar', false), $.emit('onGroupCreation', true)"
+            class="bg-ll-primary dark:bg-ld-primary hover:bg-sky-600 text-white fill-white rounded-lg py-3 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
+      <p v-if="this.$props.isExpanded">Tạo Nhóm</p>
+      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512" stroke="currentColor" class=""
+           :class="`${this.$props.isExpanded ? 'w-6 h-6 ml-5' : 'w-full h-full'}`">
+        <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z"/>
+      </svg>
+    </button>
+
+    <Dialog :visible="groupVisible" modal header="Tạo nhóm" @update:visible="setUp" :style="{ width: '50vw' }">
+      <GroupCreation></GroupCreation>
+    </Dialog>
+
+    <button @click="$.emit('onCloseNavbar', false)"
+            class="md:hidden w-8 h-8 absolute top-2 -right-1 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border   rounded-full flex items-center mr-2 active:scale-95 transform transition-transform">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" class="w-full h-full">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+
+    </button>
+  </div>
 </template>

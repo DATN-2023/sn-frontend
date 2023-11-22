@@ -64,7 +64,7 @@ export default defineComponent({
     <template #navbar>
       <Navbar :is-expanded="showLeftNavbar" @on-compose-post="showComposePost = !showComposePost"
               @onPostCreation="(data) => visible = data"
-              @on-close-navbar="(v) => { showLeftNavbar = v }">
+              @on-close-navbar="(v) => { showLeftNavbar = v }" :activate-index="1" :show-add-feed="0">
       </Navbar>
     </template>
     <template #body>
