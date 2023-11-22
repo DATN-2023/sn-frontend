@@ -27,8 +27,12 @@ const routes = [
         component: () => import("@/pages/Personal.vue")
     },
     {
-        path: '/group/:id',
+        path: '/group',
         component: () => import("@/pages/GroupList.vue")
+    },
+    {
+        path: '/group/:id',
+        component: () => import("@/pages/GroupDetail.vue")
     }
 ]
 

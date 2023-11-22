@@ -6,6 +6,9 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    group: {
+      type: Object
     }
   },
   data() {
@@ -116,9 +119,10 @@ export default {
 <template>
   <div
       :class="` transition-all col-span-1 p-5 overflow-hidden mx-2 bg-ll-neutral dark:bg-ld-neutral rounded-md  flex flex-col relative`">
-            <textarea v-model="content"
-                      class="w-full h-150px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
-                      placeholder="What's happening?" resize="none"></textarea>
+    <div></div>
+    <textarea v-model="content"
+              class="w-full h-150px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
+              placeholder="What's happening?" resize="none"></textarea>
     <div class="flex-wrap flex justify-center items-center">
       <div class="w-300px flex-auto p-2" v-for="(file, index) in preview">
         <div class="relative inline-block pt-2">
