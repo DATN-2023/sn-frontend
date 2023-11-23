@@ -166,7 +166,7 @@ export default defineComponent({
                     :showPostComposer="showComposePost"
                     @on-close-compose-post="showComposePost = !showComposePost"
                     @onEditPost="(index) => onEditPost(index)"></Feed>
-              <div class="mt-4">
+              <div class="mt-4 bg-ll-neutral dark:bg-ld-neutral rounded-md">
                 <ApproveUser></ApproveUser>
                 <ApproveUser></ApproveUser>
                 <ApproveUser></ApproveUser>

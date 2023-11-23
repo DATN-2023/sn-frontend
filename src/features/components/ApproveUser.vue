@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-full bg-ll-neutral dark:bg-ld-neutral rounded-md flex space-x-4 p-2">
+  <div class="w-full rounded-md flex space-x-4 p-2">
     <img class="h-20 w-20 rounded-full" src="https://images-cdn.carpla.dev/256x/xeco.webp" alt="">
     <div class="flex justify-between flex-1 space-x-2">
       <div class="self-center">Tôi là quỷ</div>
