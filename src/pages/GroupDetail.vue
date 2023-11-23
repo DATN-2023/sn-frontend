@@ -12,10 +12,13 @@ import GroupDescription from "@/features/components/GroupDescription.vue";
 import GroupRules from "@/features/components/GroupRules.vue";
 import PostCreation from "@/features/components/PostCreation.vue";
 import {genImageUrl} from "@/config";
+import ApproveUser from "@/features/components/ApproveUser.vue";
 
 export default defineComponent({
   name: "Group",
-  components: {PostCreation, GroupRules, GroupDescription, GroupTitle, GroupThumb, Navbar, Feed, Header, AppShell},
+  components: {
+    ApproveUser,
+    PostCreation, GroupRules, GroupDescription, GroupTitle, GroupThumb, Navbar, Feed, Header, AppShell},
   data() {
     return {
       showLeftNavbar: true,
@@ -28,6 +31,7 @@ export default defineComponent({
       showNavBar: true,
       user: {},
       groups: [1, 2, 3, 4, 5, 6],
+      activeNavbar: true,
       responsiveOptions: [
         {
           breakpoint: '1400px',
@@ -49,11 +53,30 @@ export default defineComponent({
           numVisible: 1,
           numScroll: 1
         }
-      ]
+      ],
+      navBavConfig: {
+        active: 0,
+        configs: [
+          {
+            onClick: this.onFeedClick(),
+            title: 'Bài đăng'
+          },
+          {
+            onClick: this.onApproveClick(),
+            title: 'Phê duyệt'
+          }
+        ]
+      }
     }
   },
   methods: {
     genImageUrl,
+    onFeedClick() {
+
+    },
+    onApproveClick() {
+
+    },
     setUp(visible) {
       if (!visible) {
         this.visible = false;
@@ -105,7 +128,7 @@ export default defineComponent({
       </Navbar>
     </template>
     <template #body>
-      <div class="self-center w-5/6 bg-ll-neutral dark:bg-ld-neutral">
+      <div class="self-center w-5/6">
         <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
              :src="[user?.banner ? genImageUrl(user.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
              alt="">
@@ -122,28 +145,32 @@ export default defineComponent({
         <!--        </button>-->
       </div>
       <div class="w-2/3 self-center">
-        <div class="flex gap-x-8 bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300 rounded-b-lg">
-          <!--        <div class="basis-1/3">-->
+        <div class="gap-x-8 bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300 rounded-b-lg">
           <GroupTitle></GroupTitle>
-          <!--        </div>-->
-          <!--        <div class="basis-2/3">-->
-          <!--          <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"-->
-          <!--                :showPostComposer="showComposePost"-->
-          <!--                @on-close-compose-post="showComposePost = !showComposePost"-->
-          <!--                @onEditPost="(index) => onEditPost(index)"></Feed>-->
-          <!--        </div>-->
+          <div class="flex px-4 py-2">
+            <button v-for="(value, index) in navBavConfig.configs"
+                    :class="`${navBavConfig.active === index ? 'p-2 border-b-2 border-neutral-500 font-bold mr-1' : 'p-2 hover:font-bold hover:border-b-2 hover:border-neutral-500 mr-1' }`"
+                    @click="navBavConfig.active = index, value.onClick">{{ value.title }}
+            </button>
+          </div>
         </div>
         <div class="flex space-x-2 text-gray-800 dark:text-gray-300">
           <div class="basis-2/3">
             <div>
-              <Dialog :visible="visible" modal header="Đăng bài viết trong Group" @update:visible="setUp" :style="{ width: '50vw' }">
+              <Dialog :visible="visible" modal header="Đăng bài viết trong Group" @update:visible="setUp"
+                      :style="{ width: '50vw' }">
                 <PostCreation :post="editionPost" @turnOffVisible="visible = !visible"
                               @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
               </Dialog>
-              <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
+              <Feed v-show="navBavConfig.active === 0" :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
                     :showPostComposer="showComposePost"
                     @on-close-compose-post="showComposePost = !showComposePost"
                     @onEditPost="(index) => onEditPost(index)"></Feed>
+              <div class="mt-4">
+                <ApproveUser></ApproveUser>
+                <ApproveUser></ApproveUser>
+                <ApproveUser></ApproveUser>
+              </div>
             </div>
           </div>
           <div class="basic-1/3 flex-1">
