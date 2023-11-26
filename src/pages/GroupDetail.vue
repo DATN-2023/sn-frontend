@@ -1,36 +1,39 @@
 <script>
 import {defineComponent} from 'vue'
-import UserDetail from "@/features/components/UserDetail.vue";
 import AppShell from "@/features/components/AppShell.vue";
 import Header from "@/features/components/Header.vue";
 import Feed from "@/features/feed/Feed.vue";
 import Navbar from "@/features/components/Navbar.vue";
 import GroupThumb from "@/features/components/GroupThumb.vue";
 import GroupTitle from "@/features/components/GroupTitle.vue";
-import {Posts} from "@/features/feed/processFeedPosts";
 import GroupDescription from "@/features/components/GroupDescription.vue";
 import GroupRules from "@/features/components/GroupRules.vue";
 import PostCreation from "@/features/components/PostCreation.vue";
 import {genImageUrl} from "@/config";
 import ApproveUser from "@/features/components/ApproveUser.vue";
+import config from "@/config/config";
+
+const {joinStatusGroupConfig} = config
 
 export default defineComponent({
   name: "Group",
   components: {
     ApproveUser,
-    PostCreation, GroupRules, GroupDescription, GroupTitle, GroupThumb, Navbar, Feed, Header, AppShell},
+    PostCreation, GroupRules, GroupDescription, GroupTitle, GroupThumb, Navbar, Feed, Header, AppShell
+  },
   data() {
     return {
       showLeftNavbar: true,
       showRightNavbar: true,
       showComposePost: true,
       visible: false,
-      feeds: Posts,
+      feeds: [],
       editionPost: {},
       indexEditionPost: null,
       showNavBar: true,
       user: {},
-      groups: [1, 2, 3, 4, 5, 6],
+      group: {},
+      pendingUsers: [],
       activeNavbar: true,
       responsiveOptions: [
         {
@@ -59,11 +62,15 @@ export default defineComponent({
         configs: [
           {
             onClick: this.onFeedClick(),
-            title: 'Bài đăng'
+            title: 'Bài đăng',
+            show: true,
+            total: 0
           },
           {
             onClick: this.onApproveClick(),
-            title: 'Phê duyệt'
+            title: 'Phê duyệt',
+            show: false,
+            total: 0
           }
         ]
       }
@@ -71,6 +78,9 @@ export default defineComponent({
   },
   methods: {
     genImageUrl,
+    checkMod() {
+      return this.group?.isMod || false
+    },
     onFeedClick() {
 
     },
@@ -104,7 +114,43 @@ export default defineComponent({
     },
     onPostCreation() {
       this.visible = true
+    },
+    async getDetailGroup() {
+      this.group = await this.$store.dispatch('group/getGroupById', this.$route.params.id)
+      await this.getFeeds()
+      console.log('isMode', this.group?.isMod)
+      if (this.group?.isMod) {
+        this.navBavConfig.configs[1].show = true
+        await this.getPendingUserGroups()
+      }
+    },
+    async getFeeds() {
+      const feeds = await this.$store.dispatch('feed/getFeed', {groupId: this.group._id})
+      this.feeds = feeds.data
+    },
+    async getPendingUserGroups() {
+      const userGroups = await this.$store.dispatch('group/getUserGroups', {
+        status: joinStatusGroupConfig.PENDING,
+        group: this.$route.params.id
+      })
+      this.navBavConfig.configs[1].total = userGroups.total
+      this.pendingUsers = userGroups?.data || []
+      console.log('userGroups', userGroups)
+    },
+    onApproveAndDeleteUser(index) {
+      this.navBavConfig.configs[1].total--
+      this.pendingUsers.splice(index, 1)
+    },
+    onIncMember(index) {
+      this.group.memberTotal++
+      this.onApproveAndDeleteUser(index)
+    },
+    onDecMember(index) {
+      this.onApproveAndDeleteUser(index)
     }
+  },
+  mounted() {
+    this.getDetailGroup()
   }
 })
 </script>
@@ -130,7 +176,7 @@ export default defineComponent({
     <template #body>
       <div class="self-center w-5/6">
         <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
-             :src="[user?.banner ? genImageUrl(user.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
+             :src="[group?.banner ? genImageUrl(group?.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
              alt="">
         <!--        <div>-->
         <!--          <input type="file" ref="upload" hidden="" @change="changeFileUpload">-->
@@ -146,11 +192,13 @@ export default defineComponent({
       </div>
       <div class="w-2/3 self-center">
         <div class="gap-x-8 bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300 rounded-b-lg">
-          <GroupTitle></GroupTitle>
+          <GroupTitle :group="group"></GroupTitle>
           <div class="flex px-4 py-2">
-            <button v-for="(value, index) in navBavConfig.configs"
+            <button v-for="(value, index) in navBavConfig.configs" v-show="value.show"
                     :class="`${navBavConfig.active === index ? 'p-2 border-b-2 border-neutral-500 font-bold mr-1' : 'p-2 hover:font-bold hover:border-b-2 hover:border-neutral-500 mr-1' }`"
-                    @click="navBavConfig.active = index, value.onClick">{{ value.title }}
+                    @click="navBavConfig.active = index, value.onClick"><p
+                :class="`${value.total ? 'text-white bg-red-500 w-4 h-4 rounded-full text-[12px] p-0.5 mr-1 inline-block' : ''}`">
+              {{ value.total ? value.total : '' }}</p>{{ `${value.title}` }}
             </button>
           </div>
         </div>
@@ -159,17 +207,18 @@ export default defineComponent({
             <div>
               <Dialog :visible="visible" modal header="Đăng bài viết trong Group" @update:visible="setUp"
                       :style="{ width: '50vw' }">
-                <PostCreation :post="editionPost" @turnOffVisible="visible = !visible"
+                <PostCreation :groupId="group._id" :post="editionPost" @turnOffVisible="visible = !visible"
                               @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
               </Dialog>
-              <Feed v-show="navBavConfig.active === 0" :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
+              <Feed v-show="navBavConfig.active === 0" :visible="visible" :feedPosts="feeds"
+                    :oneColumn="showLeftNavbar && showRightNavbar"
                     :showPostComposer="showComposePost"
                     @on-close-compose-post="showComposePost = !showComposePost"
                     @onEditPost="(index) => onEditPost(index)"></Feed>
-              <div class="mt-4 bg-ll-neutral dark:bg-ld-neutral rounded-md">
-                <ApproveUser></ApproveUser>
-                <ApproveUser></ApproveUser>
-                <ApproveUser></ApproveUser>
+              <div v-show="navBavConfig.active === 1" class="mt-4 bg-ll-neutral dark:bg-ld-neutral rounded-md">
+                <ApproveUser @onIncMember="data => onIncMember(index)"
+                             @onDecMember="data => onDecMember(index)" v-for="(user, index) in pendingUsers"
+                             :user="user"></ApproveUser>
               </div>
             </div>
           </div>
@@ -186,10 +235,10 @@ export default defineComponent({
               </button>
             </div>
             <div class="bg-ll-neutral dark:bg-ld-neutral w-full rounded rounded-md mt-4 p-4">
-              <GroupDescription></GroupDescription>
+              <GroupDescription :description="group.description"></GroupDescription>
             </div>
             <div class="bg-ll-neutral dark:bg-ld-neutral w-full rounded rounded-md mt-4 p-4">
-              <GroupRules></GroupRules>
+              <GroupRules :rules="group.rules"></GroupRules>
             </div>
           </div>
         </div>

@@ -42,6 +42,10 @@ const config = {
         PENDING: 1,
         ACCEPT: 2,
         UNFRIEND: 3
+    },
+    joinStatusGroupConfig: {
+        MEMBER: 1,
+        PENDING: 2
     }
 }
 export default config

@@ -3,6 +3,7 @@ import auth from './modules/authen'
 import feed from "@/store/modules/feed";
 import upload from "@/store/modules/upload";
 import user from '@/store/modules/user'
+import group from '@/store/modules/group'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -11,7 +12,8 @@ export default createStore({
         auth,
         feed,
         upload,
-        user
+        user,
+        group
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

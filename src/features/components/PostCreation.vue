@@ -7,8 +7,8 @@ export default {
     post: {
       type: Object
     },
-    group: {
-      type: Object
+    groupId: {
+      type: String
     }
   },
   data() {
@@ -55,7 +55,11 @@ export default {
         images: this.images,
         type: this.type
       }
+      if (this.$props.groupId) {
+        body.groupId = this.$props.groupId
+      }
       const post = await this.$store.dispatch('feed/createFeed', body)
+      console.log('post', post)
       this.files = []
       this.preview = []
       this.images = []
