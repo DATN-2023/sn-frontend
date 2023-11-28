@@ -28,20 +28,35 @@
             </button>
         </div>
         <div>
-            <button @click="$emit('onRightMenuClick')"
+            <button @click="onClickAlert" :class="`${active ? 'text-ll-primary' : ''}`"
                 class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
-                </svg>
-
+              <font-awesome-icon :icon="['fas', 'bell']" />
             </button>
         </div>
+<!--        <div>-->
+<!--            <button @click="$emit('onRightMenuClick')"-->
+<!--                class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--                    stroke="currentColor" class="w-6 h-6">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                        d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />-->
+<!--                </svg>-->
+
+<!--          </button>-->
+<!--        </div>-->
     </div>
 </template>
 <script>
 export default {
-
+  data() {
+    return {
+      active: true
+    }
+  },
+  methods: {
+    onClickAlert() {
+      this.active = !this.active
+    }
+  }
 }
 </script>

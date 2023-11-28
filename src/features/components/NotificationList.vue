@@ -56,8 +56,8 @@ export default defineComponent({
       <div class="font-bold text-2xl">Thông báo</div>
       <div class="self-center text-center cursor-pointer relative">
         <font-awesome-icon v-click-outside="hide" @click="active = !active" class="rounded-full w-6 h-6 hover:bg-ll-border hover:dark:bg-ld-border" icon="fa-solid fa-ellipsis"/>
-        <div v-show="active" class="absolute w-250px shadow-lg rounded-lg p-2 right-0 border-1 border-ll-border dark:border-ld-border">
-          <div class="hover:bg-ll-border hover:dark:bg-ld-border p-2 rounded-lg"><font-awesome-icon :icon="['fas', 'check']" /> Đánh dấu là đã đọc</div>
+        <div v-show="active" class="transition-all absolute w-300px shadow-lg rounded-lg p-2 right-0 border-1 border-ll-border dark:border-ld-border">
+          <div class="hover:bg-ll-border hover:dark:bg-ld-border p-2 rounded-lg"><font-awesome-icon :icon="['fas', 'check']" /> Đánh dấu tất cả là đã đọc</div>
         </div>
       </div>
     </div>

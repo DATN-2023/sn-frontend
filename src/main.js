@@ -15,7 +15,7 @@ import Calendar from 'primevue/calendar'
 // import 'primevue/resources/themes/lara-dark-teal/theme.css'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner, faEllipsis, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faEllipsis, faCheck, faBell } from '@fortawesome/free-solid-svg-icons'
 
 import Menu from 'primevue/menu';
 import Button from 'primevue/button';
@@ -40,6 +40,7 @@ const firebase = initializeApp(firebaseConfig);
 library.add(faSpinner)
 library.add(faEllipsis)
 library.add(faCheck)
+library.add(faBell)
 
 const app = Vue.createApp(App)
 initAxios({$axios: axios, store, app, $cookies: window.$cookies})
