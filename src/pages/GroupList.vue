@@ -29,8 +29,8 @@ export default defineComponent({
       indexEditionPost: null,
       showNavBar: true,
       user: {},
-      groups: [1,2,3,4,5,6],
-      recommendGroups: [1,2,3,4,5,6],
+      groups: [],
+      recommendGroups: [],
       responsiveOptions: [
         {
           breakpoint: '1400px',
@@ -63,11 +63,13 @@ export default defineComponent({
     },
     async getRecommendGroups() {
       const res = await this.$store.dispatch('group/getGroups')
+      console.log('getRecommendGroups', res)
       this.recommendGroups = res?.data || []
     },
     async getJoiningGroups() {
       const res = await this.$store.dispatch('group/getJoiningGroups')
-      this.groups = res?.data || []
+      this.groups = res || []
+      console.log('getJoiningGroups', this.groups)
     }
   },
   mounted() {
@@ -104,7 +106,7 @@ export default defineComponent({
         <div v-if="groups.length" class="h-[350px]">
           <Carousel :value="groups" :num-visible="3" :num-scroll="1" :responsive-options="responsiveOptions">
             <template #item="slotProps">
-              <GroupThumb></GroupThumb>
+              <GroupThumb :item="slotProps"></GroupThumb>
             </template>
           </Carousel>
         </div>

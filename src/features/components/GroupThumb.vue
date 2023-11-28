@@ -21,8 +21,8 @@ export default defineComponent({
     <img class="w-full rounded-t-lg" src="https://images-cdn.carpla.dev/HybridErtigajpg-1664383054.jpg" alt="image">
     <div class="mx-4 my-2">
       <div @click="onClickTitle" class="cursor-pointer">
-        <div class="bold text-xl">{{ item.data?.name || '' }}</div>
-        <div>{{ `${item.data?.memberTotal || 0} thành viên` }}</div>
+        <div class="bold text-xl">{{ item?.data?.name || '' }}</div>
+        <div>{{ `${item?.data?.memberTotal || 0} thành viên` }}</div>
       </div>
       <button class="border border-2 p-2 w-full rouded border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border rounded-2xl my-2">Tham gia</button>
     </div>

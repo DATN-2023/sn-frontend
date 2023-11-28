@@ -60,7 +60,8 @@ export default defineComponent({
       this.$props.user.followerTotal--
     },
     displayEditPersonal() {
-      return this.$route.params.id === 'me' || this.$route.params.id === this.$props.user?.customerId
+      const userInfo = this.$store.getters['auth/userInfo']
+      return this.$route.params.id === 'me' || this.$route.params.id === userInfo?._id
     },
     setUp(visible) {
       if (!visible) {
