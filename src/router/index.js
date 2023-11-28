@@ -33,6 +33,10 @@ const routes = [
     {
         path: '/group/:id',
         component: () => import("@/pages/GroupDetail.vue")
+    },
+    {
+        path: '/notification',
+        component: () => import("@/pages/Notification.vue")
     }
 ]
 

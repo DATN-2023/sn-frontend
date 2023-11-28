@@ -98,6 +98,10 @@ export default {
     showAddFeed: {
       type: Boolean,
       default: 1
+    },
+    showAddGroup: {
+      type: Boolean,
+      default: 0
     }
   },
   methods: {
@@ -178,7 +182,7 @@ export default {
 
     </button>
 
-    <button v-show="!showAddFeed"
+    <button v-show="showAddGroup"
             @click="groupVisible = true, $.emit('onComposePost'), $.emit('onCloseNavbar', false), $.emit('onGroupCreation', true)"
             class="bg-ll-primary dark:bg-ld-primary hover:bg-sky-600 text-white fill-white rounded-lg py-3 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
       <p v-if="this.$props.isExpanded">Tạo Nhóm</p>
