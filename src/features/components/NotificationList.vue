@@ -28,6 +28,12 @@ export default defineComponent({
       active: false
     }
   },
+  props: {
+    activeSeeAll: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     onShowAll() {
 
@@ -35,11 +41,14 @@ export default defineComponent({
     onShowDontRead() {
 
     },
-    hide (event) {
+    hide(event) {
       this.active = false
+    },
+    onClickSeeAll() {
+      this.$router.push({path: '/notification'})
     }
   },
-  mounted () {
+  mounted() {
     // prevent click outside event with popupItem.
     // this.popupItem = this.$el
   },
@@ -55,9 +64,15 @@ export default defineComponent({
     <div class="flex flex-row justify-between">
       <div class="font-bold text-2xl">Thông báo</div>
       <div class="self-center text-center cursor-pointer relative">
-        <font-awesome-icon v-click-outside="hide" @click="active = !active" class="rounded-full w-6 h-6 hover:bg-ll-border hover:dark:bg-ld-border" icon="fa-solid fa-ellipsis"/>
-        <div v-show="active" class="transition-all absolute w-300px shadow-lg rounded-lg p-2 right-0 border-1 border-ll-border dark:border-ld-border">
-          <div class="hover:bg-ll-border hover:dark:bg-ld-border p-2 rounded-lg"><font-awesome-icon :icon="['fas', 'check']" /> Đánh dấu tất cả là đã đọc</div>
+        <font-awesome-icon v-click-outside="hide" @click="active = !active"
+                           class="rounded-full w-6 h-6 hover:bg-ll-border hover:dark:bg-ld-border"
+                           icon="fa-solid fa-ellipsis"/>
+        <div v-show="active"
+             class="transition-all absolute w-300px shadow-lg rounded-lg p-2 right-0 border-1 border-ll-border dark:border-ld-border bg-ll-neutral dark:bg-ld-neutral">
+          <div class="hover:bg-ll-border hover:dark:bg-ld-border p-2 rounded-lg">
+            <font-awesome-icon :icon="['fas', 'check']"/>
+            Đánh dấu tất cả là đã đọc
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +86,12 @@ export default defineComponent({
       <NotificationItem class="border-b-1 py-4"></NotificationItem>
       <NotificationItem class="border-b-1 py-4"></NotificationItem>
       <NotificationItem class="border-b-1 py-4"></NotificationItem>
+    </div>
+    <div class="text-center pt-2" v-show="activeSeeAll">
+      <button
+          class="text-ll-primary font-bold dark:text-ld-primary border-ll-primary dark:border-ld-primary hover:border-b-1"
+          @click="onClickSeeAll">Xem tất cả
+      </button>
     </div>
   </div>
 </template>

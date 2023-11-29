@@ -14,7 +14,7 @@
         </div>
 
         <div
-            class="bg-ll-base dakr:bg-ld-base rounded-md border  border-ll-border dark:border-ld-border w-2/4 h-3/4 flex items-center">
+            class="bg-ll-base dark:bg-ld-base rounded-md border  border-ll-border dark:border-ld-border w-2/4 h-3/4 flex items-center">
             <input type="text" placeholder="Search on egosnet..."
                 class="px-2 bg-transparent text-md outline-none w-full h-full">
 
@@ -27,12 +27,19 @@
 
             </button>
         </div>
-        <div>
-            <button @click="onClickAlert" :class="`${active ? 'text-ll-primary' : ''}`"
+        <div v-if="showAlert" class="relative">
+            <button @click="onClickAlert" :class="`${active ? 'text-ll-primary dark:text-ld-primary' : ''}`"
                 class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">
               <font-awesome-icon :icon="['fas', 'bell']" />
             </button>
+          <div class="absolute right-0 top-0 text-white bg-red-500 w-5 h-5 rounded-full text-[12px] inline-block flex items-center justify-center">
+            9+
+          </div>
+          <div v-show="active" class="absolute -right-10 w-[500px]">
+            <NotificationList :active-see-all="true"></NotificationList>
+          </div>
         </div>
+      <div v-else></div>
 <!--        <div>-->
 <!--            <button @click="$emit('onRightMenuClick')"-->
 <!--                class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">-->
@@ -47,10 +54,19 @@
     </div>
 </template>
 <script>
+import NotificationList from "@/features/components/NotificationList.vue";
+
 export default {
+  components: {NotificationList},
   data() {
     return {
-      active: true
+      active: false
+    }
+  },
+  props: {
+    showAlert: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {

@@ -27,7 +27,7 @@ export default defineComponent({
   <AppShell :navbarExpanded="showLeftNavbar" :rightNavbarExpanded="showRightNavbar" :full-sidebar="true"
             :showNavBar="showNavBar">
     <template #header>
-      <Header @on-menu-click="
+      <Header :show-alert="false" @on-menu-click="
     showLeftNavbar = !showLeftNavbar;
             " @on-right-menu-click="
     showRightNavbar = !showRightNavbar;
