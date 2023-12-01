@@ -22,8 +22,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ConfirmPopup from 'primevue/confirmpopup';
 import Carousel from 'primevue/carousel';
-
-
+import {getMessaging, getToken} from "firebase/messaging";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VUE_APP_FIREBASE_API_KEY || 'AIzaSyBgXVtMkTVYqKDyPk2MnbR4ZXkQ44pYDJs',
@@ -35,6 +34,20 @@ const firebaseConfig = {
     appId: import.meta.env.VUE_APP_FIREBASE_APP_ID || '1:772685687500:web:5ae7e6d49250335f543069',
     measurementId: import.meta.env.VUE_APP_FIREBASE_MEASUREMENT_ID || 'G-N6P4XVLF0L'
 };
+
+const firebaseApp = initializeApp(firebaseConfig);
+const messaging = getMessaging(firebaseApp)
+getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'}).then((currentToken) => {
+    if (currentToken) {
+        console.log('currentToken', currentToken)
+        window.$cookies.remove('fcmToken')
+        window.$cookies.set('fcmToken', currentToken)
+    } else {
+        console.log('get fcmToken error')
+    }
+}).catch((e) => {
+    console.log('An error occurred while retrieving token. ', e);
+})
 
 const firebase = initializeApp(firebaseConfig);
 library.add(faSpinner)
