@@ -3,7 +3,7 @@ import App from './App.vue'
 import VueCookies from 'vue-cookies'
 import store from "@/store";
 import router from "@/router";
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 import './assets/css/index.css'
 import initAxios from './api'
 import axios from "axios";
@@ -12,10 +12,11 @@ import 'virtual:windi.css'
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import Calendar from 'primevue/calendar'
 
+import notificationApi from "@/api/notification";
 // import 'primevue/resources/themes/lara-dark-teal/theme.css'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner, faEllipsis, faCheck, faBell } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSpinner, faEllipsis, faCheck, faBell, faCircle} from '@fortawesome/free-solid-svg-icons'
 
 import Menu from 'primevue/menu';
 import Button from 'primevue/button';
@@ -39,9 +40,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp)
 getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'}).then((currentToken) => {
     if (currentToken) {
-        console.log('currentToken', currentToken)
         window.$cookies.remove('fcmToken')
         window.$cookies.set('fcmToken', currentToken)
+        notificationApi.addFcmToken({fcmToken: currentToken})
     } else {
         console.log('get fcmToken error')
     }
@@ -54,10 +55,11 @@ library.add(faSpinner)
 library.add(faEllipsis)
 library.add(faCheck)
 library.add(faBell)
+library.add(faCircle)
 
 const app = Vue.createApp(App)
 initAxios({$axios: axios, store, app, $cookies: window.$cookies})
-app.use(VueCookies, { expires: '7d'})
+app.use(VueCookies, {expires: '7d'})
 app.use(store)
 app.use(router)
 app.use(PrimeVue)

@@ -45,3 +45,17 @@ export function genImageUrl(endpoint) {
     if (protocol === 'http' || protocol === 'https') return endpoint
     else return `${imageUrl}${endpoint}`
 }
+
+export function genTime(createdAt) {
+    const currentTime = Math.floor(new Date() / 1000)
+    const diff = currentTime - createdAt
+    if (0 < diff && diff <= 60) {
+        return `${diff} giây trước`
+    } else if (60 < diff && diff  <= 3600) {
+        return `${Math.floor(diff / 60)} phút trước`
+    } else if (3600 < diff && diff <= 3600 * 24) {
+        return `${Math.floor(diff / 3600)} giờ trước`
+    } else {
+        return `${Math.floor(diff / 3600 / 24)} ngày trước`
+    }
+}

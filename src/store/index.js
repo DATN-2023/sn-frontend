@@ -4,6 +4,7 @@ import feed from "@/store/modules/feed";
 import upload from "@/store/modules/upload";
 import user from '@/store/modules/user'
 import group from '@/store/modules/group'
+import notification from "@/store/modules/notification";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -13,7 +14,8 @@ export default createStore({
         feed,
         upload,
         user,
-        group
+        group,
+        notification
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

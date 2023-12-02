@@ -12,20 +12,22 @@ export default defineComponent({
         active: 0,
         configs: [
           {
-            onClick: this.onShowAll(),
+            onClick: this.onShowAll,
             title: 'Tất cả',
             show: true,
             total: 0
           },
           {
-            onClick: this.onShowDontRead(),
+            onClick: this.onShowDontRead,
             title: 'Chưa đọc',
             show: true,
             total: 0
           }
         ]
       },
-      active: false
+      active: false,
+      notifications: [],
+      totalUnread: 0
     }
   },
   props: {
@@ -35,11 +37,17 @@ export default defineComponent({
     }
   },
   methods: {
-    onShowAll() {
-
+    async onShowAll(index) {
+      this.navBavConfig.active = index
+      const res = await this.$store.dispatch('notification/getNotifications', {})
+      this.notifications = res?.data || []
+      this.$emit('setTotalUnread', res?.totalUnread || 0)
     },
-    onShowDontRead() {
-
+    async onShowDontRead(index) {
+      this.navBavConfig.active = index
+      const res = await this.$store.dispatch('notification/getNotifications', {hasRead: 0})
+      this.notifications = res?.data || []
+      this.$emit('setTotalUnread', res?.totalUnread || 0)
     },
     hide(event) {
       this.active = false
@@ -49,8 +57,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    // prevent click outside event with popupItem.
-    // this.popupItem = this.$el
+    this.onShowAll(0)
   },
   // do not forget this section
   directives: {
@@ -60,7 +67,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-full bg-ll-neutral dark:bg-ld-neutral p-4 text-gray-800 dark:text-gray-300 rounded-lg">
+  <div class="w-full bg-ll-neutral dark:bg-ld-neutral border-1 border-ll-border dark:border-ld-border p-4 text-gray-800 dark:text-gray-300 rounded-lg">
     <div class="flex flex-row justify-between">
       <div class="font-bold text-2xl">Thông báo</div>
       <div class="self-center text-center cursor-pointer relative">
@@ -79,13 +86,11 @@ export default defineComponent({
     <div class="flex flex-row mt-2">
       <button v-for="(value, index) in navBavConfig.configs" v-show="value.show"
               :class="`${navBavConfig.active === index ? 'p-2 rounded-xl w-100px bg-ll-primary font-medium text-white mr-1' : 'rounded-xl w-100px p-2 font-medium hover:bg-ll-primary hover:text-white mr-1' }`"
-              @click="navBavConfig.active = index, value.onClick">{{ value.title }}
+              @click="value.onClick(index)">{{ value.title }}
       </button>
     </div>
     <div class="mt-8">
-      <NotificationItem class="border-b-1 py-4"></NotificationItem>
-      <NotificationItem class="border-b-1 py-4"></NotificationItem>
-      <NotificationItem class="border-b-1 py-4"></NotificationItem>
+      <NotificationItem @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications" class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
     </div>
     <div class="text-center pt-2" v-show="activeSeeAll">
       <button
