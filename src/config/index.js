@@ -49,7 +49,7 @@ export function genImageUrl(endpoint) {
 export function genTime(createdAt) {
     const currentTime = Math.floor(new Date() / 1000)
     const diff = currentTime - createdAt
-    if (0 < diff && diff <= 60) {
+    if (0 <= diff && diff <= 60) {
         return `${diff} giây trước`
     } else if (60 < diff && diff  <= 3600) {
         return `${Math.floor(diff / 60)} phút trước`

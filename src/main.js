@@ -43,11 +43,6 @@ getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cB
     console.log('An error occurred while retrieving token. ', e);
 })
 
-onMessage(messaging, (payload) => {
-    console.log('Message received. ', payload);
-    // ...
-});
-
 library.add(faSpinner)
 library.add(faEllipsis)
 library.add(faCheck)
@@ -55,6 +50,7 @@ library.add(faBell)
 library.add(faCircle)
 
 const app = Vue.createApp(App)
+app.config.globalProperties.$messaging = messaging
 initAxios({$axios: axios, store, app, $cookies: window.$cookies})
 app.use(VueCookies, {expires: '7d'})
 app.use(store)

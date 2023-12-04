@@ -54,10 +54,24 @@ export default defineComponent({
     },
     onClickSeeAll() {
       this.$router.push({path: '/notification'})
+    },
+    incTotalUnread() {
+      this.totalUnread++
+      this.$emit('setTotalUnread', this.totalUnread || 0)
+      this.onShowAll(0)
     }
   },
   mounted() {
     this.onShowAll(0)
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.addEventListener("message", async (e) => {
+        try {
+          this.incTotalUnread()
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    }
   },
   // do not forget this section
   directives: {
@@ -67,7 +81,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-full bg-ll-neutral dark:bg-ld-neutral border-1 border-ll-border dark:border-ld-border p-4 text-gray-800 dark:text-gray-300 rounded-lg">
+  <div
+      class="w-full bg-ll-neutral dark:bg-ld-neutral border-1 border-ll-border dark:border-ld-border p-4 text-gray-800 dark:text-gray-300 rounded-lg">
     <div class="flex flex-row justify-between">
       <div class="font-bold text-2xl">Thông báo</div>
       <div class="self-center text-center cursor-pointer relative">
@@ -90,7 +105,8 @@ export default defineComponent({
       </button>
     </div>
     <div class="mt-8">
-      <NotificationItem @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications" class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
+      <NotificationItem @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications"
+                        class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
     </div>
     <div class="text-center pt-2" v-show="activeSeeAll">
       <button

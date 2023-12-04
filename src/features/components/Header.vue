@@ -73,10 +73,6 @@ export default {
   methods: {
     onClickAlert() {
       this.active = !this.active
-    },
-    displayTotalUnread() {
-      if (!this.totalUnread) return ''
-      return
     }
   }
 }
