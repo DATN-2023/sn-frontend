@@ -21,6 +21,9 @@ const actions = {
     },
     updateNotification({}, id) {
         return notificationApi.updateNotification(id)
+    },
+    deleteFcmtoken({}, body) {
+        return notificationApi.deleteFcmtoken(body)
     }
 }
 

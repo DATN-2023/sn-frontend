@@ -20,6 +20,22 @@ const notificationApi = {
             return false
         }
     },
+    async deleteFcmtoken(body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/fcmtokens`,
+                json: true,
+                data: body,
+                method: 'DELETE'
+            }
+            const {data} = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error deleteFcmtoken')
+            return false
+        }
+    },
     async getNotifications(q) {
         try {
             const options = {

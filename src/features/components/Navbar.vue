@@ -22,7 +22,9 @@ export default {
                 </svg>
                 `,
             path: '/',
-            onClick: () => {this.$router.push('/')}
+            onClick: () => {
+              this.$router.push('/')
+            }
           },
           {
             index: 1,
@@ -34,7 +36,9 @@ export default {
 
                   `,
             path: '/group',
-            onClick: () => {this.$router.push('/group')}
+            onClick: () => {
+              this.$router.push('/group')
+            }
           },
           // {
           //     index: 6,
@@ -64,6 +68,9 @@ export default {
                 </svg>                  `,
             path: '/',
             onClick: async () => {
+              const fcmToken = window.$cookies.get('fcmToken')
+              console.log('fcmToken', fcmToken)
+              await this.$store.dispatch('notification/deleteFcmtoken', {fcmToken})
               await this.$store.dispatch('auth/removeToken')
               this.$router.push('/login')
             }
