@@ -17,7 +17,7 @@ const notificationApi = {
             return data
         } catch (e) {
             console.error('error addFcmToken')
-            return {}
+            return false
         }
     },
     async getNotifications(q) {

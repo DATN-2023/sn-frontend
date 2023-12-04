@@ -8,24 +8,8 @@ export default function ({$axios, store, app, $cookies}) {
         const code = parseInt(failedRequest.response && failedRequest.response.status)
         switch (code) {
             case appConfig.httpCode.UNAUTHORIZED:
-                let visitorId = Math.random().toString(36)
-                visitorId = $cookies.get(VISITOR_ID)
-                if (!visitorId) {
-                    visitorId = Math.random().toString(36)
-                }
-
-                const data = {
-                    deviceType: appConfig.deviceTypes.BROWSER,
-                    deviceId: visitorId,
-                    versionCode: '2'
-                }
-                const {data: res} = await store.dispatch('auth/refreshToken')
-                console.log('enterGuest', res)
-                app.$axios.setHeader('x-access-token', res.token)
-                app.$cookies.set(TOKEN_KEY, res.token)
-                store.dispatch('auth/checkGuest', true)
-                console.log('testtt')
-                window.location.reload()
+                const endpoint = window.location.pathname
+                if (endpoint !== '/login') window.location.replace('/login')
                 return Promise.resolve()
             case appConfig.httpCode.TOKEN_EXPIRED:
                 try {

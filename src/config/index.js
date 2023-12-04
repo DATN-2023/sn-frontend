@@ -1,5 +1,6 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import config from "./config";
+import notificationApi from "@/api/notification";
 
 const {urlConfig: {imageUrl}} = config
 

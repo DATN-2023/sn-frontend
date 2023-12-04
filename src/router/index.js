@@ -47,29 +47,16 @@ const router = VueRouter.createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    if (!store.getters['auth/token'] || store.getters['auth/isGuest']) {
-        const visitorId = window.$cookies.get(VISITOR_ID)
-        if (!visitorId) {
-            const fp = await FingerprintJS.load({})
-            const result = await fp.get()
-            const visitorId = result.visitorId
-            window.$cookies.set(VISITOR_ID, visitorId)
-            await store.dispatch('auth/checkGuest', true)
-        } else {
-            const isFakeId = !!window.$cookies.get(FAKE_DEVICEID)
-            if (isFakeId) {
-                const data = {
-                    deviceType: appConfig.deviceTypes.WEB,
-                    deviceId: visitorId,
-                    versionCode: '1'
-                }
-                const {data: res} = await authApi.enterGuest(data)
-                this.$cookies.set(TOKEN_KEY, res.token)
-                await store.dispatch('auth/checkGuest', true)
-                window.$cookies.remove(FAKE_DEVICEID)
-            }
-        }
+    const visitorId = window.$cookies.get(VISITOR_ID)
+    if (!visitorId) {
+        const fp = await FingerprintJS.load({})
+        const result = await fp.get()
+        const visitorId = result.visitorId
+        window.$cookies.set(VISITOR_ID, visitorId)
     }
+    const token = window.$cookies.get(TOKEN_KEY)
+    if (to.path === '/login' && token)  router.push('/')
+    else if (to.path !== '/login' && !token) router.push('/login')
 })
 
 export default router

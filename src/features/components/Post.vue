@@ -1,7 +1,7 @@
 <script>
 
 import config from "@/config/config";
-import {formatDate, stringToSlug} from "@/config";
+import {formatDate, stringToSlug, genImageUrl} from "@/config";
 import Comment from "@/features/components/Comment.vue";
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
@@ -38,9 +38,7 @@ export default {
       description = description.replace(/#(\S*)/g, '<a class="text-ll-primary" href="/search/$1">#$1</a>');
       return description;
     },
-    genImageUrl(endpoint) {
-      return `${imageUrl}${endpoint}`
-    },
+    genImageUrl,
     formatDate(date) {
       return formatDate(date)
     },
@@ -161,7 +159,7 @@ export default {
       <div class="flex items-center">
         <div @click="onRoutingUser"
             class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="post.user.avatar || ''"
+          <img :src="genImageUrl(post.user.avatar || '')"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">

@@ -1,7 +1,7 @@
 <script>
 import {defineComponent} from 'vue'
 import vClickOutside from "click-outside-vue3";
-import {genTime} from '@/config'
+import {genTime, genImageUrl} from '@/config'
 
 export default defineComponent({
   name: "NotificationItem",
@@ -17,6 +17,7 @@ export default defineComponent({
     }
   },
   methods: {
+    genImageUrl,
     genTime,
     hide(event) {
       this.active = false
@@ -38,7 +39,7 @@ export default defineComponent({
     <div class="w-14px" v-if="notification?.hasRead"></div>
     <font-awesome-icon v-else :icon="['fas', 'circle']" class="text-ll-primary self-center w-12px text-xs"/>
     <img class="h-16 w-16 self-center rounded-full"
-         :src="notification?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'" alt="">
+         :src="genImageUrl(notification?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp')" alt="">
     <div class="flex justify-between w-full space-x-2 self-center">
       <div>
         <div class="text-sm"><p class="bold inline">{{ `${notification.user.name}` }}</p> {{ `${notification.content}` }}</div>

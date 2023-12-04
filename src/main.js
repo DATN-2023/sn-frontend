@@ -30,18 +30,24 @@ const {firebaseConfig} = config
 
 const firebaseApp = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp)
-getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'}).then((currentToken) => {
+
+const handleFcmToken = (currentToken) => {
     if (currentToken) {
         console.log('fcmtoken', currentToken)
         window.$cookies.remove('fcmToken')
         window.$cookies.set('fcmToken', currentToken)
-        notificationApi.addFcmToken({fcmToken: currentToken})
+        notificationApi.addFcmToken({fcmToken: currentToken}).then((data) => {
+            if (!data && window.location.pathname !== '/login') setTimeout(() => handleFcmToken(currentToken))
+        }, 2000)
     } else {
         console.log('get fcmToken error')
     }
-}).catch((e) => {
-    console.log('An error occurred while retrieving token. ', e);
-})
+}
+getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'})
+    .then((currentToken) => handleFcmToken(currentToken))
+    .catch((e) => {
+        console.log('An error occurred while retrieving token. ', e);
+    })
 
 library.add(faSpinner)
 library.add(faEllipsis)

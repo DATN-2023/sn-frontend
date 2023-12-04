@@ -2,6 +2,7 @@
 
 import PostCreation from "@/features/components/PostCreation.vue";
 import GroupCreation from "@/features/components/GroupCreation.vue";
+import {genImageUrl} from "@/config";
 
 export default {
   components: {GroupCreation, PostCreation},
@@ -20,7 +21,8 @@ export default {
                         d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                 </svg>
                 `,
-            path: '/'
+            path: '/',
+            onClick: () => {this.$router.push('/')}
           },
           {
             index: 1,
@@ -31,7 +33,8 @@ export default {
               </svg>
 
                   `,
-            path: '/group'
+            path: '/group',
+            onClick: () => {this.$router.push('/group')}
           },
           // {
           //     index: 6,
@@ -52,15 +55,19 @@ export default {
           //     </svg>
           //         `
           // },
-          // {
-          //     index: 3,
-          //     name: "Direct",
-          //     icon: `
-          //     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          //     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-          //     </svg>
-          //         `
-          // },
+          {
+            index: 2,
+            name: "Logout",
+            icon: `
+                <svg xmlns="http://www.w3.org/2000/svg"  class="w-5 h-5 ml-1 text-gray-700 dark:text-200" fill="currentColor" viewBox="0 0 512 512">
+                <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/>
+                </svg>                  `,
+            path: '/',
+            onClick: async () => {
+              await this.$store.dispatch('auth/removeToken')
+              this.$router.push('/login')
+            }
+          },
           // {
           //     index: 4,
           //     name: "Stars",
@@ -105,8 +112,11 @@ export default {
     }
   },
   methods: {
-    getAvatar() {
-      this.user = this.$store.getters['auth/userInfo']
+    genImageUrl,
+    async getUser() {
+      this.user = await this.$store.dispatch('user/getUserById', 'me')
+      await this.$store.dispatch('auth/setUserInfo', this.user)
+      console.log('user', this.user)
     }
   },
   watch: {
@@ -115,7 +125,7 @@ export default {
     }
   },
   mounted() {
-    this.getAvatar()
+    this.getUser()
     this.menus.active = this.$props.activateIndex
   }
 }
@@ -128,7 +138,7 @@ export default {
     <div class="profile flex flex-col justify-center items-center">
       <div
           :class="`avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
-        <img :src="user?.avatar || ''" class="w-full h-full  rounded-full object-cover"
+        <img :src="genImageUrl(user?.avatar || '')" class="w-full h-full  rounded-full object-cover"
              alt="">
 
         <div
@@ -145,25 +155,25 @@ export default {
       <!--            <p class="-mt-1 text-sm" v-if="this.$props.isExpanded">toi la quy</p>-->
     </div>
 
-    <div v-if="this.$props.isExpanded"
-         class="w-full flex justify-between mt-5 pb-5 border-b border-ll-border dark:border-ld-border">
-      <div class="flex flex-col justify-center items-center">
-        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">255</p>
-        <p class="-mt-1 text-xs">Posts</p>
-      </div>
-      <div class="flex flex-col justify-center items-center">
-        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">298.45K</p>
-        <p class="-mt-1 text-xs">Followers</p>
-      </div>
-      <div class="flex flex-col justify-center items-center">
-        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">20.5M</p>
-        <p class="-mt-1 text-xs">Following</p>
-      </div>
-    </div>
+    <!--    <div v-if="this.$props.isExpanded"-->
+    <!--         class="w-full flex justify-between mt-5 pb-5 border-b border-ll-border dark:border-ld-border">-->
+    <!--      <div class="flex flex-col justify-center items-center">-->
+    <!--        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">255</p>-->
+    <!--        <p class="-mt-1 text-xs">Posts</p>-->
+    <!--      </div>-->
+    <!--      <div class="flex flex-col justify-center items-center">-->
+    <!--        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">298.45K</p>-->
+    <!--        <p class="-mt-1 text-xs">Followers</p>-->
+    <!--      </div>-->
+    <!--      <div class="flex flex-col justify-center items-center">-->
+    <!--        <p class="text-lg font-bold text-gray-800 dark:text-gray-300">20.5M</p>-->
+    <!--        <p class="-mt-1 text-xs">Following</p>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <ul :class="`flex flex-col w-full pt-5 ${this.$props.isExpanded ? '' : 'justify-center flex '}`">
       <li v-for="(menu, index) in menus.menusList" :key="menu.name"
           :class="` w-full py-2  flex items-center ${this.$props.isExpanded ? 'mb-2' : 'justify-center mb-4'} ${menu.index === menus.active ? 'text-ll-primary' : ''} cursor-pointer active:scale-95 transform transition-transform select-none`"
-          @click="this.$router.push(menu.path), $.emit('onCloseNavbar', false), menus.active = menu.index">
+          @click="$.emit('onCloseNavbar', false), menus.active = menu.index, menu.onClick()">
         <div v-html="menu.icon"></div>
         <p v-if="this.$props.isExpanded" class="ml-5 text-sm">{{ menu.name }}</p>
 

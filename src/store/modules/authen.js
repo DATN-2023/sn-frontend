@@ -112,10 +112,8 @@ const actions = {
         await authApi.logout()
         dispatch('removeUserInfo')
         dispatch('removeToken')
-        await dispatch('enterGuest')
     },
     async refreshToken({dispatch}) {
-        console.log('testtt refresh')
         const res = await authApi.refreshToken()
         console.log('refreshToken', res)
         dispatch('setToken', res.token)
@@ -151,11 +149,11 @@ const mutations = {
     },
     REMOVE_TOKEN(state) {
         state.token = null
-        this.$cookies.remove(TOKEN_KEY)
+        window.$cookies.remove(TOKEN_KEY)
     },
     CHECK_GUEST(state, payload) {
         state.isGuest = payload
-        this.$cookies.set(GUEST_KEY, payload)
+        window.$cookies.set(GUEST_KEY, payload)
     },
     CHANGE_LOGIN_STATUS(state, status) {
         state.isLoggedIn = status

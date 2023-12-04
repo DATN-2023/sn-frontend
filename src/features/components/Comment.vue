@@ -1,6 +1,7 @@
 <script>
 import {defineComponent} from 'vue'
 import config from '@/config/config'
+import {genImageUrl} from '@/config'
 
 const {urlConfig: {imageUrl}, reactionTargetType, reactionType} = config
 
@@ -21,9 +22,7 @@ export default defineComponent({
     }
   },
   methods: {
-    genImageUrl(endpoint) {
-      return `${imageUrl}${endpoint}`
-    },
+    genImageUrl,
     generateDescription() {
       let description = this.comment.content ? this.comment.content.trim().split('\n').join('<br>')
           : 'What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
@@ -100,7 +99,7 @@ export default defineComponent({
       <div class="flex items-center gap-2">
         <div
             class="flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="comment?.user?.avatar || ''"
+          <img :src="genImageUrl(comment?.user?.avatar || '')"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2 relative">

@@ -13,9 +13,10 @@
 </template>
 
 <script>
-import {getAuth, signInWithPopup, getRedirectResult, GoogleAuthProvider} from "firebase/auth";
+import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import platform from 'platform'
 import {getFingerPrintBrowser} from "@/config";
+import notificationApi from "@/api/notification";
 
 const googleProvider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -71,6 +72,8 @@ export default {
               this.loading = false
             }
             this.isSignedIn = true;
+            const fcmToken = window.$cookies.get('fcmToken')
+            notificationApi.addFcmToken({fcmToken})
           }).catch((error) => {
         console.error(error);
       });
