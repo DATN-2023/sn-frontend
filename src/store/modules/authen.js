@@ -115,7 +115,6 @@ const actions = {
     },
     async refreshToken({dispatch}) {
         const res = await authApi.refreshToken()
-        console.log('refreshToken', res)
         dispatch('setToken', res.token)
         return res.token
     }

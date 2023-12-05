@@ -33,7 +33,6 @@ const messaging = getMessaging(firebaseApp)
 
 const handleFcmToken = (currentToken) => {
     if (currentToken) {
-        console.log('fcmtoken', currentToken)
         window.$cookies.remove('fcmToken')
         window.$cookies.set('fcmToken', currentToken)
         notificationApi.addFcmToken({fcmToken: currentToken}).then((data) => {

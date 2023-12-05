@@ -2,7 +2,6 @@
 
 import Post from '../components/Post.vue'
 import config from "@/config/config"
-import {TOKEN_KEY} from "@/config/constants";
 
 const {feedType} = config
 

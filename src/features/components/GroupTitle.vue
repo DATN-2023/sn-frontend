@@ -22,7 +22,6 @@ export default defineComponent({
         group: this.$props.group._id
       }
       const userGroup = await this.$store.dispatch('group/createUserGroup', body)
-      console.log('userGroup', userGroup)
       this.$props.group.userStatus = userGroup.status
     },
     async onPending() {

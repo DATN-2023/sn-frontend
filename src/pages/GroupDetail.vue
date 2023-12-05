@@ -118,7 +118,6 @@ export default defineComponent({
     async getDetailGroup() {
       this.group = await this.$store.dispatch('group/getGroupById', this.$route.params.id)
       await this.getFeeds()
-      console.log('isMode', this.group?.isMod)
       if (this.group?.isMod) {
         this.navBavConfig.configs[1].show = true
         await this.getPendingUserGroups()
@@ -135,7 +134,6 @@ export default defineComponent({
       })
       this.navBavConfig.configs[1].total = userGroups.total
       this.pendingUsers = userGroups?.data || []
-      console.log('userGroups', userGroups)
     },
     onApproveAndDeleteUser(index) {
       this.navBavConfig.configs[1].total--

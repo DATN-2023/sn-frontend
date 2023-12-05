@@ -2,10 +2,12 @@
 import {defineComponent} from 'vue'
 import NotificationItem from "@/features/components/NotificationItem.vue";
 import vClickOutside from 'click-outside-vue3'
+import InfiniteLoading from "v3-infinite-loading";
+import "v3-infinite-loading/lib/style.css";
 
 export default defineComponent({
   name: "NotificationList",
-  components: {NotificationItem},
+  components: {NotificationItem, InfiniteLoading},
   data() {
     return {
       navBavConfig: {
@@ -27,7 +29,9 @@ export default defineComponent({
       },
       active: false,
       notifications: [],
-      totalUnread: 0
+      totalUnread: 0,
+      page: 0,
+      isLoadmore: 1
     }
   },
   props: {
@@ -37,17 +41,25 @@ export default defineComponent({
     }
   },
   methods: {
+    async getNotification(q = {}) {
+      const res = await this.$store.dispatch('notification/getNotifications', q)
+      this.notifications = this.notifications.concat(res?.data || [])
+      this.page = +res?.page || 0
+      this.isLoadmore = this.notifications.length < res.total;
+      this.$emit('setTotalUnread', res?.totalUnread || 0)
+      return res
+    },
     async onShowAll(index) {
       this.navBavConfig.active = index
-      const res = await this.$store.dispatch('notification/getNotifications', {})
-      this.notifications = res?.data || []
-      this.$emit('setTotalUnread', res?.totalUnread || 0)
+      this.notifications = []
+      this.isLoadmore = 1
+      await this.getNotification()
     },
     async onShowDontRead(index) {
       this.navBavConfig.active = index
-      const res = await this.$store.dispatch('notification/getNotifications', {hasRead: 0})
-      this.notifications = res?.data || []
-      this.$emit('setTotalUnread', res?.totalUnread || 0)
+      this.notifications = []
+      this.isLoadmore = 1
+      await this.getNotification({hasRead: 0})
     },
     hide(event) {
       this.active = false
@@ -59,6 +71,21 @@ export default defineComponent({
       this.totalUnread++
       this.$emit('setTotalUnread', this.totalUnread || 0)
       this.onShowAll(0)
+    },
+    async loadItem($state) {
+      try {
+        console.log('loading...', this.page)
+        let res
+        if (this.navBavConfig.active === 0) {
+          res = await this.getNotification({page: this.page + 1})
+        } else if (this.navBavConfig.active === 1) {
+          res = await this.getNotification({page: this.page + 1, hasRead: 0})
+        }
+        if (this.isLoadmore) $state.loaded()
+        // $state.loaded();
+      } catch (e) {
+        $state.error()
+      }
     }
   },
   mounted() {
@@ -104,9 +131,14 @@ export default defineComponent({
               @click="value.onClick(index)">{{ value.title }}
       </button>
     </div>
-    <div class="mt-8">
+    <div class="mt-8 overflow-y-auto h-500px">
       <NotificationItem @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications"
                         class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
+      <InfiniteLoading @infinite="loadItem">
+        <template #spinner>
+          <span></span>
+        </template>
+      </InfiniteLoading>
     </div>
     <div class="text-center pt-2" v-show="activeSeeAll">
       <button

@@ -175,12 +175,13 @@ const authApi = {
             return {}
         }
     },
-    async getFeedsOfUser (id) {
+    async getFeedsOfUser (q) {
         try {
             const options = {
                 headers: {},
-                url: `${serverUrl}/feeds/users/${id}`,
+                url: `${serverUrl}/feeds/users/`,
                 json: true,
+                params: q,
                 method: 'GET'
             }
             const { data } = await axios(options)

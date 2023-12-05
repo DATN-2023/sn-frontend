@@ -79,13 +79,11 @@ export default defineComponent({
       const body = this.$props.user
       const id = body._id
       delete body._id
-      console.log('date', this.date / 1000)
       body.description = this.description
       body.name = this.name
       body.dob = Math.floor(this.date / 1000)
       body.place = this.place
       const user = await this.$store.dispatch('user/updateUser', {id, body})
-      console.log('user', user)
       this.visible = false
     }
   },

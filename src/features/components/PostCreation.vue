@@ -59,7 +59,6 @@ export default {
         body.groupId = this.$props.groupId
       }
       const post = await this.$store.dispatch('feed/createFeed', body)
-      console.log('post', post)
       this.files = []
       this.preview = []
       this.images = []

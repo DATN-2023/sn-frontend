@@ -99,13 +99,11 @@ export default {
       this.$props.post.commentTotal--
     },
     onRoutingUser() {
-      this.$router.push({path: `/user/${this.$props.post?.user?._id}`})
+      this.$router.push({path: `/user/${this.$props.post?.user?.customerId}`})
     }
   },
   mounted() {
-    const userInfo = this.$store.getters['auth/userInfo']
-    const id = userInfo ? userInfo._id : ''
-    if (this.$props.post.createdBy === id) {
+    if (this.$props.post.isOwn) {
       this.items = [
         {
           label: 'Xem chi tiết',
@@ -159,11 +157,11 @@ export default {
       <div class="flex items-center">
         <div @click="onRoutingUser"
             class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(post.user.avatar || '')"
+          <img :src="genImageUrl(post?.user?.avatar || '')"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
-          <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post.user.name || 'Anonymous' }}</p>
+          <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post?.user?.name || 'Anonymous' }}</p>
           <p class="-mt-1">{{ formatDate(new Date(post.createdAt * 1000)) }}</p>
         </div>
 

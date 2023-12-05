@@ -63,13 +63,11 @@ export default defineComponent({
     },
     async getRecommendGroups() {
       const res = await this.$store.dispatch('group/getGroups')
-      console.log('getRecommendGroups', res)
       this.recommendGroups = res?.data || []
     },
     async getJoiningGroups() {
       const res = await this.$store.dispatch('group/getJoiningGroups')
       this.groups = res || []
-      console.log('getJoiningGroups', this.groups)
     }
   },
   mounted() {

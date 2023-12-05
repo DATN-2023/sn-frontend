@@ -5,10 +5,12 @@ import Navbar from "@/features/components/Navbar.vue";
 import AppShell from "@/features/components/AppShell.vue";
 import UserDetail from "@/features/components/UserDetail.vue";
 import {genImageUrl} from "@/config";
+import InfiniteLoading from "v3-infinite-loading";
+import "v3-infinite-loading/lib/style.css";
 
 export default {
   name: "Personal",
-  components: {UserDetail, AppShell, Navbar, Header, Feed},
+  components: {UserDetail, AppShell, Navbar, Header, Feed, InfiniteLoading},
   data() {
     return {
       showLeftNavbar: true,
@@ -19,7 +21,9 @@ export default {
       editionPost: {},
       indexEditionPost: null,
       showNavBar: false,
-      user: {}
+      user: {},
+      page: 0,
+      isLoadmore: 0
     }
   },
   methods: {
@@ -42,15 +46,16 @@ export default {
         this.user = await this.$store.dispatch('user/getUserById', id)
       }
     },
-    async getFeedsOfUser() {
-      const {id} = this.$route.params
-      let data
-      if (id === 'me') {
-        data = await this.$store.dispatch('feed/getFeedsOfUser', this.user.customerId)
-      } else {
-        data = await this.$store.dispatch('feed/getFeedsOfUser', id)
-      }
-      this.feeds = data.data || []
+    async getFeedsOfUser(q = {}) {
+      q.id = this.user.customerId
+      console.log('user', this.user)
+      const data = await this.$store.dispatch('feed/getFeedsOfUser', q)
+      console.log('feedsdata', data)
+      this.feeds = this.feeds.concat(data.data || [])
+      this.page = data.page || 0
+      this.isLoadmore = this.feeds.length < data.total
+      console.log('check', this.isLoadmore)
+      return data
     },
     async updateUser(id, body) {
       return this.$store.dispatch('user/updateUser', {id, body})
@@ -75,18 +80,31 @@ export default {
       await this.$store.dispatch('upload/uploadFile', {url: data.url, file, type: file.type})
       return {name: data.name}
     },
+    async loadFeedOfUser($state) {
+      console.log('loading...', this.page)
+      try {
+        if (this.isLoadmore) {
+          const feeds = await this.getFeedsOfUser({page: this.page + 1})
+          console.log('feeds', feeds)
+          $state.loaded()
+        }
+        console.log('check')
+      } catch (e) {
+        $state.error()
+      }
+    }
   },
   async mounted() {
     await this.getUserById()
-    this.getFeedsOfUser()
+    await this.getFeedsOfUser()
+    this.isLoadmore = 1
   }
 }
 </script>
 
 <template>
   <AppShell :navbarExpanded="showLeftNavbar" :rightNavbarExpanded="showRightNavbar" :full-sidebar="false"
-            :showNavBar="showNavBar"
-            @on-change-theme="warn">
+            :showNavBar="showNavBar">
     <template #header>
       <Header @on-menu-click="
     showLeftNavbar = !showLeftNavbar;
@@ -122,6 +140,11 @@ export default {
                   :showPostComposer="showComposePost"
                   @on-close-compose-post="showComposePost = !showComposePost"
                   @onEditPost="(index) => onEditPost(index)"></Feed>
+            <InfiniteLoading @infinite="loadFeedOfUser">
+              <template #spinner>
+                <span></span>
+              </template>
+            </InfiniteLoading>
           </div>
         </div>
       </div>

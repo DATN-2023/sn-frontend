@@ -69,7 +69,6 @@ export default {
             path: '/',
             onClick: async () => {
               const fcmToken = window.$cookies.get('fcmToken')
-              console.log('fcmToken', fcmToken)
               await this.$store.dispatch('notification/deleteFcmtoken', {fcmToken})
               await this.$store.dispatch('auth/removeToken')
               this.$router.push('/login')
@@ -123,7 +122,6 @@ export default {
     async getUser() {
       this.user = await this.$store.dispatch('user/getUserById', 'me')
       await this.$store.dispatch('auth/setUserInfo', this.user)
-      console.log('user', this.user)
     }
   },
   watch: {

@@ -110,9 +110,9 @@ const actions = {
             return {}
         }
     },
-    async getFeedsOfUser({dispatch, commit}, id) {
+    async getFeedsOfUser({dispatch, commit}, q) {
         try {
-            return feed.getFeedsOfUser(id)
+            return feed.getFeedsOfUser(q)
         } catch (e) {
             return {}
         }
