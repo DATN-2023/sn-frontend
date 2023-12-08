@@ -21,27 +21,14 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="flex flex-col py-2 overflow-y-auto space-y-2" style="height: calc(100vh - 221px);">
-<!--      <div class="bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[40%]">industry. Lorem Ipsum has been the-->
-<!--        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled-->
-<!--        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic-->
-<!--        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset-->
-<!--        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker-->
-<!--        including versions of Lorem Ipsum-->
-<!--      </div>-->
-<!--      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[40%]">industry. Lorem Ipsum has been the-->
-<!--        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled-->
-<!--        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic-->
-<!--        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset-->
-<!--        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker-->
-<!--        including versions of Lorem Ipsum</div>-->
-      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%]">industry. Lorem Ipsum has been the
+    <div class="flex flex-col py-2 overflow-y-auto space-y-2 px-2" style="height: calc(100vh - 221px);">
+      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white">industry. Lorem Ipsum has been the
         industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
         it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
         typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
         sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
         including versions of Lorem Ipsum</div>
-      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%]">industry. Lorem Ipsum has been the
+      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white">industry. Lorem Ipsum has been the
         industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
         it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
         typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
@@ -54,6 +41,7 @@ export default defineComponent({
         sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
         including versions of Lorem Ipsum
       </div>
+
     </div>
     <div class="flex px-2">
       <button @click="onUploadFiles"
