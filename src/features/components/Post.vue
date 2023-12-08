@@ -1,7 +1,7 @@
 <script>
 
 import config from "@/config/config";
-import {formatDate, stringToSlug, genImageUrl} from "@/config";
+import {formatDate, stringToSlug, genImageUrl, genTime} from "@/config";
 import Comment from "@/features/components/Comment.vue";
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
@@ -33,6 +33,7 @@ export default {
     }
   },
   methods: {
+    genTime,
     generateDescription() {
       let description = this.post.content.trim().split('\n').join('<br>');
       description = description.replace(/#(\S*)/g, '<a class="text-ll-primary" href="/search/$1">#$1</a>');
@@ -162,7 +163,7 @@ export default {
         </div>
         <div class="flex flex-col ml-2">
           <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post?.user?.name || 'Anonymous' }}</p>
-          <p class="-mt-1">{{ formatDate(new Date(post.createdAt * 1000)) }}</p>
+          <p class="-mt-1">{{ genTime(post.createdAt) }}</p>
         </div>
 
         <div class="flex text-ll-primary">
