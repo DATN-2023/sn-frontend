@@ -16,7 +16,7 @@ import notificationApi from "@/api/notification";
 // import 'primevue/resources/themes/lara-dark-teal/theme.css'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faSpinner, faEllipsis, faCheck, faBell, faCircle} from '@fortawesome/free-solid-svg-icons'
+import {faSpinner, faEllipsis, faCheck, faBell, faCircle, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
 
 import Menu from 'primevue/menu';
 import Button from 'primevue/button';
@@ -53,6 +53,7 @@ library.add(faEllipsis)
 library.add(faCheck)
 library.add(faBell)
 library.add(faCircle)
+library.add(faEllipsisVertical)
 
 const app = Vue.createApp(App)
 app.config.globalProperties.$messaging = messaging
