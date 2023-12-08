@@ -163,7 +163,7 @@ export default {
         </div>
         <div class="flex flex-col ml-2">
           <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post?.user?.name || 'Anonymous' }}</p>
-          <p class="-mt-1">{{ genTime(post.createdAt) }}</p>
+          <p class="-mt-1">{{ genTime(post?.createdAt || 0) }}</p>
         </div>
 
         <div class="flex text-ll-primary">
@@ -204,7 +204,7 @@ export default {
       </Dialog>
     </div>
 
-    <div v-if="post.images.length > 0"
+    <div v-if="post?.images && post.images.length > 0"
          :class="`images w-full h-70 bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 1) ? 'grid-cols-2' : 'grid-cols-1'} gap-2`">
       <div class="h-full">
         <img :src="genImageUrl(post.images[0])" class="w-full h-70   object-cover" alt="">

@@ -37,6 +37,10 @@ const routes = [
     {
         path: '/notification',
         component: () => import("@/pages/Notification.vue")
+    },
+    {
+        path: '/chat',
+        component: () => import("@/pages/Chat.vue")
     }
 ]
 

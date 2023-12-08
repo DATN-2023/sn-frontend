@@ -61,8 +61,8 @@ export default {
     async loadFeed($state) {
       try {
         const feeds = await this.getFeeds({page: this.page + 1})
-        if (feeds.data && !feeds.data.length) $state.complete()
-        else $state.loaded();
+        if (feeds.data && !feeds.data.length) $state.loaded()
+        // else $state.loaded();
       } catch (e) {
         $state.error()
       }
@@ -105,6 +105,9 @@ export default {
       </div>
       <InfiniteLoading @infinite="loadFeed">
         <template #complete>
+          <span></span>
+        </template>
+        <template #spinner>
           <span></span>
         </template>
       </InfiniteLoading>
