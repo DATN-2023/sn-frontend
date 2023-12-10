@@ -7,6 +7,10 @@ export default defineComponent({
     active: {
       type: Boolean,
       default: false
+    },
+    channel: {
+      type: Object,
+      default: {}
     }
   }
 })
@@ -14,10 +18,10 @@ export default defineComponent({
 
 <template>
   <div class="w-full rounded-md flex space-x-4 p-2 rounded-xl hover:bg-ll-border hover:dark:bg-ld-border cursor-pointer" :class="`${active ? 'bg-ll-border dark:bg-ld-border' : ''}`">
-    <img class="h-16 w-16 rounded-full" :src="user?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'" alt="">
+    <img class="h-16 w-16 rounded-full" :src="channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'" alt="">
     <div class="flex justify-between flex-1 space-x-2">
       <div class="self-center text-lg">
-        <div>{{user?.user?.name || 'Anonymous'}}</div>
+        <div>{{channel?.user?.name || 'Anonymous'}}</div>
         <div class="text-sm">Bạn: Hello bạn</div>
       </div>
       <div class="self-center">

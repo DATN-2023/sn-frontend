@@ -5,6 +5,7 @@ import AppShell from "@/features/components/AppShell.vue";
 import Header from "@/features/components/Header.vue";
 import ChatList from "@/features/components/ChatList.vue";
 import ChatDetail from "@/features/components/ChatDetail.vue";
+import {socket} from "@/plugins/socket";
 
 export default defineComponent({
   name: "Chat",
@@ -16,9 +17,27 @@ export default defineComponent({
       showComposePost: true,
       visible: false,
       indexEditionPost: null,
-      showNavBar: true
+      showNavBar: true,
+      channels: []
     }
   },
+  methods: {
+    connect() {
+      socket.connect();
+    },
+    disconnect() {
+      socket.disconnect();
+    },
+    handleGetChannel(payload) {
+      this.channels = this.channels.concat(payload?.data || [])
+      console.log('channels', this.channels)
+    }
+  },
+  mounted() {
+    this.connect()
+    socket.on('client:channel:getChannels', payload => this.handleGetChannel(payload))
+    socket.emit('channel:getChannels', { page: 1 })
+  }
 })
 </script>
 
@@ -44,7 +63,7 @@ export default defineComponent({
       <div class="flex h-full w-full bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300">
         <div
             class="bg-ll-neutral dark:bg-ld-neutral h-full w-350px pl-2 border-r-1 border-ll-border dark:border-ld-border">
-          <ChatList></ChatList>
+          <ChatList ></ChatList>
         </div>
         <div class="h-full flex-1">
           <ChatDetail></ChatDetail>

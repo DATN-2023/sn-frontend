@@ -35,9 +35,11 @@ const handleFcmToken = (currentToken) => {
     if (currentToken) {
         window.$cookies.remove('fcmToken')
         window.$cookies.set('fcmToken', currentToken)
-        // notificationApi.addFcmToken({fcmToken: currentToken}).then((data) => {
-            // if (!data && window.location.pathname !== '/login') setTimeout(() => handleFcmToken(currentToken))
-        // }, 2000)
+        notificationApi.addFcmToken({fcmToken: currentToken}).then((data) => {
+            if (!data && window.location.pathname !== '/login') {
+                setTimeout(() => handleFcmToken(currentToken), 2000)
+            }
+        })
     } else {
         console.log('get fcmToken error')
     }

@@ -22,7 +22,8 @@ export default {
       editionPost: {},
       indexEditionPost: null,
       showNavBar: true,
-      page: 0
+      page: 0,
+      isLoadmore: 1
     }
   },
   mounted() {
@@ -33,6 +34,7 @@ export default {
       const feeds = await this.$store.dispatch('feed/getFeed', q)
       this.feeds = this.feeds.concat(feeds.data)
       this.page = feeds.page
+      this.isLoadmore = this.feeds.length < feeds.total;
       return feeds
     },
     onCreatePost(body) {
@@ -61,7 +63,7 @@ export default {
     async loadFeed($state) {
       try {
         const feeds = await this.getFeeds({page: this.page + 1})
-        if (feeds.data && !feeds.data.length) $state.loaded()
+        if (this.isLoadmore) $state.loaded()
         // else $state.loaded();
       } catch (e) {
         $state.error()
@@ -73,7 +75,7 @@ export default {
 </script>
 <template>
   <AppShell :navbarExpanded="showLeftNavbar" :rightNavbarExpanded="showRightNavbar" :full-sidebar="true"
-            @on-change-theme="warn" :showNavBar="showNavBar">
+            :showNavBar="showNavBar">
     <template #header>
       <Header @on-menu-click="
     showLeftNavbar = !showLeftNavbar;
