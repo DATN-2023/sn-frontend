@@ -5,6 +5,7 @@ import upload from "@/store/modules/upload";
 import user from '@/store/modules/user'
 import group from '@/store/modules/group'
 import notification from "@/store/modules/notification";
+import chat from "@/store/modules/chat";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -15,7 +16,8 @@ export default createStore({
         upload,
         user,
         group,
-        notification
+        notification,
+        chat
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

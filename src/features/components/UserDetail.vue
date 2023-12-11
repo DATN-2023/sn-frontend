@@ -85,6 +85,14 @@ export default defineComponent({
       body.place = this.place
       const user = await this.$store.dispatch('user/updateUser', {id, body})
       this.visible = false
+    },
+    async onChat() {
+      const body = {
+        members: [this.user.customerId]
+      }
+      const data = await this.$store.dispatch('chat/createChannel', body)
+      if (!data) alert('create error')
+      else this.$router.push({path: '/chat'})
     }
   },
   data() {
@@ -145,6 +153,10 @@ export default defineComponent({
         Theo dõi
       </button>
     </div>
+    <button v-show="!displayEditPersonal()" @click="onChat"
+            class="mb-3 border-1 w-full rounded-lg p-2 border-ll-border dark:border-ld-border text-ll-primary bold hover:bg-ll-primary hover:text-white hover:dark:text-ld-neutral">
+      Nhắn tin
+    </button>
   </div>
   <Dialog :visible="visible" modal header="Chỉnh sửa thông tin cá nhân" @update:visible="setUp"
           :style="{ width: '30vw' }">
