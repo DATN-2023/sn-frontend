@@ -18,7 +18,10 @@ export default defineComponent({
       visible: false,
       indexEditionPost: null,
       showNavBar: true,
-      channels: []
+      channels: [],
+      channelActive: {},
+      user: {},
+      messages: []
     }
   },
   methods: {
@@ -30,13 +33,31 @@ export default defineComponent({
     },
     handleGetChannel(payload) {
       this.channels = this.channels.concat(payload?.data || [])
-      console.log('channels', this.channels)
+    },
+    onClickChannel(index) {
+      this.channels[index].active = 1
+      this.channelActive = this.channels[index]
+    },
+    onGetme(data) {
+      this.user = data
+      console.log('me', data)
+      socket.on(`client:channel:getChannels-${this.user?.customerId || ''}`, payload => this.handleGetChannel(payload))
+      socket.on(`client:listener-${this.user?.customerId || ''}`, payload => this.handleMessage(payload))
+      socket.emit('channel:getChannels', {page: 1})
+    },
+    handleMessage(payload) {
+      console.log('payload', payload)
+      if (payload.channel === this.channelActive._id) {
+        this.messages.push(payload)
+      }
+      // let channel
+      // for (const index in this.channels) {
+      //   channel = this.channels[index]
+      // }
     }
   },
   mounted() {
     this.connect()
-    socket.on('client:channel:getChannels', payload => this.handleGetChannel(payload))
-    socket.emit('channel:getChannels', { page: 1 })
   }
 })
 </script>
@@ -56,17 +77,17 @@ export default defineComponent({
       <Navbar :is-expanded="showLeftNavbar" @on-compose-post="showComposePost = !showComposePost"
               @onPostCreation="(data) => visible = data"
               @on-close-navbar="(v) => { showLeftNavbar = v }" :activate-index="2" :show-add-feed="0"
-              :show-add-group="0">
+              :show-add-group="0" @onGetMe="data => onGetme(data)">
       </Navbar>
     </template>
     <template #body>
       <div class="flex h-full w-full bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300">
         <div
             class="bg-ll-neutral dark:bg-ld-neutral h-full w-350px pl-2 border-r-1 border-ll-border dark:border-ld-border">
-          <ChatList ></ChatList>
+          <ChatList :channels="channels" @onClickChannel="onClickChannel"></ChatList>
         </div>
         <div class="h-full flex-1">
-          <ChatDetail></ChatDetail>
+          <ChatDetail v-show="Object.keys(channelActive).length" :channel="channelActive" :uid="this.user?.customerId" :messages="messages"></ChatDetail>
         </div>
       </div>
     </template>

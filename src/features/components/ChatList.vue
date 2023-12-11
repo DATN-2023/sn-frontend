@@ -10,6 +10,9 @@ export default defineComponent({
       type: Array,
       default: []
     }
+  },
+  methods: {
+
   }
 })
 </script>
@@ -19,13 +22,11 @@ export default defineComponent({
     <div class="text-2xl font-bold">Chat</div>
   </div>
   <div class="p-2 w-full">
-    <input type="text" placeholder="Search Messenger" class="w-full rounded-full bg-ll-border dark:bg-ld-border border-ll-border dark:border-ld-border h-40px">
+    <input type="text" placeholder="Search Messenger"
+           class="w-full rounded-full bg-ll-border dark:bg-ld-border border-ll-border dark:border-ld-border h-40px">
   </div>
   <div class="w-full overflow-y-auto" style="height: calc(100vh - 158px);">
-    <ChatItem v-for="item in channels"></ChatItem>
-    <ChatItem :active="true"></ChatItem>
-    <ChatItem></ChatItem>
-    <ChatItem></ChatItem>
+    <ChatItem @click="$emit('onClickChannel', index)" v-for="(item, index) in channels" :channel="item"></ChatItem>
   </div>
 </template>
 

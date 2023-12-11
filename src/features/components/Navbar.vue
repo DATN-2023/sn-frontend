@@ -126,6 +126,7 @@ export default {
     async getUser() {
       this.user = await this.$store.dispatch('user/getUserById', 'me')
       await this.$store.dispatch('auth/setUserInfo', this.user)
+      this.$emit('onGetMe', this.user)
     }
   },
   watch: {

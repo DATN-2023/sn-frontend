@@ -1,8 +1,37 @@
 <script>
 import {defineComponent} from 'vue'
+import {socket} from "@/plugins/socket";
 
 export default defineComponent({
-  name: "ChatDetail"
+  name: "ChatDetail",
+  props: {
+    channel: {
+      type: Object,
+      default: {}
+    },
+    messages: {
+      type: Array,
+      default: []
+    },
+    uid: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      content: ''
+    }
+  },
+  methods: {
+    onAddMessage() {
+      const payload = {
+        content: this.content,
+        channel: this.channel._id
+      }
+      console.log('payload', payload)
+      socket.emit('message:create', payload)
+    }
+  }
 })
 </script>
 
@@ -12,9 +41,9 @@ export default defineComponent({
       <div class="flex p-2 justify-between w-full">
         <div class="flex space-x-2">
           <img class="h-16 w-16 rounded-full"
-               :src="user?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'"
+               :src="channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'"
                alt="">
-          <div class="self-center bold">Anonymous</div>
+          <div class="self-center bold">{{ channel?.user?.name }}</div>
         </div>
         <div>
 
@@ -22,26 +51,10 @@ export default defineComponent({
       </div>
     </div>
     <div class="flex flex-col py-2 overflow-y-auto space-y-2 px-2" style="height: calc(100vh - 221px);">
-      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white">industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-        including versions of Lorem Ipsum</div>
-      <div class="self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white">industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-        including versions of Lorem Ipsum</div>
-      <div class="bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[70%]">industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-        it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-        typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-        including versions of Lorem Ipsum
+      <div v-for="message in messages"
+           :class="`${message.messageFrom === uid ? 'self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white' : 'bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[70%]'}`">
+            {{ message?.content || '' }}
       </div>
-
     </div>
     <div class="flex px-2">
       <button @click="onUploadFiles"
@@ -60,7 +73,7 @@ export default defineComponent({
         <div>
           <input type="file" ref="upload" hidden="" multiple @change="changeFileUpload">
         </div>
-        <button
+        <button @click="onAddMessage"
             class=" text-sm px-2 py-2 hover:bg-ll-base hover:dark:bg-ld-base text-white rounded-full flex items-center active:scale-95 transform transition-transform">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor"
