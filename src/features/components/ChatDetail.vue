@@ -1,9 +1,13 @@
 <script>
 import {defineComponent} from 'vue'
 import {socket} from "@/plugins/socket";
+import {genImageUrl} from "@/config";
+import InfiniteLoading from "v3-infinite-loading";
+import "v3-infinite-loading/lib/style.css";
 
 export default defineComponent({
   name: "ChatDetail",
+  components: {InfiniteLoading},
   props: {
     channel: {
       type: Object,
@@ -15,21 +19,48 @@ export default defineComponent({
     },
     uid: {
       type: String
+    },
+    isLoadmore: {
+      type: Number,
     }
   },
   data() {
     return {
-      content: ''
+      content: '',
+      page: 0,
+      isLoadmore: 1
     }
   },
   methods: {
+    genImageUrl,
     onAddMessage() {
       const payload = {
         content: this.content,
         channel: this.channel._id
       }
-      console.log('payload', payload)
       socket.emit('message:create', payload)
+      this.content = ''
+    },
+    async getMessages(q = {}) {
+      q.channel = this.channel._id.toString()
+      const data = await this.$store.dispatch('chat/getMessages', q)
+      const messages = (data?.data || []).reverse()
+      this.messages.unshift(...messages)
+      return data
+    },
+    async loadMessages($state) {
+      console.log('loading...', this.page)
+      try {
+        if (this.isLoadmore) {
+          const data = await this.getMessages({page: this.page + 1})
+          if (data && data.page * data.perPage >= data.total) this.isLoadmore = 0
+          this.page = data.page
+          $state.loaded()
+        }
+        console.log('check')
+      } catch (e) {
+        $state.error()
+      }
     }
   }
 })
@@ -41,7 +72,7 @@ export default defineComponent({
       <div class="flex p-2 justify-between w-full">
         <div class="flex space-x-2">
           <img class="h-16 w-16 rounded-full"
-               :src="channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'"
+               :src="genImageUrl(channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp')"
                alt="">
           <div class="self-center bold">{{ channel?.user?.name }}</div>
         </div>
@@ -51,9 +82,14 @@ export default defineComponent({
       </div>
     </div>
     <div class="flex flex-col py-2 overflow-y-auto space-y-2 px-2" style="height: calc(100vh - 221px);">
+      <InfiniteLoading @infinite="loadMessages">
+        <template #spinner>
+          <span></span>
+        </template>
+      </InfiniteLoading>
       <div v-for="message in messages"
            :class="`${message.messageFrom === uid ? 'self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white' : 'bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[70%]'}`">
-            {{ message?.content || '' }}
+        {{ message?.content || '' }}
       </div>
     </div>
     <div class="flex px-2">
@@ -74,7 +110,7 @@ export default defineComponent({
           <input type="file" ref="upload" hidden="" multiple @change="changeFileUpload">
         </div>
         <button @click="onAddMessage"
-            class=" text-sm px-2 py-2 hover:bg-ll-base hover:dark:bg-ld-base text-white rounded-full flex items-center active:scale-95 transform transition-transform">
+                class=" text-sm px-2 py-2 hover:bg-ll-base hover:dark:bg-ld-base text-white rounded-full flex items-center active:scale-95 transform transition-transform">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor"
                class="w-6 h-6 fill-ll-primary dark:fill-ld-primary text-ll-primary dark:text-ld-primary">

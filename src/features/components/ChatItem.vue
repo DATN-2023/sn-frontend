@@ -1,5 +1,6 @@
 <script>
 import {defineComponent} from 'vue'
+import {genImageUrl} from "@/config";
 
 export default defineComponent({
   name: "ChatItem",
@@ -8,6 +9,9 @@ export default defineComponent({
       type: Object,
       default: {}
     }
+  },
+  methods: {
+    genImageUrl
   }
 })
 </script>
@@ -15,7 +19,7 @@ export default defineComponent({
 <template>
   <div class="w-full rounded-md flex space-x-4 p-2 rounded-xl hover:bg-ll-border hover:dark:bg-ld-border cursor-pointer"
        :class="`${channel?.active ? 'bg-ll-border dark:bg-ld-border' : ''}`">
-    <img class="h-16 w-16 rounded-full" :src="channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'"
+    <img class="h-16 w-16 rounded-full" :src="genImageUrl(channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp')"
          alt="">
     <div class="flex justify-between flex-1 space-x-2">
       <div class="self-center text-lg">

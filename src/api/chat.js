@@ -19,4 +19,20 @@ export const chatApi = {
             return false
         }
     },
+    async getMessages (q) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/messages`,
+                json: true,
+                params: q,
+                method: 'GET'
+            }
+            const { data } = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error getMessages')
+            return []
+        }
+    },
 }

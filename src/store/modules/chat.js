@@ -7,6 +7,9 @@ const actions = {
 
     async createChannel({}, data) {
         return chatApi.createChannel(data)
+    },
+    async getMessages({}, q) {
+        return chatApi.getMessages(q)
     }
 }
 

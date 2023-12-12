@@ -87,7 +87,8 @@ export default defineComponent({
           <ChatList :channels="channels" @onClickChannel="onClickChannel"></ChatList>
         </div>
         <div class="h-full flex-1">
-          <ChatDetail v-show="Object.keys(channelActive).length" :channel="channelActive" :uid="this.user?.customerId" :messages="messages"></ChatDetail>
+          <ChatDetail v-show="Object.keys(channelActive).length" :channel="channelActive" :uid="this.user?.customerId"
+                      :messages="messages"></ChatDetail>
         </div>
       </div>
     </template>
