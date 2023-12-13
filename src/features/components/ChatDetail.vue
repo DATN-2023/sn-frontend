@@ -89,15 +89,15 @@ export default defineComponent({
       </div>
     </div>
     <div id="chatFrame" class="flex flex-col py-2 overflow-y-auto space-y-2 px-2 flex flex-col-reverse" style="height: calc(100vh - 221px);">
+      <div v-for="message in messages"
+           :class="`${message.messageFrom === uid ? 'self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white' : 'bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[70%]'}`">
+        {{ message?.content || '' }}
+      </div>
       <InfiniteLoading @infinite="loadMessages">
         <template #spinner>
           <span></span>
         </template>
       </InfiniteLoading>
-      <div v-for="message in messages"
-           :class="`${message.messageFrom === uid ? 'self-end bg-ll-primary dark:bg-ld-primary p-2 rounded-2xl max-w-[70%] text-white' : 'bg-ll-border dark:bg-ld-border p-2 rounded-2xl self-start max-w-[70%]'}`">
-        {{ message?.content || '' }}
-      </div>
     </div>
     <div id="chatInput" class="flex px-2">
       <button @click="onUploadFiles"
