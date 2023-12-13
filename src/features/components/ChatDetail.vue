@@ -33,7 +33,11 @@ export default defineComponent({
   },
   methods: {
     genImageUrl,
-    onAddMessage() {
+    onAddMessage(event) {
+      if (event.shiftKey===true && event.key === "Enter") {
+        return;
+      }
+      if (!this.content) return
       const payload = {
         content: this.content,
         channel: this.channel._id
@@ -43,9 +47,12 @@ export default defineComponent({
     },
     async getMessages(q = {}) {
       q.channel = this.channel._id.toString()
+      q.perPage = 10
       const data = await this.$store.dispatch('chat/getMessages', q)
-      const messages = (data?.data || []).reverse()
-      this.messages.unshift(...messages)
+      const messages = (data?.data || [])
+      this.messages.push(...messages)
+      // const scroll = document.getElementById('chatFrame')
+      // scroll.scrollTo(0, scroll.scrollHeight)
       return data
     },
     async loadMessages($state) {
@@ -81,7 +88,7 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="flex flex-col py-2 overflow-y-auto space-y-2 px-2" style="height: calc(100vh - 221px);">
+    <div id="chatFrame" class="flex flex-col py-2 overflow-y-auto space-y-2 px-2 flex flex-col-reverse" style="height: calc(100vh - 221px);">
       <InfiniteLoading @infinite="loadMessages">
         <template #spinner>
           <span></span>
@@ -92,7 +99,7 @@ export default defineComponent({
         {{ message?.content || '' }}
       </div>
     </div>
-    <div class="flex px-2">
+    <div id="chatInput" class="flex px-2">
       <button @click="onUploadFiles"
               class="self-end w-10 h-10 mr-2 rounded-full flex justify-center items-center hover:bg-ll-base hover:dark:bg-ld-base dark:text-gray-500 active:scale-95 transition-transform transform">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -102,7 +109,7 @@ export default defineComponent({
                 d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
         </svg>
       </button>
-      <textarea v-model="content"
+      <textarea @keyup.enter="onAddMessage" v-model="content"
                 class="w-full h-80px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
                 placeholder="What's happening?" resize="none"></textarea>
       <div class="self-end">

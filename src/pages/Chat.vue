@@ -48,7 +48,7 @@ export default defineComponent({
     handleMessage(payload) {
       console.log('payload', payload)
       if (payload.channel === this.channelActive._id) {
-        this.messages.push(payload)
+        this.messages.unshift(payload)
       }
       // let channel
       // for (const index in this.channels) {
