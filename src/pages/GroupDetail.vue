@@ -172,8 +172,8 @@ export default defineComponent({
       </Navbar>
     </template>
     <template #body>
-      <div class="self-center w-5/6">
-        <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
+      <div class="self-center lg:w-5/6">
+        <img class="h-[350px] <sm:h-[250px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
              :src="[group?.banner ? genImageUrl(group?.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
              alt="">
         <!--        <div>-->
@@ -188,7 +188,7 @@ export default defineComponent({
         <!--          </svg>-->
         <!--        </button>-->
       </div>
-      <div class="w-2/3 self-center">
+      <div class="lg:w-2/3 self-center">
         <div class="gap-x-8 bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300 rounded-b-lg">
           <GroupTitle :group="group"></GroupTitle>
           <div class="flex px-4 py-2">
@@ -200,11 +200,11 @@ export default defineComponent({
             </button>
           </div>
         </div>
-        <div class="flex space-x-2 text-gray-800 dark:text-gray-300">
+        <div class="flex lg:flex-row flex-col-reverse space-x-2 text-gray-800 dark:text-gray-300">
           <div class="basis-2/3">
             <div>
               <Dialog :visible="visible" modal header="Đăng bài viết trong Group" @update:visible="setUp"
-                      :style="{ width: '50vw' }">
+                      class="lg:w-[50vw]">
                 <PostCreation :groupId="group._id" :post="editionPost" @turnOffVisible="visible = !visible"
                               @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
               </Dialog>
