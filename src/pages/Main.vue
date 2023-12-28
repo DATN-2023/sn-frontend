@@ -14,7 +14,7 @@ export default {
   components: {PostCreation, AppShell, Header, Navbar, Feed, NavbarRight, Dialog, Button, InfiniteLoading},
   data() {
     return {
-      showLeftNavbar: true,
+      showLeftNavbar: false,
       showRightNavbar: true,
       showComposePost: true,
       visible: false,

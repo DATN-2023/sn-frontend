@@ -1,7 +1,7 @@
 <script>
 import {defineComponent} from 'vue'
 import config from '@/config/config'
-import {genImageUrl} from '@/config'
+import {genImageUrl, genTime} from '@/config'
 
 const {urlConfig: {imageUrl}, reactionTargetType, reactionType} = config
 
@@ -22,6 +22,7 @@ export default defineComponent({
     }
   },
   methods: {
+    genTime,
     genImageUrl,
     generateDescription() {
       let description = this.comment.content ? this.comment.content.trim().split('\n').join('<br>')
@@ -125,7 +126,7 @@ export default defineComponent({
     </div>
 
     <div class="ml-12 flex space-x-2 justify-start pt-4dark:border-ld-border mt-2">
-      <p class="flex bold text-sm">2h</p>
+      <p class="flex bold text-sm">{{ genTime(comment?.createdAt || 0) }}</p>
       <button class="flex items-center active:scale-95 transform transition-transform" @click="onLike">
         <p :class="[comment.liked ? 'text-ll-primary' : '', 'bold text-sm ml-2 hover:underline']">Thích</p>
       </button>

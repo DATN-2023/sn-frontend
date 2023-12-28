@@ -41,7 +41,7 @@ export default defineComponent({
       </Navbar>
     </template>
     <template #body>
-      <div class="w-1/2 mx-auto mt-2">
+      <div class="lg:w-1/2 h-full mx-auto lg:mt-2">
         <NotificationList></NotificationList>
       </div>
     </template>

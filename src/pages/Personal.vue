@@ -115,8 +115,8 @@ export default {
     </template>
     <template #body>
       <div class="flex flex-col">
-        <div class="self-center w-5/6 h-full relative">
-          <img class="h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
+        <div class="self-center xl:w-5/6 w-full xl:h-full h-280px relative">
+          <img class="xl:h-[350px] sm:h-[280px] <sm:h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
                :src="[user?.banner ? genImageUrl(user.banner) : 'http://localhost:9000/social-network/photo-1575936123452-b67c3203c357-1698657350.648.avif'] "
                alt="">
           <div>
@@ -131,11 +131,11 @@ export default {
             </svg>
           </button>
         </div>
-        <div class="w-2/3 self-center flex gap-x-8">
-          <div class="basis-1/3">
+        <div class="lg:w-4/5 xl:w-2/3 w-full self-center flex lg:flex-row flex-col gap-x-8">
+          <div class="lg:basis-1/3">
             <UserDetail :user="user"></UserDetail>
           </div>
-          <div class="basis-2/3">
+          <div class="lg:basis-2/3">
             <Feed :visible="visible" :feedPosts="feeds" :oneColumn="showLeftNavbar && showRightNavbar"
                   :showPostComposer="showComposePost"
                   @on-close-compose-post="showComposePost = !showComposePost"

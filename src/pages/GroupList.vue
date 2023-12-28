@@ -39,12 +39,12 @@ export default defineComponent({
         },
         {
           breakpoint: '1199px',
-          numVisible: 3,
+          numVisible: 2,
           numScroll: 1
         },
         {
           breakpoint: '767px',
-          numVisible: 2,
+          numVisible: 1,
           numScroll: 1
         },
         {
@@ -98,9 +98,9 @@ export default defineComponent({
       </Dialog>
     </template>
     <template #body>
-      <div class="w-3/4 mx-auto text-gray-800 dark:text-gray-300 border-b-1 border-ll-base dark:border-ld-border my-2">
+      <div class="lg:w-3/4 w-full mx-auto text-gray-800 dark:text-gray-300 border-b-1 border-ll-base dark:border-ld-border my-2">
         <div class="text-2xl bold ml-10">Các nhóm bạn theo dõi</div>
-        <div v-if="groups.length" class="h-[350px]">
+        <div v-if="groups.length">
           <Carousel :value="groups" :num-visible="3" :num-scroll="1" :responsive-options="responsiveOptions">
             <template #item="slotProps">
               <GroupThumb :item="slotProps"></GroupThumb>
@@ -109,7 +109,7 @@ export default defineComponent({
         </div>
         <div v-else class="text-center text-md p-2 w-full">Bạn chưa theo dõi nhóm nào</div>
       </div>
-      <div class="w-3/4 mx-auto text-gray-800 dark:text-gray-300 my-2">
+      <div class="lg:w-3/4 w-full mx-auto text-gray-800 dark:text-gray-300 my-2">
         <div class="text-2xl bold ml-10">Các nhóm đề xuất</div>
         <div class="mx-auto">
           <Carousel :value="recommendGroups" :num-visible="3" :num-scroll="1" :responsive-options="responsiveOptions">

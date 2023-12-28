@@ -109,7 +109,7 @@ export default defineComponent({
 
 <template>
   <div
-      class="w-full bg-ll-neutral dark:bg-ld-neutral border-1 border-ll-border dark:border-ld-border p-4 text-gray-800 dark:text-gray-300 rounded-lg">
+      class="w-full h-full bg-ll-neutral dark:bg-ld-neutral border-1 border-ll-border dark:border-ld-border p-4 text-gray-800 dark:text-gray-300 rounded-lg">
     <div class="flex flex-row justify-between">
       <div class="font-bold text-2xl">Thông báo</div>
       <div class="self-center text-center cursor-pointer relative">
@@ -131,7 +131,7 @@ export default defineComponent({
               @click="value.onClick(index)">{{ value.title }}
       </button>
     </div>
-    <div class="mt-8 overflow-y-auto h-500px">
+    <div class="mt-8 overflow-y-auto h-620px lg:h-740px">
       <NotificationItem @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications"
                         class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
       <InfiniteLoading @infinite="loadItem">
