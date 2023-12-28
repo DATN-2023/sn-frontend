@@ -13,7 +13,8 @@ import 'primevue/resources/themes/lara-light-teal/theme.css'
 import Calendar from 'primevue/calendar'
 
 import notificationApi from "@/api/notification";
-// import 'primevue/resources/themes/lara-dark-teal/theme.css'
+// import 'primevue/resources/themes/md-light-indigo/theme.css'
+// import 'primevue/resources/themes/md-dark-indigo/theme.css'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSpinner, faEllipsis, faCheck, faBell, faCircle, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons'
@@ -35,11 +36,7 @@ const handleFcmToken = (currentToken) => {
     if (currentToken) {
         window.$cookies.remove('fcmToken')
         window.$cookies.set('fcmToken', currentToken)
-        notificationApi.addFcmToken({fcmToken: currentToken}).then((data) => {
-            if (!data && window.location.pathname !== '/login') {
-                setTimeout(() => handleFcmToken(currentToken), 2000)
-            }
-        })
+        notificationApi.addFcmToken({fcmToken: currentToken}).then()
     } else {
         console.log('get fcmToken error')
     }

@@ -95,7 +95,7 @@ export default {
     <!--      </NavbarRight>-->
     <!--    </template>-->
     <template #body>
-      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
+      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" class="lg:w-[50vw]">
         <PostCreation :post="editionPost" @turnOffVisible="visible = !visible"
                       @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
       </Dialog>

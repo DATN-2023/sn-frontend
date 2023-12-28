@@ -16,8 +16,9 @@ const notificationApi = {
             const {data} = await axios(options)
             return data
         } catch (e) {
+            console.log(e)
             console.error('error addFcmToken')
-            return false
+            return {status: e?.response?.status}
         }
     },
     async deleteFcmtoken(body) {

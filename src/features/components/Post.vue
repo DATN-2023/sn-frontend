@@ -101,52 +101,54 @@ export default {
     },
     onRoutingUser() {
       this.$router.push({path: `/user/${this.$props.post?.user?.customerId}`})
+    },
+    changeItems(post) {
+      if (post.isOwn) {
+        this.items = [
+          {
+            label: 'Xem chi tiết',
+            command: () => {
+              const path = this.getFeedEndpoint()
+              this.$router.push({path})
+            }
+          },
+          {
+            label: 'Sửa bài viết',
+            command: () => {
+              this.$emit("onEditPost")
+            }
+          },
+          {
+            label: 'Xóa bài viết',
+            command: () => {
+              this.visible = true
+            }
+          }
+        ]
+      } else {
+        this.items = [
+          {
+            label: 'Xem chi tiết',
+            command: () => {
+              const path = this.getFeedEndpoint()
+              this.$router.push({path})
+            },
+          }
+        ]
+      }
+      if (this.$props.isDetailPage) {
+        this.items.shift()
+      }
     }
   },
   mounted() {
-    if (this.$props.post.isOwn) {
-      this.items = [
-        {
-          label: 'Xem chi tiết',
-          command: () => {
-            const path = this.getFeedEndpoint()
-            this.$router.push({path})
-          }
-        },
-        {
-          label: 'Sửa bài viết',
-          command: () => {
-            this.$emit("onEditPost")
-          }
-        },
-        {
-          label: 'Xóa bài viết',
-          command: () => {
-            this.visible = true
-          }
-        }
-      ]
-    } else {
-      this.items = [
-        {
-          label: 'Xem chi tiết',
-          command: () => {
-            const path = this.getFeedEndpoint()
-            this.$router.push({path})
-          },
-        }
-      ]
-    }
-    if (this.$props.isDetailPage) {
-      this.items.shift()
-    }
+    this.changeItems(this.$props.post)
   },
   watch: {
     async post(newVal, oldVal) {
-      if (!newVal.updated) await this.getComments()
-      else {
-        delete this.$props.post.updated
-      }
+      if (!oldVal._id) await this.getComments()
+      delete this.$props.post.updated
+      this.changeItems(newVal)
     }
   },
 }
@@ -157,12 +159,13 @@ export default {
     <div class="flex justify-between">
       <div class="flex items-center">
         <div @click="onRoutingUser"
-            class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
+             class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
           <img :src="genImageUrl(post?.user?.avatar || '')"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
-          <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">{{ post?.user?.name || 'Anonymous' }}</p>
+          <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">
+            {{ post?.user?.name || 'Anonymous' }}</p>
           <p class="-mt-1">{{ genTime(post?.createdAt || 0) }}</p>
         </div>
 
@@ -177,9 +180,9 @@ export default {
         </div>
       </div>
       <div v-show="items.length"
-          class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6 hover:bg-ll-border hover:dark:bg-ld-border"
-          @click="toggle"
-          aria-haspopup="true" aria-controls="overlay_menu">
+           class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6 hover:bg-ll-border hover:dark:bg-ld-border"
+           @click="toggle"
+           aria-haspopup="true" aria-controls="overlay_menu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
           <path fill-rule="evenodd"
                 d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
@@ -187,8 +190,8 @@ export default {
         </svg>
 
       </div>
-      <Menu class="bg-ll-neutral dark:bg-ld-neutral text-sm" ref="menu" id="overlay_menu" :model="items" :popup="true"/>
-      <Dialog :visible="visible" :modal="true" header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
+      <Menu class="text-sm" ref="menu" id="overlay_menu" :model="items" :popup="true"/>
+      <Dialog :visible="visible" :modal="true" header="Header" @update:visible="setUp" class="lg:w-[50vw]">
         <template #header>
           <div class="inline-flex align-items-center justify-content-center gap-2">
             <span class="font-bold white-space-nowrap">Bạn chắc chắn muốn xoá bài viết này?</span>
@@ -296,7 +299,8 @@ export default {
       </div>
     </Transition>
     <div v-show="showComment" v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
-      <Comment v-for="(comment, index) in comments" :comment="comment" @onDeleteComment="onDeleteComment(index)"></Comment>
+      <Comment v-for="(comment, index) in comments" :comment="comment"
+               @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>
 

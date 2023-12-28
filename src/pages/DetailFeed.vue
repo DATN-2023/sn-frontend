@@ -13,7 +13,7 @@ export default defineComponent({
   components: {PostCreation, Header, AppShell, Feed, Navbar, Post, Comment},
   data() {
     return {
-      showLeftNavbar: true,
+      showLeftNavbar: false,
       showRightNavbar: true,
       showComposePost: true,
       visible: false,
@@ -47,8 +47,7 @@ export default defineComponent({
     async getFeedById() {
       const {title} = this.$route.params
       const id = title.split('-').pop()
-      const post = await this.$store.dispatch('feed/getFeedById', id)
-      this.post = post
+      this.post = await this.$store.dispatch('feed/getFeedById', id)
     },
     onEditPost() {
       this.visible = !this.visible
@@ -82,7 +81,7 @@ export default defineComponent({
     <!--      </NavbarRight>-->
     <!--    </template>-->
     <template #body>
-      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" :style="{ width: '50vw' }">
+      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" class="lg:w-[50vw]">
         <PostCreation :post="post" @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
       <div class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
