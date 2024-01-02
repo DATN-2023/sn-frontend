@@ -1,5 +1,9 @@
 <script>
 import {defineComponent} from 'vue'
+import {genImageUrl} from "@/config";
+import config from "@/config/config";
+
+const {joinStatusGroupConfig} = config
 
 export default defineComponent({
   name: "GroupThumb",
@@ -8,10 +12,27 @@ export default defineComponent({
       type: Object
     }
   },
+  data() {
+    return {
+      joinStatusGroupConfig
+    }
+  },
   methods: {
+    genImageUrl,
+    async onJoin() {
+      const body = {
+        group: this.item?.data._id
+      }
+      const userGroup = await this.$store.dispatch('group/createUserGroup', body)
+      if (userGroup) this.$props.item.data.userStatus = userGroup.status
+    },
     onClickTitle() {
       this.$router.push({path: `/group/${this.$props.item.data._id}`})
-    }
+    },
+    async onPending() {
+      await this.$store.dispatch('group/deleteUserGroup', this.item?.data?._id)
+      this.$props.item.data.userStatus = 0
+    },
   }
 })
 </script>
@@ -19,15 +40,20 @@ export default defineComponent({
 <template>
   <div class="h-320px w-330px rounded rounded-xl bg-ll-neutral dark:bg-ld-neutral">
     <img class="w-330px h-180px rounded-t-lg object-fill"
-         src="https://images-cdn.carpla.dev/HybridErtigajpg-1664383054.jpg" alt="image">
+         :src="[item?.data?.banner ? genImageUrl(item?.data?.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg']" alt="image">
     <div class="mx-4 my-2">
       <div @click="onClickTitle" class="cursor-pointer">
         <div class="bold text-xl">{{ item?.data?.name || '' }}</div>
         <div>{{ `${item?.data?.memberTotal || 0} thành viên` }}</div>
       </div>
-      <button
-          class="border border-2 p-2 w-full rouded border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border rounded-2xl my-2">
-        Tham gia
+      <button v-show="!item?.data?.userStatus" @click="onJoin"
+              class="border border-2 p-2 w-full rouded border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border rounded-2xl my-2">Tham Gia
+      </button>
+      <button v-show="item?.data?.userStatus === joinStatusGroupConfig.MEMBER"
+              class="border border-2 p-2 w-full rouded border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border rounded-2xl my-2">Thành viên
+      </button>
+      <button v-show="item?.data?.userStatus === joinStatusGroupConfig.PENDING" @click="onPending"
+              class="border border-2 p-2 w-full rouded border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border rounded-2xl my-2">Chờ phê duyệt
       </button>
     </div>
   </div>

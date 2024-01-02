@@ -76,6 +76,14 @@ const actions = {
             return false
         }
     },
+    async updateGroup({dispatch, commit}, {id, body}) {
+        try {
+            return group.updateGroup(id, body)
+        } catch (e) {
+            console.error('error')
+            return false
+        }
+    },
 }
 
 export default {

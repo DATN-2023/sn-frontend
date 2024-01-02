@@ -147,6 +147,22 @@ const groupApi = {
             return {}
         }
     },
+    async updateGroup(id, body) {
+        try {
+            const options = {
+                headers: {},
+                url: `${serverUrl}/groups/${id}`,
+                json: true,
+                data: body,
+                method: 'PUT'
+            }
+            const {data} = await axios(options)
+            return data
+        } catch (e) {
+            console.error('error updateGroup')
+            return false
+        }
+    },
 }
 
 export default groupApi
