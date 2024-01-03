@@ -15,10 +15,10 @@
 
         <div
             class="bg-ll-base dark:bg-ld-base rounded-md border  border-ll-border dark:border-ld-border w-2/4 h-3/4 flex items-center">
-            <input type="text" placeholder="Search on egosnet..."
+            <input ref="text" type="text" placeholder="Search on egosnet..."
                 class="px-2 bg-transparent text-md outline-none w-full h-full">
 
-            <button class="p-2 active:scale-95 transform transition-transform">
+            <button class="p-2 active:scale-95 transform transition-transform" @click="onSearch">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -73,6 +73,13 @@ export default {
   methods: {
     onClickAlert() {
       this.active = !this.active
+    },
+    async onSearch() {
+      console.log('route', this.$route.path)
+      // this.$router.go(`/?content=${this.$refs.text.value}`)
+      if (!this.$refs.text.value) return
+      await this.$router.push({path: '/', query: {content: this.$refs.text.value}})
+      if (this.$route.path === '/') this.$emit('onSearch')
     }
   }
 }

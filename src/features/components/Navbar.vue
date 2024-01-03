@@ -22,8 +22,9 @@ export default {
                 </svg>
                 `,
             path: '/',
-            onClick: () => {
-              this.$router.push('/')
+            onClick: async () => {
+              await this.$router.push('/')
+              this.$emit('onPushMain')
             }
           },
           {
