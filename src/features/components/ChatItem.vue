@@ -21,7 +21,7 @@ export default defineComponent({
        :class="`${channel?.active ? 'bg-ll-border dark:bg-ld-border' : ''}`">
     <img class="h-16 w-16 rounded-full" :src="genImageUrl(channel?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp')"
          alt="">
-    <div class="flex justify-between flex-1 space-x-2">
+    <div class="lg:flex hidden justify-between flex-1 space-x-2">
       <div class="self-center text-lg">
         <div>{{ channel?.user?.name || 'Anonymous' }}</div>
         <div class="text-sm">{{ channel?.message?.content || '' }}</div>

@@ -83,7 +83,7 @@ export default defineComponent({
     <template #body>
       <div class="flex h-full w-full bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300">
         <div
-            class="bg-ll-neutral dark:bg-ld-neutral h-full w-350px pl-2 border-r-1 border-ll-border dark:border-ld-border">
+            class="bg-ll-neutral dark:bg-ld-neutral h-full lg:w-350px w-100px pl-2 border-r-1 border-ll-border dark:border-ld-border">
           <ChatList :channels="channels" @onClickChannel="onClickChannel"></ChatList>
         </div>
         <div class="h-full flex-1">
