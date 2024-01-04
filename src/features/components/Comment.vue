@@ -30,6 +30,9 @@ export default defineComponent({
       description = description.replace(/#(\S*)/g, '<a class="text-ll-primary" href="/search/$1">#$1</a>');
       return description;
     },
+    onRoutingUser() {
+      this.$router.push({path: `/user/${this.$props.comment?.user?.customerId}`})
+    },
     async onLike() {
       this.$props.comment.liked = !this.$props.comment.liked
       if (!this.$props.comment.liked) {
@@ -98,13 +101,13 @@ export default defineComponent({
   <div v-else class="w-full px-5 py-2 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col">
     <div class="">
       <div class="flex items-center gap-2">
-        <div
-            class="flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
+        <div @click="onRoutingUser"
+            class="cursor-pointer flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
           <img :src="genImageUrl(comment?.user?.avatar || '')"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2 relative">
-          <p class="text-sm font-bold text-gray-800 dark:text-gray-100">{{ comment?.user?.name || 'Anonymous' }}</p>
+          <p @click="onRoutingUser" class="cursor-pointer text-sm font-bold text-gray-800 dark:text-gray-100">{{ comment?.user?.name || 'Anonymous' }}</p>
           <p class="text-sm break-words" v-html="generateDescription()"></p>
           <div v-if="comment.reactionTotal"
                class="absolute bg-ll-border rounded-lg dark:bg-ld-border -bottom-2 right-0">

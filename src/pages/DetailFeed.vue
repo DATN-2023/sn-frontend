@@ -84,8 +84,8 @@ export default defineComponent({
       <Dialog :visible="visible" modal header="Header" @update:visible="setUp" class="lg:w-[50vw]">
         <PostCreation :post="post" @turnOffVisible="visible = !visible" @onCreatePost="body => onCreatePost(body)"></PostCreation>
       </Dialog>
-      <div class="`w-full grid grid-cols-1 2xl:px-60 sm:px-0 md:px-20 pt-5 transition-all`">
-        <div class="flex flex-col px-2">
+      <div class="`w-full mx-auto 2xl:w-2/4 pt-5 transition-all`">
+        <div class="flex flex-col px-2 w-full">
           <Post :post="post" :isDetailPage="true" class="" @onEditPost="onEditPost()"></Post>
         </div>
       </div>

@@ -25,7 +25,8 @@ export default {
       page: 0,
       isLoadmore: 1,
       textSearch: '',
-      total: 0
+      total: 0,
+      header: 'Đăng bài'
     }
   },
   mounted() {
@@ -59,12 +60,14 @@ export default {
     onEditPost(index) {
       this.editionPost = JSON.parse(JSON.stringify(this.feeds[index]))
       this.indexEditionPost = index
+      this.header = 'Chỉnh sửa bài viết'
       this.visible = !this.visible
     },
     onUpdatePost() {
       this.editionPost.updated = 1
       this.feeds[this.indexEditionPost] = this.editionPost
       this.editionPost = {}
+      this.header = "Đăng bài"
     },
     async loadFeed($state) {
       try {
@@ -119,7 +122,7 @@ export default {
     <!--      </NavbarRight>-->
     <!--    </template>-->
     <template #body>
-      <Dialog :visible="visible" modal header="Header" @update:visible="setUp" class="lg:w-[50vw]">
+      <Dialog :visible="visible" modal :header="header" @update:visible="setUp" class="lg:w-[50vw]">
         <PostCreation :post="editionPost" @turnOffVisible="visible = !visible"
                       @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
       </Dialog>

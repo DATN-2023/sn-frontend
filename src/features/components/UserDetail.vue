@@ -60,8 +60,7 @@ export default defineComponent({
       this.$props.user.followerTotal--
     },
     displayEditPersonal() {
-      const userInfo = this.$store.getters['auth/userInfo']
-      return this.$route.params.id === 'me' || this.$route.params.id === userInfo?._id
+      return this.user?.isMe
     },
     setUp(visible) {
       if (!visible) {
@@ -93,6 +92,11 @@ export default defineComponent({
       const data = await this.$store.dispatch('chat/createChannel', body)
       if (!data) alert('create error')
       else this.$router.push({path: '/chat'})
+    },
+    genDate(time) {
+      const date = new Date(time)
+      console.log('date', date)
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
   },
   data() {
@@ -126,7 +130,7 @@ export default defineComponent({
       </button>
     </div>
     <div class="pt-20 font-bold text-center p-2">{{ user.name }}</div>
-    <div class="text-center p-2">{{ user.description }}</div>
+<!--    <div class="text-center p-2">{{ user.description }}</div>-->
     <div class="mt-6 flex justify-between">
       <div class="text-center">
         <div class="bold text-ll-primary">Người theo dõi</div>
@@ -160,6 +164,26 @@ export default defineComponent({
       Nhắn tin
     </button>
   </div>
+  <div class="bg-ll-neutral dark:bg-ld-neutral w-full mt-2 p-2 rounded">
+    <div class="text-2xl bold">
+      Thông tin cá nhân
+    </div>
+    <div class="text-center py-3">
+      {{ user?.description || 'asdcs' }}
+    </div>
+    <table >
+      <tbody>
+        <tr>
+          <td><font-awesome-icon :icon="['fas', 'house']" /></td>
+          <td>{{ user.place || 'casdc' }}</td>
+        </tr>
+        <tr>
+          <td><font-awesome-icon :icon="['fas', 'cake-candles']" /></td>
+          <td>{{ genDate(user.dob) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <Dialog :visible="visible" modal header="Chỉnh sửa thông tin cá nhân" @update:visible="setUp"
           :style="{ width: '30vw' }">
     <div class="bold py-2">Tên:</div>
@@ -180,5 +204,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
+td {
+  padding: 5px;
+}
 </style>

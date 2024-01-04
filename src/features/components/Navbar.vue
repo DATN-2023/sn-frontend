@@ -124,6 +124,9 @@ export default {
   },
   methods: {
     genImageUrl,
+    onRoutingUser() {
+      this.$router.push({path: `/user/${this.user?.customerId}`})
+    },
     async getUser() {
       this.user = await this.$store.dispatch('user/getUserById', 'me')
       await this.$store.dispatch('auth/setUserInfo', this.user)
@@ -147,21 +150,21 @@ export default {
   <div
       :class="`w-full h-full flex flex-col ${this.$props.isExpanded ? 'p-10 px-5' : 'p-2'} relative overflow-y-auto overflow-x-hidden`">
     <div class="profile flex flex-col justify-center items-center">
-      <div
-          :class="`avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
+      <div @click="onRoutingUser"
+          :class="`cursor-pointer avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
         <img :src="genImageUrl(user?.avatar || '')" class="w-full h-full  rounded-full object-cover"
              alt="">
 
-        <div
-            :class="`${this.$props.isExpanded ? 'w-8 h-8 border-4 right-0 bottom-3' : 'w-5 h-5 border-2 -right-2 bottom-0'}  bg-ll-primary rounded-full   absolute  border-ll-base dark:border-ld-base text-white flex justify-center items-center`">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-               stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-          </svg>
+<!--        <div-->
+<!--            :class="`${this.$props.isExpanded ? 'w-8 h-8 border-4 right-0 bottom-3' : 'w-5 h-5 border-2 -right-2 bottom-0'}  bg-ll-primary rounded-full   absolute  border-ll-base dark:border-ld-base text-white flex justify-center items-center`">-->
+<!--          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
+<!--               stroke="currentColor" class="w-5 h-5">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>-->
+<!--          </svg>-->
 
-        </div>
+<!--        </div>-->
       </div>
-      <p v-if="this.$props.isExpanded" class="text-xl font-bold text-gray-800 dark:text-gray-300">
+      <p @click="onRoutingUser" v-if="this.$props.isExpanded" class="cursor-pointer text-xl font-bold text-gray-800 dark:text-gray-300">
         {{ user?.name || 'anonymous' }}</p>
       <!--            <p class="-mt-1 text-sm" v-if="this.$props.isExpanded">toi la quy</p>-->
     </div>
