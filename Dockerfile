@@ -6,7 +6,7 @@ COPY . .
 
 ENV VUE_AUTH_URL="https://api.egosnet.click/customer"
 ENV VUE_SERVER_URL="https://api.egosnet.click/appserver"
-ENV VUE_IMAGE_URL="https://api.egosnet.click"
+ENV VUE_IMAGE_URL="https://images.egosnet.click"
 
 
 FROM nginx as production-stage
