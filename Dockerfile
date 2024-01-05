@@ -8,7 +8,7 @@ ENV VUE_IMAGE_URL="https://images.egosnet.click"
 
 RUN yarn
 COPY . .
-RUN yarn build:prod
+RUN yarn build
 FROM nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/dist /app
