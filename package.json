@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:prod": "vue-cli-service build"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^4.1.0",
