@@ -2,9 +2,9 @@ FROM node:16-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 
-ENV VUE_AUTH_URL="https://api.egosnet.click/customer"
-ENV VUE_SERVER_URL="https://api.egosnet.click/appserver"
-ENV VUE_IMAGE_URL="https://images.egosnet.click"
+ENV VITE_AUTH_URL="https://api.egosnet.click/customer"
+ENV VITE_SERVER_URL="https://api.egosnet.click/appserver"
+ENV VITE_IMAGE_URL="https://images.egosnet.click"
 
 RUN yarn
 COPY . .
