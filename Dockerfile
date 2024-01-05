@@ -5,6 +5,7 @@ COPY package*.json ./
 ENV VITE_AUTH_URL="https://api.egosnet.click/customer"
 ENV VITE_SERVER_URL="https://api.egosnet.click/appserver"
 ENV VITE_IMAGE_URL="https://images.egosnet.click/social-network"
+ENV VITE_CHAT_URL="https://images.egosnet.click/chat"
 
 RUN yarn
 COPY . .
