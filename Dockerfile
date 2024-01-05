@@ -8,7 +8,7 @@ ENV VITE_IMAGE_URL="https://images.egosnet.click"
 
 RUN yarn
 COPY . .
-COPY .env.local .env
+#COPY .env.local .env
 RUN yarn build
 FROM nginx as production-stage
 RUN mkdir /app
