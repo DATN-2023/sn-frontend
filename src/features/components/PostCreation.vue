@@ -125,7 +125,7 @@ export default {
     <div></div>
     <textarea v-model="content"
               class="w-full h-150px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
-              placeholder="What's happening?" resize="none"></textarea>
+              placeholder="Viết gì đó..." resize="none"></textarea>
     <div class="flex-wrap flex justify-center items-center">
       <div class="w-300px flex-auto p-2" v-for="(file, index) in preview">
         <div class="relative inline-block pt-2">

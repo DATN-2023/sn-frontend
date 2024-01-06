@@ -111,7 +111,7 @@ export default defineComponent({
       </button>
       <textarea @keyup.enter="onAddMessage" v-model="content"
                 class="w-full h-80px rounded-md bg-ll-base dark:bg-ld-base p-4 outline-none text-lg"
-                placeholder="What's happening?" resize="none"></textarea>
+                placeholder="Viết gì đó..." resize="none"></textarea>
       <div class="self-end">
         <div>
           <input type="file" ref="upload" hidden="" multiple @change="changeFileUpload">

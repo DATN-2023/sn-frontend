@@ -3,13 +3,14 @@
 import config from "@/config/config";
 import {formatDate, stringToSlug, genImageUrl, genTime} from "@/config";
 import Comment from "@/features/components/Comment.vue";
+import VueEasyLightbox from 'vue-easy-lightbox'
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
 
 export default {
   components: {
-    Comment
+    Comment, VueEasyLightbox
   },
   props: {
     post: {
@@ -29,11 +30,25 @@ export default {
       hideCommentBox: false,
       comments: [],
       commentContent: '',
-      showComment: true
+      showComment: true,
+      visibleRef: false,
+      indexRef: 0,
+      imgsRef: []
     }
   },
   methods: {
     genTime,
+    onShow() {
+      this.visibleRef = true
+    },
+    showMultiple() {
+      this.imgsRef =  this.post?.images.map(image => this.genImageUrl(image))
+      this.indexRef = 0
+      this.onShow()
+    },
+    onHide() {
+      this.visibleRef = false
+    },
     generateDescription() {
       let description = this.post.content.trim().split('\n').join('<br>');
       description = description.replace(/#(\S*)/g, '<a class="text-ll-primary" href="/search/$1">#$1</a>');
@@ -169,15 +184,15 @@ export default {
           <p class="-mt-1">{{ genTime(post?.createdAt || 0) }}</p>
         </div>
 
-<!--        <div class="flex text-ll-primary">-->
-<!--          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"-->
-<!--               class="w-6 h-6 -mt-4 ml-2">-->
-<!--            <path fill-rule="evenodd"-->
-<!--                  d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"-->
-<!--                  clip-rule="evenodd"/>-->
-<!--          </svg>-->
+        <!--        <div class="flex text-ll-primary">-->
+        <!--          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"-->
+        <!--               class="w-6 h-6 -mt-4 ml-2">-->
+        <!--            <path fill-rule="evenodd"-->
+        <!--                  d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"-->
+        <!--                  clip-rule="evenodd"/>-->
+        <!--          </svg>-->
 
-<!--        </div>-->
+        <!--        </div>-->
       </div>
       <div v-show="items.length"
            class="active:scale-95 transform transition-transform m-2 rounded-full hover:bg-gray-300 hover:cursor-pointer h-6 hover:bg-ll-border hover:dark:bg-ld-border"
@@ -210,26 +225,23 @@ export default {
     <div v-if="post?.images && post.images.length > 0"
          :class="`images w-full h-70 bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 1) ? 'grid-cols-2' : 'grid-cols-1'} gap-2`">
       <div class="h-full">
-        <img :src="genImageUrl(post.images[0])" class="w-full h-70   object-cover" alt="">
+        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0])" class="w-full h-70 cursor-pointer object-cover" alt="">
       </div>
       <div v-if="post.images.length > 1" :class="`
-
             h-70 grid ${post.images.length === 2 ? 'grid-cols-1 grid-rows-1' : ''}
              ${post.images.length === 3 ? 'grid-cols-1 grid-rows-2' : ''}
             ${post.images.length === 4 ? 'grid-cols-2 grid-rows-2' : ''}
-
-
             gap-2`">
-        <img v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
-             :class="`w-full h-full   object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
+        <img @click="showMultiple(1)" v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
+             :class="` cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
              alt="">
-        <img v-if="post.images.length > 2" :src="genImageUrl(post.images[2])"
-             :class="`w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
+        <img @click="showMultiple(2)" v-if="post.images.length > 2" :src="genImageUrl(post.images[2])"
+             :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
              alt="">
-        <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
-             :class="`w-full h-full   object-cover ${post.images.length === 4 && 'col-span-2'}`" alt="">
-        <img v-if="post.images.length > 4" :src="genImageUrl(post.images[4])"
-             :class="`w-full h-2/4   object-cover ${post.images.length === 5 && 'col-span-3 row-span-1'}`"
+        <img @click="showMultiple(3)" v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
+             :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 4 && 'col-span-2'}`" alt="">
+        <img @click="showMultiple(4)" v-if="post.images.length > 4" :src="genImageUrl(post.images[4])"
+             :class="`cursor-pointer w-full h-2/4   object-cover ${post.images.length === 5 && 'col-span-3 row-span-1'}`"
              alt="">
 
       </div>
@@ -303,6 +315,12 @@ export default {
                @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>
+  <vue-easy-lightbox
+      :visible="visibleRef"
+      :imgs="imgsRef"
+      :index="indexRef"
+      @hide="onHide"
+  ></vue-easy-lightbox>
 
 </template>
 <style>
