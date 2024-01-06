@@ -41,9 +41,9 @@ export default {
     onShow() {
       this.visibleRef = true
     },
-    showMultiple() {
-      this.imgsRef =  this.post?.images.map(image => this.genImageUrl(image))
-      this.indexRef = 0
+    showMultiple(index) {
+      this.imgsRef = this.post?.images.map(image => this.genImageUrl(image))
+      this.indexRef = index
       this.onShow()
     },
     onHide() {
@@ -223,26 +223,35 @@ export default {
     </div>
 
     <div v-if="post?.images && post.images.length > 0"
-         :class="`images w-full h-70 bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 1) ? 'grid-cols-2' : 'grid-cols-1'} gap-2`">
-      <div class="h-full">
-        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0])" class="w-full h-70 cursor-pointer object-cover" alt="">
+         :class="`images w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 2) ? 'grid-cols-3' : ''} ${(post.images.length === 2) ? 'grid-cols-2' : ''} ${(post.images.length === 1) ? 'grid-cols-1' : ''} gap-2`">
+      <div class="h-full" :class="`${(post.images.length > 2) ? 'col-span-2' : ''}`">
+        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0])" class="w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover"
+             alt="">
       </div>
       <div v-if="post.images.length > 1" :class="`
-            h-70 grid ${post.images.length === 2 ? 'grid-cols-1 grid-rows-1' : ''}
+            h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] grid ${post.images.length === 2 ? 'grid-cols-1 grid-rows-1' : ''}
              ${post.images.length === 3 ? 'grid-cols-1 grid-rows-2' : ''}
-            ${post.images.length === 4 ? 'grid-cols-2 grid-rows-2' : ''}
+            ${post.images.length > 3 ? 'grid-cols-1 grid-rows-3' : ''}
             gap-2`">
         <img @click="showMultiple(1)" v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
-             :class="` cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
+             :class="` cursor-pointer w-full h-full object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
              alt="">
         <img @click="showMultiple(2)" v-if="post.images.length > 2" :src="genImageUrl(post.images[2])"
              :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
              alt="">
-        <img @click="showMultiple(3)" v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
-             :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 4 && 'col-span-2'}`" alt="">
-        <img @click="showMultiple(4)" v-if="post.images.length > 4" :src="genImageUrl(post.images[4])"
-             :class="`cursor-pointer w-full h-2/4   object-cover ${post.images.length === 5 && 'col-span-3 row-span-1'}`"
-             alt="">
+        <div v-if="post.images.length > 3" @click="showMultiple(3)" class="relative" :style="`${post.images.length > 4 ? 'background: black;': ''}`">
+          <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
+               :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`"
+               :style="`${post.images.length > 4 ? 'opacity: 0.8;': ''}`"
+               alt="">
+
+          <div v-if="post.images.length > 4" class="absolute text-white text-2xl" style="left: 50%; top: 50%; transform: translate(-50%,-50%);">
+            +{{post.images.length - 4}}
+          </div>
+        </div>
+        <!--        <img @click="showMultiple(4)" v-if="post.images.length > 4" :src="genImageUrl(post.images[4])"-->
+        <!--             :class="`cursor-pointer w-full h-2/4   object-cover ${post.images.length === 5 && 'col-span-3 row-span-1'}`"-->
+        <!--             alt="">-->
 
       </div>
     </div>
