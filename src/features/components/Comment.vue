@@ -18,7 +18,10 @@ export default defineComponent({
       visible: false,
       editing: false,
       isUploaded: false,
-      content: ''
+      content: '',
+      files: [],
+      preview: [],
+      images: []
     }
   },
   methods: {
@@ -51,6 +54,8 @@ export default defineComponent({
     async onEdit() {
       this.editing = true
       this.content = this.$props.comment.content
+      this.images = this.comment.images
+      this.preview = this.comment.images.map(image => ({src: genImageUrl(image), name: image.split('/').pop()}))
     },
     async onDelete() {
       this.visible = true
@@ -70,10 +75,52 @@ export default defineComponent({
     },
     async updateComment() {
       this.isUploaded = true
-      this.$props.comment.content = this.content
-      await this.$store.dispatch('feed/updateComment', {id: this.$props.comment._id, body: this.$props.comment})
+      if (this.files.length > 0) {
+        for (const file of this.files) {
+          const {name} = await this.uploadFile(file)
+          this.images.push(`/${name}`)
+        }
+      }
+      const body = {
+        ...this.$props.comment,
+        content: this.content,
+        images: this.images
+      }
+      console.log(body)
+      await this.$store.dispatch('feed/updateComment', {id: this.$props.comment._id, body})
       this.isUploaded = false
+      this.files = []
+      this.preview = []
+      this.images = []
+      this.content = ''
       this.editing = false
+    },
+    async changeFileUpload(event) {
+      if (event.target.files && event.target.files[0]) {
+        const files = event.target.files
+        this.files.push(...files)
+        for (const file of files) {
+          const src = URL.createObjectURL(file)
+          this.preview.push({
+            src,
+            name: file.name
+          })
+        }
+        console.log('preview', this.preview)
+      }
+    },
+    async uploadFile(file) {
+      const data = await this.$store.dispatch('upload/getPresignedUrl', {name: file.name})
+      await this.$store.dispatch('upload/uploadFile', {url: data.url, file, type: file.type})
+      return {name: data.name}
+    },
+    onUploadFiles() {
+      this.$refs.upload.click()
+    },
+    onDeleteImage(index) {
+      this.preview.splice(index, 1)
+      this.images.splice(index, 1)
+      this.files.splice(index, 1)
     }
   }
 })
@@ -81,34 +128,76 @@ export default defineComponent({
 
 <template>
   <div v-if="editing" class="w-full px-5 py-2 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col">
+    <div>
+      <input type="file" ref="upload" hidden="" @change="changeFileUpload">
+    </div>
     <div
-        class="mt-2 border-t-1 flex space-x-4 border-ll-border dark:border-ld-border">
-      <textarea v-model="content"
-                class="bg-ll-border dark:bg-ld-border mt-3 w-full border-1 border-ll-border dark:border-ld-border resize-y h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none"
-                placeholder="Viết bình luận..."></textarea>
-      <button @click="updateComment"
-              class="text-sm mt-3 px-3 py-2 w-[150px] bg-ll-primary text-white justify-center dark:bg-ld-primary rounded-md flex items-center active:scale-95 transform transition-transform">
-        <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
-        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor" class="w-6 h-6 mr-2">
+        class="mt-2 flex space-x-4">
+      <button v-if="!this.preview.length" @click="onUploadFiles"
+              class="w-10 self-end h-45px mb-1.5 border rounded-md flex justify-center items-center border-ll-border dark:border-ld-border
+                bg-ll-base dark:bg-ld-base dark:text-gray-500 active:scale-95 transition-transform transform">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round"
-                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
         </svg>
-        Bình luận
       </button>
+      <div class="w-full self-end">
+        <div class="flex-wrap flex items-center justify-start">
+          <div class="p-2" v-for="(file, index) in preview">
+            <div class="relative inline-block pt-2">
+              <img :src="file.src" class="w-100px" :alt="file.name">
+              <button @click="onDeleteImage(index)"
+                      class="w-8 h-8 absolute -top-0 -right-2 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border rounded-full flex items-center active:scale-95 transform transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-full h-full">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <textarea v-model="content"
+                  class="bg-ll-border dark:bg-ld-border w-full border-1 border-ll-border dark:border-ld-border
+                  h-45px p-2 rounded focus:outline-none focus:border-ll-border dark:focus:border-ld-border focus:shadow-none"
+                  placeholder="Viết bình luận..."></textarea>
+      </div>
+      <div class="self-end">
+        <button @click="updateComment"
+                class="text-sm mb-1.5 px-3 py-2 h-45px w-[120px] bg-ll-primary text-white justify-center dark:bg-ld-primary
+                rounded-md flex items-center active:scale-95 transform transition-transform">
+          <font-awesome-icon class="mr-2 text-base" v-if="isUploaded" :icon="['fas', 'spinner']" spin/>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+          </svg>
+          Bình luận
+        </button>
+      </div>
     </div>
   </div>
   <div v-else class="w-full px-5 py-2 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col">
     <div class="">
-      <div class="flex items-center gap-2">
+      <div class="flex items-start gap-2">
         <div @click="onRoutingUser"
-            class="cursor-pointer flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
+             class="cursor-pointer flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
           <img :src="genImageUrl(comment?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
-        <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2 relative">
-          <p @click="onRoutingUser" class="cursor-pointer text-sm font-bold text-gray-800 dark:text-gray-100">{{ comment?.user?.name || 'Anonymous' }}</p>
-          <p class="text-sm break-words" v-html="generateDescription()"></p>
+        <div class="relative">
+          <div class="bg-ll-border p-2 rounded-lg dark:bg-ld-border inline-block">
+            <p @click="onRoutingUser" class="cursor-pointer text-sm font-bold text-gray-800 dark:text-gray-100">
+              {{ comment?.user?.name || 'Anonymous' }}</p>
+            <p class="text-sm break-words" v-html="generateDescription()"></p>
+          </div>
+          <div v-if="comment?.images && comment?.images?.length > 0"
+               :class="`w-full bg-ll-neutral dark:bg-ld-neutral rounded-xl mb-2 overflow-hidden grid `">
+            <div class="">
+              <img :src="genImageUrl(comment.images[0])" class="w-300px object-cover" alt="">
+            </div>
+          </div>
           <div v-if="comment.reactionTotal"
                class="absolute bg-ll-border rounded-lg dark:bg-ld-border -bottom-2 right-0">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
@@ -118,13 +207,6 @@ export default defineComponent({
             <p class="pl-1 inline" style="font-size: 13px;">{{ comment.reactionTotal }}</p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div v-if="comment?.images && comment?.images?.length > 0"
-         :class="`images w-full h-70 bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(comment.images.length > 1) ? 'grid-cols-2' : 'grid-cols-1'} gap-2`">
-      <div class="h-full">
-        <img :src="genImageUrl(comment.images[0])" class="w-full h-70   object-cover" alt="">
       </div>
     </div>
 
