@@ -2,11 +2,15 @@
 import {defineComponent} from 'vue'
 import config from '@/config/config'
 import {genImageUrl, genTime} from '@/config'
+import VueEasyLightbox from 'vue-easy-lightbox'
 
 const {urlConfig: {imageUrl}, reactionTargetType, reactionType} = config
 
 export default defineComponent({
   name: "Comment",
+  components: {
+    VueEasyLightbox
+  },
   props: {
     comment: {
       type: Object
@@ -21,12 +25,26 @@ export default defineComponent({
       content: '',
       files: [],
       preview: [],
-      images: []
+      images: [],
+      visibleRef: false,
+      indexRef: 0,
+      imgsRef: []
     }
   },
   methods: {
     genTime,
     genImageUrl,
+    onShow() {
+      this.visibleRef = true
+    },
+    showMultiple(index) {
+      this.imgsRef = this.comment?.images.map(image => this.genImageUrl(image))
+      this.indexRef = index
+      this.onShow()
+    },
+    onHide() {
+      this.visibleRef = false
+    },
     generateDescription() {
       let description = this.comment.content ? this.comment.content.trim().split('\n').join('<br>')
           : 'What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book'
@@ -127,6 +145,12 @@ export default defineComponent({
 </script>
 
 <template>
+  <vue-easy-lightbox
+      :visible="visibleRef"
+      :imgs="imgsRef"
+      :index="indexRef"
+      @hide="onHide"
+  ></vue-easy-lightbox>
   <div v-if="editing" class="w-full px-5 py-2 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col">
     <div>
       <input type="file" ref="upload" hidden="" @change="changeFileUpload">
@@ -195,7 +219,7 @@ export default defineComponent({
           <div v-if="comment?.images && comment?.images?.length > 0"
                :class="`w-full bg-ll-neutral dark:bg-ld-neutral rounded-xl mb-2 overflow-hidden grid `">
             <div class="">
-              <img :src="genImageUrl(comment.images[0])" class="w-300px object-cover" alt="">
+              <img @click="showMultiple(0)" :src="genImageUrl(comment.images[0])" class="w-300px cursor-pointer object-cover" alt="">
             </div>
           </div>
           <div v-if="comment.reactionTotal"

@@ -11,10 +11,9 @@ import PrimeVue from 'primevue/config';
 import 'virtual:windi.css'
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import Calendar from 'primevue/calendar'
+import ToastService from 'primevue/toastservice';
 
 import notificationApi from "@/api/notification";
-// import 'primevue/resources/themes/md-light-indigo/theme.css'
-// import 'primevue/resources/themes/md-dark-indigo/theme.css'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSpinner, faEllipsis, faCheck, faBell, faCircle, faEllipsisVertical, faCakeCandles, faHouse} from '@fortawesome/free-solid-svg-icons'
@@ -63,6 +62,7 @@ app.use(VueCookies, {expires: '7d'})
 app.use(store)
 app.use(router)
 app.use(PrimeVue)
+app.use(ToastService)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('Menu', Menu)
 app.component('Button', Button)

@@ -4,13 +4,15 @@ import config from "@/config/config";
 import {formatDate, stringToSlug, genImageUrl, genTime} from "@/config";
 import Comment from "@/features/components/Comment.vue";
 import VueEasyLightbox from 'vue-easy-lightbox'
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
 
 export default {
   components: {
-    Comment, VueEasyLightbox
+    Comment, VueEasyLightbox, Toast
   },
   props: {
     post: {
@@ -36,7 +38,9 @@ export default {
       imgsRef: [],
       files: [],
       preview: [],
-      images: []
+      images: [],
+      hideShare: 0,
+      toast: null
     }
   },
   methods: {
@@ -196,10 +200,23 @@ export default {
       this.preview.splice(index, 1)
       this.images.splice(index, 1)
       this.files.splice(index, 1)
+    },
+    onClickShare() {
+      this.hideShare = !this.hideShare
+    },
+    async onCopyLink() {
+      try {
+        await navigator.clipboard.writeText(location.toString());
+        this.toast.add({ severity: 'success', summary: 'Thông báo', detail: 'Sao chép thành công', life: 3000 });
+      } catch($e) {
+        this.toast.add({ severity: 'error', summary: 'Thất bại', detail: 'Sao chép thất bại', life: 3000 });
+      }
     }
+
   },
   mounted() {
     this.changeItems(this.$props.post)
+    this.toast = useToast()
   },
   watch: {
     async post(newVal, oldVal) {
@@ -212,6 +229,7 @@ export default {
 
 </script>
 <template>
+  <Toast />
   <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mt-4">
     <div class="flex justify-between">
       <div class="flex items-center">
@@ -324,27 +342,18 @@ export default {
         </svg>
         <p class="ml-2">{{ post.commentTotal }}</p>
       </button>
-      <button class="flex items-center active:scale-95 transform transition-transform">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>
-        </svg>
-        <!--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-        <!--             stroke="currentColor" class="w-6 h-6">-->
-        <!--          <path stroke-linecap="round" stroke-linejoin="round"-->
-        <!--                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>-->
-        <!--        </svg>-->
-
-        <p class="ml-2">{{ post.shareTotal }}</p>
-      </button>
-      <!--      <button class="flex items-center active:scale-95 transform transition-transform">-->
-      <!--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"-->
-      <!--             stroke="currentColor" class="w-6 h-6">-->
-      <!--          <path stroke-linecap="round" stroke-linejoin="round"-->
-      <!--                d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>-->
-      <!--        </svg>-->
-      <!--      </button>-->
+      <div class="relative">
+        <button @click="onClickShare" class="flex items-center active:scale-95 transform transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>
+          </svg>
+        </button>
+        <div v-show="hideShare" class="absolute z-10 border w-240px bg-gray-600 text-white dark:bg-ld-border rounded border-ll-border dark:border-ld-border right-0">
+          <button @click="onCopyLink" class="w-full p-1.5 rounded">Sao chép đường liên kết</button>
+        </div>
+      </div>
     </div>
     <div>
       <input type="file" ref="upload" hidden="" @change="changeFileUpload">
