@@ -116,7 +116,7 @@ export default defineComponent({
     <div>
       <img
           class="absolute border-4 rounded-full w-[150px] h-[150px] object-cover left-0 right-0 ml-auto mr-auto -top-20 border-ll-border dark:border-ld-border"
-          :src="genImageUrl(user.avatar || '')" alt="image">
+          :src="genImageUrl(user.avatar || 'https://images.egosnet.click/social-network/user-128.png')" alt="image">
       <div>
         <input type="file" ref="upload" hidden="" @change="changeFileUpload">
       </div>

@@ -103,7 +103,7 @@ export default defineComponent({
       <div class="flex items-center gap-2">
         <div @click="onRoutingUser"
             class="cursor-pointer flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(comment?.user?.avatar || '')"
+          <img :src="genImageUrl(comment?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col bg-ll-border rounded-lg dark:bg-ld-border p-2 relative">

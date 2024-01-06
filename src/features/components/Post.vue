@@ -160,7 +160,7 @@ export default {
       <div class="flex items-center">
         <div @click="onRoutingUser"
              class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(post?.user?.avatar || '')"
+          <img :src="genImageUrl(post?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
