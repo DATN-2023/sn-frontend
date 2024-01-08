@@ -2,8 +2,9 @@ const config = {
     urlConfig: {
         authUrl: import.meta.env.VITE_AUTH_URL || 'http://localhost:8005',
         serverUrl: import.meta.env.VITE_SERVER_URL || 'http://localhost:8000',
-        imageUrl: import.meta.env.VITE_IMAGE_URL || 'http://localhost:9000/social-network',
-        chatUrl: import.meta.env.VITE_CHAT_URL || 'http://localhost:8009'
+        imageUrl: import.meta.env.VITE_IMAGE_URL || 'http://minio:9000/social-network',
+        chatUrl: import.meta.env.VITE_CHAT_URL || 'http://localhost:8009',
+        thumborUrl: import.meta.env.VITE_THUMBOR_URL || 'http://localhost:8888',
     },
     deviceTypes: {
         ANDROID: 1,

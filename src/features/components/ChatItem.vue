@@ -19,7 +19,7 @@ export default defineComponent({
 <template>
   <div class="w-full rounded-md flex space-x-4 p-2 rounded-xl hover:bg-ll-border hover:dark:bg-ld-border cursor-pointer"
        :class="`${channel?.active ? 'bg-ll-border dark:bg-ld-border' : ''}`">
-    <img class="h-16 w-16 rounded-full" :src="genImageUrl(channel?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
+    <img class="h-16 w-16 rounded-full" :src="genImageUrl(channel?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png', '200x')"
          alt="">
     <div class="lg:flex hidden justify-between flex-1 space-x-2">
       <div class="self-center text-lg">

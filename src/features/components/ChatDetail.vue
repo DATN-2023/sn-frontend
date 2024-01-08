@@ -79,7 +79,7 @@ export default defineComponent({
       <div class="flex p-2 justify-between w-full">
         <div class="flex space-x-2">
           <img class="h-16 w-16 rounded-full"
-               :src="genImageUrl(channel?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
+               :src="genImageUrl(channel?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png', '200x')"
                alt="">
           <div class="self-center bold">{{ channel?.user?.name }}</div>
         </div>

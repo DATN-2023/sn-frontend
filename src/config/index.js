@@ -2,7 +2,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import config from "./config";
 import notificationApi from "@/api/notification";
 
-const {urlConfig: {imageUrl}} = config
+const {urlConfig: {imageUrl, thumborUrl}} = config
 
 export async function getFingerPrintBrowser() {
     const fpPromise = FingerprintJS.load()
@@ -41,10 +41,10 @@ export function stringToSlug(str) {
     return str
 }
 
-export function genImageUrl(endpoint) {
+export function genImageUrl(endpoint, size) {
     const protocol = endpoint.split('://').shift()
     if (protocol === 'http' || protocol === 'https') return endpoint
-    else return `${imageUrl}${endpoint}`
+    else return `${thumborUrl}/unsafe/${size || 'x'}/${imageUrl}${endpoint}`
 }
 
 export function genTime(createdAt) {

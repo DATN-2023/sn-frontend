@@ -113,7 +113,7 @@ export default {
     if (post._id) {
       this.content = post.content
       this.images = post.images
-      this.preview = post.images.map(image => ({src: genImageUrl(image), name: image.split('/').pop()}))
+      this.preview = post.images.map(image => ({src: genImageUrl(image, '500x'), name: image.split('/').pop()}))
     }
   }
 }

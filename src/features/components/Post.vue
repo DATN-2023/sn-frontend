@@ -49,7 +49,7 @@ export default {
       this.visibleRef = true
     },
     showMultiple(index) {
-      this.imgsRef = this.post?.images.map(image => this.genImageUrl(image))
+      this.imgsRef = this.post?.images.map(image => this.genImageUrl(image, '500x'))
       this.indexRef = index
       this.onShow()
     },
@@ -235,7 +235,7 @@ export default {
       <div class="flex items-center">
         <div @click="onRoutingUser"
              class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(post?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png')"
+          <img :src="genImageUrl(post?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png', '200x')"
                class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
@@ -285,7 +285,7 @@ export default {
     <div v-if="post?.images && post.images.length > 0"
          :class="`images w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 2) ? 'grid-cols-3' : ''} ${(post.images.length === 2) ? 'grid-cols-2' : ''} ${(post.images.length === 1) ? 'grid-cols-1' : ''} gap-2`">
       <div class="h-full" :class="`${(post.images.length > 2) ? 'col-span-2' : ''}`">
-        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0])"
+        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0], '500x')"
              class="w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover"
              alt="">
       </div>
@@ -294,15 +294,15 @@ export default {
              ${post.images.length === 3 ? 'grid-cols-1 grid-rows-2' : ''}
             ${post.images.length > 3 ? 'grid-cols-1 grid-rows-3' : ''}
             gap-2`">
-        <img @click="showMultiple(1)" v-if="post.images.length > 1" :src="genImageUrl(post.images[1])"
+        <img @click="showMultiple(1)" v-if="post.images.length > 1" :src="genImageUrl(post.images[1], '500x')"
              :class="` cursor-pointer w-full h-full object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
              alt="">
-        <img @click="showMultiple(2)" v-if="post.images.length > 2" :src="genImageUrl(post.images[2])"
+        <img @click="showMultiple(2)" v-if="post.images.length > 2" :src="genImageUrl(post.images[2], '500x')"
              :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
              alt="">
         <div v-if="post.images.length > 3" @click="showMultiple(3)" class="relative"
              :style="`${post.images.length > 4 ? 'background: black;': ''}`">
-          <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3])"
+          <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3], '500x')"
                :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`"
                :style="`${post.images.length > 4 ? 'opacity: 0.8;': ''}`"
                alt="">

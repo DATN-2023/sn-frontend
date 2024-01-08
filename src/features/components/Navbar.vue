@@ -152,7 +152,7 @@ export default {
     <div class="profile flex flex-col justify-center items-center">
       <div @click="onRoutingUser"
           :class="`cursor-pointer avatar rounded-full bg-ll-base dark:bg-ld-base ${this.$props.isExpanded ? 'w-25 h-25' : 'w-12 h-12'} border-2 border-ll-border dark:border-ld-border relative`">
-        <img :src="genImageUrl(user?.avatar || '')" class="w-full h-full  rounded-full object-cover"
+        <img :src="genImageUrl(user?.avatar || '', '200x')" class="w-full h-full  rounded-full object-cover"
              alt="">
 
 <!--        <div-->

@@ -59,7 +59,7 @@ export default defineComponent({
 <template>
   <div class="flex py-2 px-4 w-full space-x-4 ">
     <div class="relative">
-      <img class="w-32 h-32 rounded grow-0 object-cover" :src="group?.thumbnail ? genImageUrl(group?.thumbnail) : 'https://images.egosnet.click/social-network/3566801.jpg'"
+      <img class="w-32 h-32 rounded grow-0 object-cover" :src="group?.thumbnail ? genImageUrl(group?.thumbnail, '200x') : 'https://images.egosnet.click/social-network/3566801.jpg'"
            alt="image">
       <div>
         <input type="file" ref="uploadThumbnail" hidden="" @change="changeFileUpload">
