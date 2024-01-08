@@ -203,7 +203,7 @@ export default defineComponent({
     <template #body>
       <div class="relative self-center lg:w-5/6">
         <img class="h-[350px] <sm:h-[250px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
-             :src="[group?.banner ? genImageUrl(group?.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg'] "
+             :src="[group?.banner ? genImageUrl(group?.banner) : 'https://images.egosnet.click/social-network/2975662.jpg'] "
              alt="">
         <div>
           <input type="file" ref="upload" hidden="" @change="changeFileUpload">

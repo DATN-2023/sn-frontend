@@ -1,16 +1,32 @@
-<script setup>
-import {ref, defineProps} from 'vue';
+<script>
+import {defineComponent} from 'vue';
 
-let darkmod = ref(false);
-
-const props = defineProps({
-  fullSidebar: Boolean,
-  navbarExpanded: Boolean,
-  rightNavbarExpanded: Boolean,
-  showNavBar: Boolean,
-  overflow: {
-    type: Boolean,
-    default: true
+export default defineComponent({
+  name: "AppShell",
+  props: {
+    fullSidebar: Boolean,
+    navbarExpanded: Boolean,
+    rightNavbarExpanded: Boolean,
+    showNavBar: Boolean,
+    overflow: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data() {
+    return {
+      darkmod: 0
+    }
+  },
+  methods: {
+    async changeDarkMod() {
+      this.darkmod = !this.darkmod
+      window.$cookies.set('darkmod', +this.darkmod)
+      this.$emit('onChangeTheme', this.darkmod)
+    }
+  },
+  mounted() {
+    this.darkmod = +window.$cookies.get('darkmod') || 0
   }
 })
 
@@ -19,10 +35,10 @@ const props = defineProps({
 <template>
   <div :class="`${darkmod ? 'dark' : 'light'}`">
     <div class="w-screen h-screen bg-ll-base dark:bg-ld-base flex flex-col text-gray-500 ">
-      <div v-if="!props.fullSidebar"
+      <div v-if="!fullSidebar"
            class="w-full h-14 bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border border-b flex justify-between items-center px-5">
         <slot name="header"></slot>
-        <button @click="darkmod = !darkmod, $emit('onChangeTheme', darkmod)"
+        <button @click="changeDarkMod"
                 class="w-10 h-10 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">
           <svg v-if="!darkmod" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -40,15 +56,15 @@ const props = defineProps({
 
       <div class="w-full flex h-full relative overflow-hidden relative ">
         <div v-if="showNavBar"
-             :class="`absolute left-0 top-0 z-10 w-full md:relative origin-left overflow-x-hidden ${props.navbarExpanded ? 'md:w-110' : 'w-0 md:w-20'} transition-all  border-r h-full bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border flex flex-col`">
+             :class="`absolute left-0 top-0 z-10 w-full md:relative origin-left overflow-x-hidden ${navbarExpanded ? 'md:w-110' : 'w-0 md:w-20'} transition-all  border-r h-full bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border flex flex-col`">
           <slot name="navbar"></slot>
         </div>
         <div class="w-full h-full flex flex-col">
 
-          <div v-if="props.fullSidebar"
+          <div v-if="fullSidebar"
                class="w-full h-14 bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border border-b flex justify-between items-center px-5">
             <slot name="header"></slot>
-            <button @click="darkmod = !darkmod, $emit('onChangeTheme', darkmod)"
+            <button @click="changeDarkMod"
                     class="w-10 h-10 border rounded-md flex justify-center items-center ml-2 border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-200 active:scale-95 transition-transform transform">
               <svg v-if="!darkmod" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -70,7 +86,7 @@ const props = defineProps({
         </div>
 
         <div v-if="$slots.rightNavbar"
-             :class="`origin-left overflow-x-hidden ${props.rightNavbarExpanded ? 'w-130' : 'w-0'} transition-all border-l h-full bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border flex flex-col`">
+             :class="`origin-left overflow-x-hidden ${rightNavbarExpanded ? 'w-130' : 'w-0'} transition-all border-l h-full bg-ll-neutral dark:bg-ld-neutral border-ll-border dark:border-ld-border flex flex-col`">
           <slot name="rightNavbar"></slot>
         </div>
 

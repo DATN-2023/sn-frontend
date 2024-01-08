@@ -73,7 +73,7 @@ const actions = {
             return feed.createComment(dataSubmit)
         } catch (e) {
             console.error('error createComment')
-            return {}
+            return false
         }
     },
     async deleteComment({dispatch, commit}, id) {

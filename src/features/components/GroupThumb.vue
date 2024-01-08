@@ -40,7 +40,7 @@ export default defineComponent({
 <template>
   <div class="h-320px w-330px rounded rounded-xl bg-ll-neutral dark:bg-ld-neutral">
     <img class="w-330px h-180px rounded-t-lg object-fill"
-         :src="[item?.data?.banner ? genImageUrl(item?.data?.banner) : 'https://images-cdn.carpla.dev/1920x/HybridErtigajpg-1664383054.jpg']" alt="image">
+         :src="[item?.data?.banner ? genImageUrl(item?.data?.banner) : 'https://images.egosnet.click/social-network/2975662.jpg']" alt="image">
     <div class="mx-4 my-2">
       <div @click="onClickTitle" class="cursor-pointer">
         <div class="bold text-xl">{{ item?.data?.name || '' }}</div>
