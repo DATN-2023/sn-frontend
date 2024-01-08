@@ -6,7 +6,7 @@
 <!--      <div class="my-2">-->
 <!--        <input name="phone" type="text" class="border-black border rounded" v-model="phone">-->
 <!--      </div>-->
-      <button class="bg-sky-500 mt-2 p-2 rounded w-full" @click="handleSignInGoogle">Đăng nhập qua google</button>
+      <button class="bg-sky-500 text-white mt-2 p-2 rounded w-full" @click="handleSignInGoogle">Đăng nhập qua google</button>
     </div>
   </div>
 </template>
