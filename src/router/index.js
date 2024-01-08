@@ -59,8 +59,8 @@ router.beforeEach(async (to, from) => {
         window.$cookies.set(VISITOR_ID, visitorId)
     }
     const token = window.$cookies.get(TOKEN_KEY)
-    if (to.path === '/login' && token)  router.push('/')
-    else if (to.path !== '/login' && !token) router.push('/login')
+    if (to.path === '/login' && token && token !== 'undefined')  router.push('/')
+    else if (to.path !== '/login' && (!token || token === 'undefined')) router.push('/login')
 })
 
 export default router
