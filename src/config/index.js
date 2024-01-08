@@ -44,7 +44,7 @@ export function stringToSlug(str) {
 export function genImageUrl(endpoint, size) {
     const protocol = endpoint.split('://').shift()
     if (protocol === 'http' || protocol === 'https') return endpoint
-    else return `${thumborUrl}/unsafe/${size || 'x'}/${imageUrl}${endpoint}`
+    else return `${thumborUrl}/unsafe/${size || 'x'}/${imageUrl}${encodeURIComponent(endpoint)}`
 }
 
 export function genTime(createdAt) {
