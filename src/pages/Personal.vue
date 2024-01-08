@@ -117,7 +117,7 @@ export default {
       <div class="flex flex-col dark:text-gray-200 text-gray-700">
         <div class="self-center xl:w-5/6 w-full xl:h-full h-280px relative">
           <img class="xl:h-[350px] sm:h-[280px] <sm:h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
-               :src="[user?.banner ? genImageUrl(user.banner) : 'https://images.egosnet.click/social-network/3762234.jpg'] "
+               :src="[user?.banner ? genImageUrl(user.banner) : 'https://minio.egosnet.click/social-network/3762234.jpg'] "
                alt="">
           <div>
             <input type="file" ref="upload" hidden="" @change="changeFileUpload">

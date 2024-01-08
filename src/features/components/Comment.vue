@@ -207,7 +207,7 @@ export default defineComponent({
       <div class="flex items-start gap-2">
         <div @click="onRoutingUser"
              class="cursor-pointer flex-shrink-0 avatar rounded-full bg-ll-base dark:bg-ld-base w-10 h-10 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(comment?.user?.avatar || 'https://images.egosnet.click/social-network/user-128.png', '200x')"
+          <img :src="genImageUrl(comment?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
                class="w-full h-full rounded-full object-cover" alt="">
         </div>
         <div class="relative">
