@@ -1,18 +1,24 @@
 <script>
 
 import config from "@/config/config";
-import {formatDate, stringToSlug, genImageUrl, genTime} from "@/config";
+import {formatDate, stringToSlug, genImageUrl, genTime, isVideo, genVideoUrl} from "@/config";
 import Comment from "@/features/components/Comment.vue";
-import VueEasyLightbox from 'vue-easy-lightbox'
+// import VueEasyLightbox from 'vue-easy-lightbox'
+// import LightBox from 'vue-it-bigger'
+import Lightgallery from 'lightgallery/vue';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
 import Toast from 'primevue/toast';
-import { useToast } from 'primevue/usetoast';
+import {useToast} from 'primevue/usetoast';
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
+let lightGallery = null
 
 export default {
   components: {
-    Comment, VueEasyLightbox, Toast
+    Comment, Toast, Lightgallery
   },
   props: {
     post: {
@@ -40,18 +46,46 @@ export default {
       preview: [],
       images: [],
       hideShare: 0,
-      toast: null
+      toast: null,
+      plugins: [lgThumbnail, lgZoom, lgVideo],
+      media: [
+        // {
+        //   id: '1',
+        //   size: '1400-933',
+        //   src: 'https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80',
+        //   thumb:
+        //       'https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80',
+        //   subHtmlUrl: 'testtt'
+        // },
+        // {
+        //   video: {
+        //     source: [
+        //       {
+        //         src: 'https://www.lightgalleryjs.com//videos/video1.mp4',
+        //         type: 'video/mp4',
+        //       },
+        //     ],
+        //     attributes: {preload: false, controls: true},
+        //   },
+        //   thumb:
+        //       'https://www.lightgalleryjs.com//images/demo/html5-video-poster.jpg',
+        //   subHtmlUrl: 'testtt2'
+        // }
+      ]
     }
   },
   methods: {
     genTime,
+    isVideo,
+    genVideoUrl,
     onShow() {
       this.visibleRef = true
     },
     showMultiple(index) {
       this.imgsRef = this.post?.images.map(image => this.genImageUrl(image, '500x'))
       this.indexRef = index
-      this.onShow()
+      lightGallery.openGallery(1)
+      // this.onShow()
     },
     onHide() {
       this.visibleRef = false
@@ -173,6 +207,8 @@ export default {
       if (this.$props.isDetailPage) {
         this.items.shift()
       }
+      this.genMedia()
+      lightGallery.refresh(this.media)
     },
     async changeFileUpload(event) {
       if (event.target.files && event.target.files[0]) {
@@ -207,9 +243,36 @@ export default {
     async onCopyLink() {
       try {
         await navigator.clipboard.writeText(location.toString());
-        this.toast.add({ severity: 'success', summary: 'Thông báo', detail: 'Sao chép thành công', life: 3000 });
-      } catch($e) {
-        this.toast.add({ severity: 'error', summary: 'Thất bại', detail: 'Sao chép thất bại', life: 3000 });
+        this.toast.add({severity: 'success', summary: 'Thông báo', detail: 'Sao chép thành công', life: 3000});
+      } catch ($e) {
+        this.toast.add({severity: 'error', summary: 'Thất bại', detail: 'Sao chép thất bại', life: 3000});
+      }
+    },
+    genMedia() {
+      for (const image of this.post.images) {
+        if (this.isVideo(image)) {
+          this.media.push({
+            video: {
+              thumb: 'test',
+              source: [{
+                src: genVideoUrl(image),
+                type: 'video/mp4'
+              }],
+              attributes: {preload: false, controls: true}
+            }
+          })
+        } else {
+          this.media.push({
+            src: genImageUrl(image, '800x'),
+            thumb: genImageUrl(image, '400x')
+          })
+        }
+      }
+      console.log('media', this.media)
+    },
+    onInit(detail) {
+      if (detail) {
+        lightGallery = detail.instance
       }
     }
 
@@ -229,14 +292,15 @@ export default {
 
 </script>
 <template>
-  <Toast />
+  <Toast/>
   <div class="w-full p-5 bg-ll-neutral dark:bg-ld-neutral rounded-md flex flex-col mt-4">
     <div class="flex justify-between">
       <div class="flex items-center">
         <div @click="onRoutingUser"
              class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
-          <img :src="genImageUrl(post?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
-               class="w-full h-full  rounded-full object-cover" alt="">
+          <img
+              :src="genImageUrl(post?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
+              class="w-full h-full  rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
           <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">
@@ -285,7 +349,11 @@ export default {
     <div v-if="post?.images && post.images.length > 0"
          :class="`images w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 2) ? 'grid-cols-3' : ''} ${(post.images.length === 2) ? 'grid-cols-2' : ''} ${(post.images.length === 1) ? 'grid-cols-1' : ''} gap-2`">
       <div class="h-full" :class="`${(post.images.length > 2) ? 'col-span-2' : ''}`">
-        <img @click="showMultiple(0)" :src="genImageUrl(post.images[0], '500x')"
+        <div v-if="isVideo(post.images[0])"
+             class="grid place-items-center my-auto w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover">
+          <video :src="genVideoUrl(post.images[0])" controls></video>
+        </div>
+        <img v-else @click="showMultiple(0)" :src="genImageUrl(post.images[0], '500x')"
              class="w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover"
              alt="">
       </div>
@@ -350,7 +418,8 @@ export default {
                   d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"/>
           </svg>
         </button>
-        <div v-show="hideShare" class="absolute z-10 border w-240px bg-gray-600 text-white dark:bg-ld-border rounded border-ll-border dark:border-ld-border right-0">
+        <div v-show="hideShare"
+             class="absolute z-10 border w-240px bg-gray-600 text-white dark:bg-ld-border rounded border-ll-border dark:border-ld-border right-0">
           <button @click="onCopyLink" class="w-full p-1.5 rounded">Sao chép đường liên kết</button>
         </div>
       </div>
@@ -411,15 +480,22 @@ export default {
                @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>
-  <vue-easy-lightbox
-      :visible="visibleRef"
-      :imgs="imgsRef"
-      :index="indexRef"
-      @hide="onHide"
-  ></vue-easy-lightbox>
-
+  <!--  <vue-easy-lightbox-->
+  <!--      :visible="visibleRef"-->
+  <!--      :imgs="imgsRef"-->
+  <!--      :index="indexRef"-->
+  <!--      @hide="onHide"-->
+  <!--  ></vue-easy-lightbox>-->
+  <Lightgallery :settings="{ speed: 500, plugins: plugins, videojs: true, thumbnail: false, dynamic: true, dynamicEl: media }"
+                :onInit="onInit">
+  </Lightgallery>
 </template>
 <style>
+@import 'lightgallery/css/lightgallery.css';
+@import 'lightgallery/css/lg-thumbnail.css';
+@import 'lightgallery/css/lg-zoom.css';
+@import 'lightgallery/css/lg-video.css';
+
 .slide-fade-enter-active {
   transition: all 0.5s ease-out;
 }

@@ -2,7 +2,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import config from "./config";
 import notificationApi from "@/api/notification";
 
-const {urlConfig: {imageUrl, thumborUrl}} = config
+const {urlConfig: {imageUrl, thumborUrl, videoUrl}} = config
 
 export async function getFingerPrintBrowser() {
     const fpPromise = FingerprintJS.load()
@@ -41,10 +41,28 @@ export function stringToSlug(str) {
     return str
 }
 
+export function isVideo(filename) {
+    const ext = filename.split('.').pop()
+    switch (ext.toLowerCase()) {
+        case 'm4v':
+        case 'avi':
+        case 'mpg':
+        case 'mp4':
+            return true;
+    }
+    return false;
+}
+
 export function genImageUrl(endpoint, size) {
     const protocol = endpoint.split('://').shift()
     if (protocol === 'http' || protocol === 'https') return endpoint
     else return `${thumborUrl}/unsafe/${size || 'x'}/${encodeURIComponent(imageUrl)}${encodeURIComponent(endpoint)}`
+}
+
+export function genVideoUrl(endpoint, size) {
+    const protocol = endpoint.split('://').shift()
+    if (protocol === 'http' || protocol === 'https') return endpoint
+    else return `${videoUrl}${endpoint}`
 }
 
 export function genTime(createdAt) {

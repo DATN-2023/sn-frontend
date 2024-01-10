@@ -1,5 +1,5 @@
 <script>
-import {genImageUrl} from "@/config";
+import {genImageUrl, isVideo} from "@/config";
 
 export default {
   name: "PostCreation",
@@ -106,7 +106,8 @@ export default {
       this.preview.splice(index, 1)
       this.images.splice(index, 1)
       this.files.splice(index, 1)
-    }
+    },
+    isVideo
   },
   mounted() {
     const post = this.$props.post
@@ -128,7 +129,21 @@ export default {
               placeholder="Viết gì đó..." resize="none"></textarea>
     <div class="flex-wrap flex justify-center items-center">
       <div class="w-300px flex-auto p-2" v-for="(file, index) in preview">
-        <div class="relative inline-block pt-2">
+        <div v-if="isVideo(file.name)" class="relative inline-block pt-2">
+          <video :src="file.src" controls>
+<!--            <source :src="file.src">-->
+          </video>
+          <!--          <img src="https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="test" class="">-->
+          <button @click="onDeleteImage(index)"
+                  class="w-8 h-8 absolute -top-0 -right-2 bg-ll-neutral dark:bg-ld-neutral text-sm  border-ll-border dark:border-ld-border border rounded-full flex items-center active:scale-95 transform transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-full h-full">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </button>
+        </div>
+        <div v-else class="relative inline-block pt-2">
           <img :src="file.src" :alt="file.name">
           <!--          <img src="https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="test" class="">-->
           <button @click="onDeleteImage(index)"
