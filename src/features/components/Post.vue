@@ -242,6 +242,7 @@ export default {
       }
     },
     genMedia() {
+      this.media = []
       for (const image of this.post.images) {
         if (this.isVideo(image)) {
           this.media.push({
@@ -293,7 +294,7 @@ export default {
              class="avatar cursor-pointer rounded-full bg-ll-base dark:bg-ld-base w-15 h-15 border-2 border-ll-border dark:border-ld-border relative ">
           <img
               :src="genImageUrl(post?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
-              class="w-full h-full  rounded-full object-cover" alt="">
+              class="w-full h-full rounded-full object-cover" alt="">
         </div>
         <div class="flex flex-col ml-2">
           <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">
@@ -340,11 +341,15 @@ export default {
     </div>
 
     <div v-if="post?.images && post.images.length > 0"
-         :class="`images w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid ${(post.images.length > 2) ? 'grid-cols-3' : ''} ${(post.images.length === 2) ? 'grid-cols-2' : ''} ${(post.images.length === 1) ? 'grid-cols-1' : ''} gap-2`">
+         :class="`images w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] bg-ll-neutral dark:bg-ld-neutral rounded-xl my-4 overflow-hidden grid
+         ${(post.images.length > 2) ? 'grid-cols-3' : ''} ${(post.images.length === 2) ? 'grid-cols-2' : ''}
+         ${(post.images.length === 1) ? 'grid-cols-1' : ''} gap-2`">
       <div class="h-full" :class="`${(post.images.length > 2) ? 'col-span-2' : ''}`">
-        <div v-if="isVideo(post.images[0])"
-             class="grid place-items-center my-auto w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover">
-          <video :src="genVideoUrl(post.images[0])" controls></video>
+        <div v-if="isVideo(post.images[0])" @click="showMultiple(0)"
+             class="grid place-items-center my-auto h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer">
+          <video preload="metadata" style="height: inherit;">
+            <source :src="`${genVideoUrl(post.images[0])}#t=0.1`">
+          </video>
         </div>
         <img v-else @click="showMultiple(0)" :src="genImageUrl(post.images[0], '500x')"
              class="w-full h-70 md:h-120 xl:h-[550px] 2xl:h-[550px] cursor-pointer object-cover"
@@ -355,19 +360,43 @@ export default {
              ${post.images.length === 3 ? 'grid-cols-1 grid-rows-2' : ''}
             ${post.images.length > 3 ? 'grid-cols-1 grid-rows-3' : ''}
             gap-2`">
-        <img @click="showMultiple(1)" v-if="post.images.length > 1" :src="genImageUrl(post.images[1], '500x')"
+        <div v-if="post.images.length > 1"
              :class="` cursor-pointer w-full h-full object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
-             alt="">
-        <img @click="showMultiple(2)" v-if="post.images.length > 2" :src="genImageUrl(post.images[2], '500x')"
-             :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
-             alt="">
-        <div v-if="post.images.length > 3" @click="showMultiple(3)" class="relative"
-             :style="`${post.images.length > 4 ? 'background: black;': ''}`">
-          <img v-if="post.images.length > 3" :src="genImageUrl(post.images[3], '500x')"
-               :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`"
-               :style="`${post.images.length > 4 ? 'opacity: 0.8;': ''}`"
+             @click="showMultiple(1)">
+          <div v-if="isVideo(post.images[1])" class="h-full overflow-hidden grid place-items-center">
+            <video style="height: inherit;" preload="metadata">
+              <source :src="`${genVideoUrl(post.images[1])}#t=0.1`" type="video/mp4">
+            </video>
+          </div>
+          <img v-else @click="showMultiple(1)" :src="genImageUrl(post.images[1], '500x')"
+               :class="` cursor-pointer w-full h-full object-cover ${post.images.length === 3 && 'row-span-1 col-span-1 h-full'}`"
                alt="">
+        </div>
+        <div v-if="post.images.length > 2" @click="showMultiple(2)"
+             :class="`cursor-pointer w-full h-full   object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`">
+          <div v-if="isVideo(post.images[2])" class="h-full overflow-hidden grid place-items-center">
+            <video preload="metadata">
+              <source :src="`${genVideoUrl(post.images[2])}#t=0.1`" type="video/mp4">
+            </video>
+          </div>
+          <img v-else :src="genImageUrl(post.images[2], '500x')"
+               :class="`cursor-pointer w-full h-full object-cover ${post.images.length === 3 && 'row-span-2 col-span-1'}`"
+               alt="">
+        </div>
 
+        <div v-if="post.images.length > 3" @click="showMultiple(3)" class="relative" :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`"
+             :style="`${post.images.length > 4 ? 'background: black;': ''}`">
+          <div :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`">
+            <div v-if="isVideo(post.images[3])" class="h-full overflow-hidden grid place-items-center">
+              <video preload="metadata">
+                <source :src="`${genVideoUrl(post.images[3])}#t=0.1`" type="video/mp4">
+              </video>
+            </div>
+            <img v-else :src="genImageUrl(post.images[3], '500x')"
+                 :class="`cursor-pointer w-full h-full object-cover ${post.images.length > 3 && 'col-span-1'}`"
+                 :style="`${post.images.length > 4 ? 'opacity: 0.8;': ''}`"
+                 alt="">
+          </div>
           <div v-if="post.images.length > 4" class="absolute text-white text-2xl"
                style="left: 50%; top: 50%; transform: translate(-50%,-50%);">
             +{{ post.images.length - 4 }}
@@ -479,8 +508,9 @@ export default {
   <!--      :index="indexRef"-->
   <!--      @hide="onHide"-->
   <!--  ></vue-easy-lightbox>-->
-  <Lightgallery :settings="{ speed: 500, plugins: plugins, videojs: true, thumbnail: false, dynamic: true, dynamicEl: media }"
-                :onInit="onInit">
+  <Lightgallery
+      :settings="{ speed: 500, plugins: plugins, videojs: true, thumbnail: false, dynamic: true, dynamicEl: media }"
+      :onInit="onInit">
   </Lightgallery>
 </template>
 <style>

@@ -100,6 +100,7 @@ const actions = {
     async login({ dispatch }, dataSubmit) {
         try {
             const data = await authApi.login(dataSubmit)
+            console.log('data', data)
             if(data) {
                 dispatch('setToken', data.token)
                 dispatch('setUserInfo', data.user)

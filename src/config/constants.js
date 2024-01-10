@@ -1,5 +1,5 @@
 export const USER_KEY = 'userInfo'
-export const TOKEN_KEY = 'token'
+export const TOKEN_KEY = 'access-token'
 export const GUEST_KEY = 'guest'
 export const VISITOR_ID = 'visitor_id'
 export const VISITOR_ID_TYPE = 'visitor_id_type'
