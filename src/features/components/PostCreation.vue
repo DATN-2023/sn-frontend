@@ -1,8 +1,13 @@
 <script>
 import {genImageUrl, isVideo} from "@/config";
+import Toast from 'primevue/toast';
+import {useToast} from 'primevue/usetoast';
 
 export default {
   name: "PostCreation",
+  components: {
+    Toast
+  },
   props: {
     post: {
       type: Object
@@ -23,9 +28,19 @@ export default {
   methods: {
     async changeFileUpload(event) {
       if (event.target.files && event.target.files[0]) {
+        console.log('files', event.target.files)
         const files = event.target.files
         this.files.push(...files)
         for (const file of files) {
+          if (file.size > 50000000) {
+            this.toast.add({
+              severity: 'error',
+              summary: 'Upload thất bại',
+              detail: 'Không thể upload file lớn hơn 50MB',
+              life: 3000
+            })
+            return
+          }
           const src = URL.createObjectURL(file)
           this.preview.push({
             src,
@@ -116,11 +131,13 @@ export default {
       this.images = post.images
       this.preview = post.images.map(image => ({src: genImageUrl(image, '500x'), name: image.split('/').pop()}))
     }
+    this.toast = useToast()
   }
 }
 </script>
 
 <template>
+  <Toast/>
   <div
       :class="` transition-all col-span-1 p-5 overflow-hidden mx-2 bg-ll-neutral dark:bg-ld-neutral rounded-md  flex flex-col relative`">
     <div></div>
@@ -131,7 +148,7 @@ export default {
       <div class="w-300px flex-auto p-2" v-for="(file, index) in preview">
         <div v-if="isVideo(file.name)" class="relative inline-block pt-2">
           <video :src="file.src" controls>
-<!--            <source :src="file.src">-->
+            <!--            <source :src="file.src">-->
           </video>
           <!--          <img src="https://images.pexels.com/photos/13920607/pexels-photo-13920607.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="test" class="">-->
           <button @click="onDeleteImage(index)"
@@ -160,7 +177,7 @@ export default {
     <div class="w-full flex items-center justify-between pt-3 ">
       <div class="flex">
         <div>
-          <input type="file" ref="upload" hidden="" multiple @change="changeFileUpload">
+          <input type="file" ref="upload" accept="image/*, video/*" hidden="" multiple @change="changeFileUpload">
         </div>
         <button @click="onUploadFiles"
                 class="w-10 h-10 mr-2 border rounded-md flex justify-center items-center  border-ll-border dark:border-ld-border bg-ll-base dark:bg-ld-base dark:text-gray-500 active:scale-95 transition-transform transform">

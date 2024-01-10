@@ -14,8 +14,6 @@ import {useToast} from 'primevue/usetoast';
 
 const {urlConfig: {imageUrl}, reactionType, reactionTargetType} = config
 
-let lightGallery = null
-
 export default {
   components: {
     Comment, Toast, Lightgallery
@@ -71,24 +69,19 @@ export default {
         //       'https://www.lightgalleryjs.com//images/demo/html5-video-poster.jpg',
         //   subHtmlUrl: 'testtt2'
         // }
-      ]
+      ],
+      lightGallery: null
     }
   },
   methods: {
     genTime,
     isVideo,
     genVideoUrl,
-    onShow() {
-      this.visibleRef = true
-    },
     showMultiple(index) {
       this.imgsRef = this.post?.images.map(image => this.genImageUrl(image, '500x'))
       this.indexRef = index
-      lightGallery.openGallery(1)
+      this.lightGallery.openGallery(index)
       // this.onShow()
-    },
-    onHide() {
-      this.visibleRef = false
     },
     generateDescription() {
       let description = this.post.content.trim().split('\n').join('<br>');
@@ -208,7 +201,7 @@ export default {
         this.items.shift()
       }
       this.genMedia()
-      lightGallery.refresh(this.media)
+      this.lightGallery.refresh(this.media)
     },
     async changeFileUpload(event) {
       if (event.target.files && event.target.files[0]) {
@@ -272,7 +265,7 @@ export default {
     },
     onInit(detail) {
       if (detail) {
-        lightGallery = detail.instance
+        this.lightGallery = detail.instance
       }
     }
 
