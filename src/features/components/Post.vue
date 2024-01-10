@@ -161,7 +161,7 @@ export default {
       this.$props.post.commentTotal--
     },
     onRoutingUser() {
-      this.$router.push({path: `/user/${this.$props.post?.user?.customerId}`})
+      this.$router.push({path: `/user/${this.$props.post?.createdBy}`})
     },
     changeItems(post) {
       if (post.isOwn) {
