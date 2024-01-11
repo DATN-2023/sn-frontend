@@ -3,6 +3,12 @@ import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: "GroupCreation",
+  props: {
+    editingGroup: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
       group: {
@@ -14,13 +20,31 @@ export default defineComponent({
   },
   methods: {
     async onCreateGroup() {
-      const group = await this.$store.dispatch('group/createGroup', this.group)
-      if (group) {
-        this.$router.push({path: `/group/${group._id}`})
+      if (Object.keys(this.editingGroup)) {
+        const body = this.editingGroup
+        body.name = this.group.name
+        body.description = this.group.description
+        body.rules = this.group.rules
+        const group = await this.$store.dispatch('group/updateGroup', {id: this.editingGroup._id, body})
+        if (group) {
+          this.$emit('onCloseGroupCreation')
+        } else {
+          alert('Sửa group lỗi')
+        }
       } else {
-        alert('Tạo group lỗi')
+        const group = await this.$store.dispatch('group/createGroup', this.group)
+        if (group) {
+          this.$router.push({path: `/group/${group._id}`})
+        } else {
+          alert('Tạo group lỗi')
+        }
       }
     }
+  },
+  mounted() {
+    this.group.name = this.editingGroup.name
+    this.group.description = this.editingGroup.description
+    this.group.rules = this.editingGroup.rules
   }
 })
 </script>

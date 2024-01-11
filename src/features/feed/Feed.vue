@@ -13,7 +13,11 @@ export default {
       required: true
     },
     feedPosts: Array,
-    visible: Boolean
+    visible: Boolean,
+    isMod: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -43,7 +47,7 @@ export default {
       :class="`w-full transition-all`">
     <div class="flex flex-col">
       <Post v-for="(post, index) in feedPosts" :post="post" :key="index" @onDeletePost="() => this.onDeletePost(index)"
-            @onEditPost="() => this.$emit('onEditPost', index)"></Post>
+            @onEditPost="() => this.$emit('onEditPost', index)" :is-mod="isMod"></Post>
     </div>
     <!--    <div class="flex flex-col p-2 ">-->
     <!--      <Post v-for="(post, index) in leftPosts" :post="post" :key="index"></Post>-->

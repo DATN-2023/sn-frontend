@@ -49,6 +49,9 @@ export default defineComponent({
       await this.$store.dispatch('upload/uploadFile', {url: data.url, file, type: file.type})
       return {name: data.name}
     },
+    checkMod() {
+      return this.group?.isMod || false
+    },
   },
   mounted() {
 
@@ -59,12 +62,12 @@ export default defineComponent({
 <template>
   <div class="flex py-2 px-4 w-full space-x-4 ">
     <div class="relative">
-      <img class="w-32 h-32 rounded grow-0 object-cover" :src="group?.thumbnail ? genImageUrl(group?.thumbnail, '200x') : 'https://minio.egosnet.click/social-network/3566801.jpg'"
+      <img class="lg:w-32 lg:h-32 w-24 h-24 rounded grow-0 object-cover" :src="group?.thumbnail ? genImageUrl(group?.thumbnail, '200x') : 'https://minio.egosnet.click/social-network/3566801.jpg'"
            alt="image">
       <div>
         <input type="file" ref="uploadThumbnail" hidden="" @change="changeFileUpload">
       </div>
-      <button @click="onUploadFiles"
+      <button v-if="checkMod()" @click="onUploadFiles"
               class="absolute -right-2 bottom-0 w-10 h-10 mr-2 border rounded flex justify-center items-center border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border dark:text-gray-500 active:scale-95 transition-transform transform">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-6 h-6">

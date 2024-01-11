@@ -12,12 +12,14 @@ import PostCreation from "@/features/components/PostCreation.vue";
 import {genImageUrl} from "@/config";
 import ApproveUser from "@/features/components/ApproveUser.vue";
 import config from "@/config/config";
+import GroupCreation from "@/features/components/GroupCreation.vue";
 
 const {joinStatusGroupConfig} = config
 
 export default defineComponent({
   name: "Group",
   components: {
+    GroupCreation,
     ApproveUser,
     PostCreation, GroupRules, GroupDescription, GroupTitle, GroupThumb, Navbar, Feed, Header, AppShell
   },
@@ -35,6 +37,7 @@ export default defineComponent({
       group: {},
       pendingUsers: [],
       activeNavbar: true,
+      groupVisible: false,
       responsiveOptions: [
         {
           breakpoint: '1400px',
@@ -90,6 +93,7 @@ export default defineComponent({
     setUp(visible) {
       if (!visible) {
         this.visible = false;
+        this.groupVisible = false;
       }
     },
     onCreatePost(body) {
@@ -173,6 +177,9 @@ export default defineComponent({
       console.log('body', body)
       const group = await this.updateGroup(this.group._id, body)
       this.group.thumbnail = group.thumbnail
+    },
+    onEditGroup() {
+      this.groupVisible = true
     }
   },
   mounted() {
@@ -208,7 +215,7 @@ export default defineComponent({
         <div>
           <input type="file" ref="upload" hidden="" @change="changeFileUpload">
         </div>
-        <button @click="onUploadFiles"
+        <button v-if="checkMod()" @click="onUploadFiles"
                 class="absolute -right-2 bottom-0 w-10 h-10 mr-2 border rounded flex justify-center items-center border-ll-border dark:border-ld-border hover:bg-ll-border hover:dark:bg-ld-border dark:text-gray-500 active:scale-95 transition-transform transform">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -241,7 +248,7 @@ export default defineComponent({
                     :oneColumn="showLeftNavbar && showRightNavbar"
                     :showPostComposer="showComposePost"
                     @on-close-compose-post="showComposePost = !showComposePost"
-                    @onEditPost="(index) => onEditPost(index)"></Feed>
+                    @onEditPost="(index) => onEditPost(index)" :is-mod="group.isMod"></Feed>
               <div v-show="navBavConfig.active === 1" class="mt-4 bg-ll-neutral dark:bg-ld-neutral rounded-md">
                 <ApproveUser @onIncMember="data => onIncMember(index)"
                              @onDecMember="data => onDecMember(index)" v-for="(user, index) in pendingUsers"
@@ -261,6 +268,15 @@ export default defineComponent({
                 </svg>
               </button>
             </div>
+            <div class="mt-4">
+              <button @click="onEditGroup"
+                      class="text-xl hover:bg-sky-600 w-full bg-ll-primary dark:bg-ld-primary text-white rounded-lg py-5 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
+                <p>Chỉnh sửa thông tin nhóm</p>
+              </button>
+            </div>
+            <Dialog :visible="groupVisible" modal header="Tạo nhóm" @update:visible="setUp" :style="{ width: '50vw' }">
+              <GroupCreation @onCloseGroupCreation="groupVisible = false" :editing-group="group"></GroupCreation>
+            </Dialog>
             <div class="bg-ll-neutral dark:bg-ld-neutral w-full rounded rounded-md mt-4 p-4">
               <GroupDescription :description="group.description"></GroupDescription>
             </div>

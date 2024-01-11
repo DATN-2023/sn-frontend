@@ -26,6 +26,10 @@ export default {
     isDetailPage: {
       type: Boolean,
       default: false
+    },
+    isMod: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -177,6 +181,22 @@ export default {
             label: 'Sửa bài viết',
             command: () => {
               this.$emit("onEditPost")
+            }
+          },
+          {
+            label: 'Xóa bài viết',
+            command: () => {
+              this.visible = true
+            }
+          }
+        ]
+      } else if (this.isMod) {
+        this.items = [
+          {
+            label: 'Xem chi tiết',
+            command: () => {
+              const path = this.getFeedEndpoint()
+              this.$router.push({path})
             }
           },
           {
