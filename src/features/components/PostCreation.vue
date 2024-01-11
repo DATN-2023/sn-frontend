@@ -32,11 +32,11 @@ export default {
         const files = event.target.files
         this.files.push(...files)
         for (const file of files) {
-          if (file.size > 50000000) {
+          if (file.size > 20000000) {
             this.toast.add({
               severity: 'error',
               summary: 'Upload thất bại',
-              detail: 'Không thể upload file lớn hơn 50MB',
+              detail: 'Không thể upload file lớn hơn 20MB',
               life: 3000
             })
             return
