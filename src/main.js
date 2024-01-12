@@ -23,7 +23,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ConfirmPopup from 'primevue/confirmpopup';
 import Carousel from 'primevue/carousel';
-import {getMessaging, getToken, onMessage} from "firebase/messaging";
+import {getMessaging, getToken} from "firebase/messaging";
 import config from '@/config/config'
 
 const {firebaseConfig} = config
@@ -40,10 +40,16 @@ const handleFcmToken = (currentToken) => {
         console.log('get fcmToken error')
     }
 }
-getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'})
-    .then((currentToken) => handleFcmToken(currentToken))
-    .catch((e) => {
-        console.log('An error occurred while retrieving token. ', e);
+navigator.serviceWorker.register('../firebase-messaging-sw.js')
+    .then(function (registration) {
+        console.log('firebase-message-sw :ServiceWorker registration successful with scope: ', registration.scope);
+        getToken(messaging, {vapidKey: 'BMHJQv_6zAjuYolmHdAAIX0z6W8IGvjjIUr7xD9xnQDsu8cBckHAP97JmYMO4khnnYYOWJaqgAJ8-WimgEYQo1A'})
+            .then((currentToken) => handleFcmToken(currentToken))
+            .catch((e) => {
+                console.log('An error occurred while retrieving token. ', e);
+            })
+    }, function (err) {
+        console.log('firebase-message-sw: ServiceWorker registration failed: ', err);
     })
 
 library.add(faSpinner)
