@@ -7,6 +7,7 @@ ENV VITE_SERVER_URL="https://api.egosnet.click/appserver"
 ENV VITE_IMAGE_URL="http://minio:9000/social-network"
 ENV VITE_THUMBOR_URL="https://images.egosnet.click"
 ENV VITE_CHAT_URL="https://api.egosnet.click/chat"
+ENV VITE_VIDEO_URL="https://video.egosnet.click/social-network"
 
 RUN yarn
 COPY . .
