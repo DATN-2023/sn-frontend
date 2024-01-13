@@ -1,5 +1,6 @@
 <script>
 import {defineComponent} from 'vue'
+import {genImageUrl} from "@/config";
 
 export default defineComponent({
   name: "ApproveUser",
@@ -9,6 +10,7 @@ export default defineComponent({
     }
   },
   methods: {
+    genImageUrl,
     async onApproveUser() {
       const body = {
         id: this.$props.user._id,
@@ -27,7 +29,7 @@ export default defineComponent({
 
 <template>
   <div class="w-full rounded-md flex space-x-4 p-2">
-    <img class="h-20 w-20 rounded-full" :src="user?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp'" alt="">
+    <img class="h-20 w-20 rounded-full" :src="genImageUrl(user?.user?.avatar || 'https://images-cdn.carpla.dev/256x/xeco.webp')" alt="">
     <div class="flex justify-between flex-1 space-x-2">
       <div class="self-center">{{user?.user?.name || ''}}</div>
       <div class="self-center">
