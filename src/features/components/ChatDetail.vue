@@ -37,7 +37,8 @@ export default defineComponent({
       if (event.shiftKey===true && event.key === "Enter") {
         return;
       }
-      if (!this.content) return
+      console.log('content', this.content, '1')
+      if (!this.content.trim()) return
       const payload = {
         content: this.content,
         channel: this.channel._id
