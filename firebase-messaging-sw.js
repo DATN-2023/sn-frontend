@@ -54,7 +54,6 @@ self.addEventListener("notificationclick", (event) => {
                 let endpoint = ''
                 if (typeConfig.COMMENT === type || typeConfig.REACT === type) endpoint = `/feed/${feed}`
                 if (typeConfig.FOLLOW === type) endpoint = `/user/${user.customerId}`
-                console.log('endpoint', endpoint)
                 if (clients.openWindow) return clients.openWindow(endpoint);
             }),
     );

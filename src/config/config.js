@@ -59,6 +59,15 @@ const config = {
         messagingSenderId: import.meta.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID || '772685687500',
         appId: import.meta.env.VUE_APP_FIREBASE_APP_ID || '1:772685687500:web:5ae7e6d49250335f543069',
         measurementId: import.meta.env.VUE_APP_FIREBASE_MEASUREMENT_ID || 'G-N6P4XVLF0L'
+    },
+    typeConfig: {
+        COMMENT: 1,
+        REACT: 2,
+        POST: 3,
+        SHARE: 4,
+        FOLLOW: 5,
+        UNREACT: 6,
+        UNFOLLOW: 7
     }
 }
 export default config
