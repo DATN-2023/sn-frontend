@@ -248,7 +248,7 @@ export default defineComponent({
                     :oneColumn="showLeftNavbar && showRightNavbar"
                     :showPostComposer="showComposePost"
                     @on-close-compose-post="showComposePost = !showComposePost"
-                    @onEditPost="(index) => onEditPost(index)" :is-mod="group.isMod"></Feed>
+                    @onEditPost="(index) => onEditPost(index)" :is-mod="group.isMod" :in-group-page="true"></Feed>
               <div v-show="navBavConfig.active === 1" class="mt-4 bg-ll-neutral dark:bg-ld-neutral rounded-md">
                 <ApproveUser @onIncMember="data => onIncMember(index)"
                              @onDecMember="data => onDecMember(index)" v-for="(user, index) in pendingUsers"

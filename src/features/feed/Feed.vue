@@ -17,6 +17,10 @@ export default {
     isMod: {
       type: Boolean,
       default: false
+    },
+    inGroupPage: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -46,7 +50,7 @@ export default {
   <div
       :class="`w-full transition-all`">
     <div class="flex flex-col">
-      <Post v-for="(post, index) in feedPosts" :post="post" :key="index" @onDeletePost="() => this.onDeletePost(index)"
+      <Post :in-group-page="inGroupPage" v-for="(post, index) in feedPosts" :post="post" :key="index" @onDeletePost="() => this.onDeletePost(index)"
             @onEditPost="() => this.$emit('onEditPost', index)" :is-mod="isMod"></Post>
     </div>
     <!--    <div class="flex flex-col p-2 ">-->

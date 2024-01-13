@@ -301,8 +301,8 @@ export default {
             {{ post?.user?.name || 'Anonymous' }}</p>
           <div>
             <span>{{ genTime(post?.createdAt || 0) }}</span>
-            <span v-if="post?.group" class="ml-2">-</span>
-            <a :href="`/group/${post?.group?._id}`" class="ml-2 hover:underline">{{ post?.group?.name }}</a>
+            <span v-if="post?.group && !inGroupPage" class="ml-2">-</span>
+            <a v-if="!inGroupPage" :href="`/group/${post?.group?._id}`" class="ml-2 hover:underline">{{ post?.group?.name }}</a>
           </div>
         </div>
 
