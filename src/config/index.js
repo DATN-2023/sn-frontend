@@ -68,7 +68,9 @@ export function genVideoUrl(endpoint, size) {
 export function genTime(createdAt) {
     const currentTime = Math.floor(new Date() / 1000)
     const diff = Math.abs(currentTime - createdAt)
-    if (diff <= 60) {
+    if (diff < 0) {
+        return '0 giây trước'
+    } else if (diff <= 60) {
         return `${diff} giây trước`
     } else if (60 < diff && diff  <= 3600) {
         return `${Math.floor(diff / 60)} phút trước`

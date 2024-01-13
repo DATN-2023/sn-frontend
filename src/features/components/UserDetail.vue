@@ -94,7 +94,8 @@ export default defineComponent({
       else this.$router.push({path: '/chat'})
     },
     genDate(time) {
-      const date = new Date(time)
+      console.log('time', time)
+      const date = new Date(time * 1000)
       console.log('date', date)
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
     }
