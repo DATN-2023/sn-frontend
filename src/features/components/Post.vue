@@ -30,6 +30,10 @@ export default {
     isMod: {
       type: Boolean,
       default: false
+    },
+    inGroupPage: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -50,30 +54,7 @@ export default {
       hideShare: 0,
       toast: null,
       plugins: [lgThumbnail, lgZoom, lgVideo],
-      media: [
-        // {
-        //   id: '1',
-        //   size: '1400-933',
-        //   src: 'https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80',
-        //   thumb:
-        //       'https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80',
-        //   subHtmlUrl: 'testtt'
-        // },
-        // {
-        //   video: {
-        //     source: [
-        //       {
-        //         src: 'https://www.lightgalleryjs.com//videos/video1.mp4',
-        //         type: 'video/mp4',
-        //       },
-        //     ],
-        //     attributes: {preload: false, controls: true},
-        //   },
-        //   thumb:
-        //       'https://www.lightgalleryjs.com//images/demo/html5-video-poster.jpg',
-        //   subHtmlUrl: 'testtt2'
-        // }
-      ],
+      media: [],
       lightGallery: null
     }
   },
@@ -85,7 +66,6 @@ export default {
       this.imgsRef = this.post?.images.map(image => this.genImageUrl(image, '500x'))
       this.indexRef = index
       this.lightGallery.openGallery(index)
-      // this.onShow()
     },
     generateDescription() {
       let description = this.post.content.trim().split('\n').join('<br>');
@@ -316,10 +296,14 @@ export default {
               :src="genImageUrl(post?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
               class="w-full h-full rounded-full object-cover" alt="">
         </div>
-        <div class="flex flex-col ml-2">
+        <div class="flex flex-col ml-2 space-y-0.5">
           <p @click="onRoutingUser" class="text-2xl cursor-pointer font-bold text-gray-800 dark:text-gray-300">
             {{ post?.user?.name || 'Anonymous' }}</p>
-          <p class="-mt-1">{{ genTime(post?.createdAt || 0) }}</p>
+          <div>
+            <span>{{ genTime(post?.createdAt || 0) }}</span>
+            <span v-if="post?.group" class="ml-2">-</span>
+            <a :href="`/group/${post?.group?._id}`" class="ml-2 hover:underline">{{ post?.group?.name }}</a>
+          </div>
         </div>
 
         <!--        <div class="flex text-ll-primary">-->
