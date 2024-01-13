@@ -40,7 +40,6 @@ export default {
       this.feeds = this.feeds.concat(feeds.data)
       this.page = feeds.page
       this.isLoadmore = this.feeds.length < feeds.total;
-      console.log('isLoadmore', this.isLoadmore)
       this.total = feeds?.total || 0
       return feeds
     },

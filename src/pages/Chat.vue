@@ -35,12 +35,16 @@ export default defineComponent({
       this.channels = this.channels.concat(payload?.data || [])
     },
     onClickChannel(index) {
+      if (this.channels[index]._id === this.channelActive._id) return
+      for (const channel of this.channels) {
+        if (channel._id === this.channelActive._id) channel.active = 0
+      }
       this.channels[index].active = 1
       this.channelActive = this.channels[index]
+      this.messages = []
     },
     onGetme(data) {
       this.user = data
-      console.log('me', data)
       socket.on(`client:channel:getChannels-${this.user?.customerId || ''}`, payload => this.handleGetChannel(payload))
       socket.on(`client:listener-${this.user?.customerId || ''}`, payload => this.handleMessage(payload))
       socket.emit('channel:getChannels', {page: 1})

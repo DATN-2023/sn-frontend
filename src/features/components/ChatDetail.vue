@@ -28,7 +28,7 @@ export default defineComponent({
     return {
       content: '',
       page: 0,
-      isLoadmore: 1
+      isLoadmore: 0
     }
   },
   methods: {
@@ -47,12 +47,13 @@ export default defineComponent({
     },
     async getMessages(q = {}) {
       q.channel = this.channel._id.toString()
-      q.perPage = 10
+      q.perPage = 20
       const data = await this.$store.dispatch('chat/getMessages', q)
       const messages = (data?.data || [])
       this.messages.push(...messages)
-      // const scroll = document.getElementById('chatFrame')
-      // scroll.scrollTo(0, scroll.scrollHeight)
+      this.page = data.page
+      console.log('message', this.messages.length, data.total)
+      this.isLoadmore = this.messages.length < data.total;
       return data
     },
     async loadMessages($state) {
@@ -60,16 +61,21 @@ export default defineComponent({
       try {
         if (this.isLoadmore) {
           const data = await this.getMessages({page: this.page + 1})
-          if (data && data.page * data.perPage >= data.total) this.isLoadmore = 0
-          this.page = data.page
           $state.loaded()
         }
-        console.log('check')
       } catch (e) {
         $state.error()
       }
     }
-  }
+  },
+  watch: {
+    async channel(newValue, oldvalue) {
+      this.page = 0
+      this.isLoadmore = false
+      if (!this.isLoadmore) await this.getMessages({page: this.page + 1})
+      this.isLoadmore = true
+    }
+  },
 })
 </script>
 
