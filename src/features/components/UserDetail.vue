@@ -169,13 +169,13 @@ export default defineComponent({
       Thông tin cá nhân
     </div>
     <div class="text-center py-3">
-      {{ user?.description || 'asdcs' }}
+      {{ user?.description || '' }}
     </div>
     <table >
       <tbody>
         <tr>
           <td><font-awesome-icon :icon="['fas', 'house']" /></td>
-          <td>{{ user.place || 'casdc' }}</td>
+          <td>{{ user.place || '' }}</td>
         </tr>
         <tr>
           <td><font-awesome-icon :icon="['fas', 'cake-candles']" /></td>

@@ -20,7 +20,7 @@ export default defineComponent({
   },
   methods: {
     async onCreateGroup() {
-      if (Object.keys(this.editingGroup)) {
+      if (Object.keys(this.editingGroup).length) {
         const body = this.editingGroup
         body.name = this.group.name
         body.description = this.group.description
