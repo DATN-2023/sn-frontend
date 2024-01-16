@@ -14,6 +14,10 @@ export default defineComponent({
   props: {
     comment: {
       type: Object
+    },
+    isOwnPost: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -139,6 +143,9 @@ export default defineComponent({
       this.preview.splice(index, 1)
       this.images.splice(index, 1)
       this.files.splice(index, 1)
+    },
+    isOwnComment() {
+      return this.comment?.isOwn || 0
     }
   }
 })
@@ -239,10 +246,10 @@ export default defineComponent({
       <button class="flex items-center active:scale-95 transform transition-transform" @click="onLike">
         <p :class="[comment.liked ? 'text-ll-primary' : '', 'bold text-sm ml-2 hover:underline']">Thích</p>
       </button>
-      <button class="flex items-center active:scale-95 transform transition-transform" @click="onEdit">
+      <button v-if="isOwnComment()" class="flex items-center active:scale-95 transform transition-transform" @click="onEdit">
         <p class="bold text-sm ml-2 hover:underline">Sửa</p>
       </button>
-      <button class="flex items-center active:scale-95 transform transition-transform" @click="onDelete">
+      <button v-if="isOwnPost || isOwnComment()" class="flex items-center active:scale-95 transform transition-transform" @click="onDelete">
         <p class="bold text-sm ml-2 hover:underline">Xóa</p>
       </button>
     </div>

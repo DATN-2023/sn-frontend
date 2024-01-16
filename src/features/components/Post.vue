@@ -126,6 +126,7 @@ export default {
       }
       const comment = await this.$store.dispatch('feed/createComment', body)
       if (comment) {
+        comment.isOwn = 1
         comment.user = this.$store.getters['auth/userInfo']
         this.comments.unshift(comment)
         this.$props.post.commentTotal++
@@ -502,7 +503,7 @@ export default {
       </div>
     </Transition>
     <div v-show="showComment" v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
-      <Comment v-for="(comment, index) in comments" :comment="comment"
+      <Comment :is-own-post="post.isOwn" v-for="(comment, index) in comments" :comment="comment"
                @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>

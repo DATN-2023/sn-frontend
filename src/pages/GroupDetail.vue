@@ -268,7 +268,7 @@ export default defineComponent({
                 </svg>
               </button>
             </div>
-            <div class="mt-4">
+            <div v-if="checkMod()" class="mt-4">
               <button @click="onEditGroup"
                       class="text-xl hover:bg-sky-600 w-full bg-ll-primary dark:bg-ld-primary text-white rounded-lg py-5 px-2 active:scale-95 transform transition-transform flex items-center justify-center">
                 <p>Chỉnh sửa thông tin nhóm</p>
