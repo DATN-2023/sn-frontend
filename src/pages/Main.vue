@@ -125,7 +125,7 @@ export default {
         <PostCreation :post="editionPost" @turnOffVisible="visible = !visible"
                       @onCreatePost="body => onCreatePost(body)" @onUpdatePost="onUpdatePost()"></PostCreation>
       </Dialog>
-      <div class="mx-auto sm:w-full md:w-3/4 2xl:w-2/4 dark:text-gray-200 text-gray-700">
+      <div class="mx-auto sm:w-full md:w-3/4 lg:w-2/3 2xl:w-2/4 dark:text-gray-200 text-gray-700">
         <div v-show="textSearch" class="text-black text-2xl bold">
           Hiển thị
           <span>{{ total }}</span>

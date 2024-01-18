@@ -116,7 +116,7 @@ export default {
     <template #body>
       <div class="flex flex-col dark:text-gray-200 text-gray-700">
         <div class="self-center xl:w-5/6 w-full xl:h-full h-280px relative">
-          <img class="xl:h-[350px] sm:h-[280px] <sm:h-[350px] border-ll-border shadow-lg w-full object-cover rounded"
+          <img class="xl:h-[350px] sm:h-[280px] <sm:h-[280px] border-ll-border shadow-lg w-full object-cover rounded"
                :src="[user?.banner ? genImageUrl(user.banner) : 'https://minio.egosnet.click/social-network/3762234.jpg'] "
                alt="">
           <div>
@@ -131,7 +131,7 @@ export default {
             </svg>
           </button>
         </div>
-        <div class="lg:w-4/5 xl:w-2/3 w-full self-center flex lg:flex-row flex-col gap-x-8">
+        <div class="lg:w-7/8 xl:w-3/4 2xl:w-3/4 w-full self-center flex lg:flex-row flex-col gap-x-8">
           <div class="lg:basis-1/3">
             <UserDetail :user="user"></UserDetail>
           </div>

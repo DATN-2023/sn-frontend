@@ -208,7 +208,7 @@ export default defineComponent({
       </Navbar>
     </template>
     <template #body>
-      <div class="relative self-center lg:w-5/6">
+      <div class="relative self-center xl:w-5/6 w-full">
         <img class="h-[350px] <sm:h-[250px] border-ll-border shadow-lg w-full object-cover rounded-b-lg"
              :src="[group?.banner ? genImageUrl(group?.banner) : 'https://minio.egosnet.click/social-network/2975662.jpg'] "
              alt="">
@@ -224,7 +224,7 @@ export default defineComponent({
           </svg>
         </button>
       </div>
-      <div class="lg:w-2/3 self-center">
+      <div class="lg:w-9/10 xl:w-5/6 2xl:w-3/4 self-center">
         <div class="gap-x-8 bg-ll-neutral dark:bg-ld-neutral text-gray-800 dark:text-gray-300 rounded-b-lg">
           <GroupTitle :group="group" @uploadThumbnail="uploadThumbnail"></GroupTitle>
           <div class="flex px-4 py-2">

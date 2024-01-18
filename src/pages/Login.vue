@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-fixed h-full flex flex-row justify-center items-center"
-       style="background-image: url(https://minio.egosnet.click/social-network/EGOSNET.svg)">
+  <div class="bg-fixed h-full flex flex-row justify-center items-center object-cover"
+       style="background-image: url(https://minio.egosnet.click/social-network/EGOSNET.svg); background-position-x: center;">
     <div class="bg-white rounded-md p-6 w-300px">
       <h1 class="p-2 rounded-md text-2xl text-center">Đăng nhập</h1>
 <!--      <div class="my-2">-->

@@ -38,8 +38,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="h-320px w-330px rounded rounded-xl bg-ll-neutral dark:bg-ld-neutral">
-    <img class="w-330px h-180px rounded-t-lg object-fill"
+  <div class="<sm:w-300px h-320px w-330px rounded rounded-xl bg-ll-neutral dark:bg-ld-neutral">
+    <img class="<sm:w-300px w-330px h-180px rounded-t-lg object-fill"
          :src="[item?.data?.banner ? genImageUrl(item?.data?.banner) : 'https://minio.egosnet.click/social-network/2975662.jpg']" alt="image">
     <div class="mx-4 my-2">
       <div @click="onClickTitle" class="cursor-pointer">

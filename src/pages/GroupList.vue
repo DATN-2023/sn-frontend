@@ -33,13 +33,18 @@ export default defineComponent({
       recommendGroups: [],
       responsiveOptions: [
         {
-          breakpoint: '1400px',
+          breakpoint: '1536px',
           numVisible: 2,
           numScroll: 1
         },
         {
-          breakpoint: '1199px',
+          breakpoint: '1280px',
           numVisible: 2,
+          numScroll: 1
+        },
+        {
+          breakpoint: '1024px',
+          numVisible: 1,
           numScroll: 1
         },
         {
@@ -98,8 +103,8 @@ export default defineComponent({
       </Dialog>
     </template>
     <template #body>
-      <div class="w-1600px">
-        <div class="lg:w-3/4 w-full mx-auto text-gray-800 dark:text-gray-300 border-b-1 border-ll-base dark:border-ld-border my-2">
+      <div class="2xl:w-1200px <sm:w-380px sm:w-400px lg:w-800px xl:w-1000px mx-auto">
+        <div class="w-full mx-auto text-gray-800 dark:text-gray-300 border-b-1 border-ll-base dark:border-ld-border my-2">
           <div class="text-2xl bold ml-10">Các nhóm bạn theo dõi</div>
           <div v-if="groups.length" class="w-full">
             <Carousel :value="groups" :num-visible="3" :num-scroll="1" :responsive-options="responsiveOptions">
@@ -110,7 +115,7 @@ export default defineComponent({
           </div>
           <div v-else class="text-center text-md p-2 w-full">Bạn chưa theo dõi nhóm nào</div>
         </div>
-        <div class="lg:w-3/4 w-full mx-auto text-gray-800 dark:text-gray-300 my-2">
+        <div class="w-full mx-auto text-gray-800 dark:text-gray-300 my-2">
           <div class="text-2xl bold ml-10">Các nhóm đề xuất</div>
           <div class="mx-auto w-full">
             <Carousel :value="recommendGroups" :num-visible="3" :num-scroll="1" :responsive-options="responsiveOptions">
