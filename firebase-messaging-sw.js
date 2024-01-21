@@ -29,12 +29,13 @@ self.addEventListener("activate", (event) => {
 
 const typeConfig = {
     COMMENT: 1,
-    REACT: 2,
+    REACTFEED: 2,
     POST: 3,
     SHARE: 4,
     FOLLOW: 5,
     UNREACT: 6,
-    UNFOLLOW: 7
+    UNFOLLOW: 7,
+    REACTCOMMENT: 8
 }
 
 self.addEventListener("notificationclick", (event) => {
@@ -52,8 +53,8 @@ self.addEventListener("notificationclick", (event) => {
             })
             .then((clientList) => {
                 let endpoint = ''
-                if (typeConfig.COMMENT === type || typeConfig.REACT === type) endpoint = `/feed/${feed}`
-                if (typeConfig.FOLLOW === type) endpoint = `/user/${user.customerId}`
+                if (typeConfig.COMMENT === type || typeConfig.REACTFEED === type || typeConfig.REACTCOMMENT === type) endpoint = `/feed/${feed}`
+                else if (typeConfig.FOLLOW === type) endpoint = `/user/${user.customerId}`
                 if (clients.openWindow) return clients.openWindow(endpoint);
             }),
     );

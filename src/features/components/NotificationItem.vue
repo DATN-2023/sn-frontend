@@ -32,8 +32,8 @@ export default defineComponent({
     },
     async onClickNoti() {
       let endpoint = ''
-      if (typeConfig.COMMENT === this.notification.type || typeConfig.REACT === this.notification.type) endpoint = `/feed/${this.notification.feed}`
-      if (typeConfig.FOLLOW === this.notification.type) endpoint = `/user/${this.notification.user.customerId}`
+      if (typeConfig.COMMENT === this.notification.type || typeConfig.REACTFEED === this.notification.type || typeConfig.REACTCOMMENT === this.notification.type) endpoint = `/feed/${this.notification.feed}`
+      else if (typeConfig.FOLLOW === this.notification.type) endpoint = `/user/${this.notification.user.customerId}`
       await this.onClickHasRead()
       this.$router.push(endpoint)
     }
@@ -50,9 +50,13 @@ export default defineComponent({
       <div class="w-14px" v-if="notification?.hasRead"></div>
       <font-awesome-icon v-else :icon="['fas', 'circle']" class="text-ll-primary self-center w-12px text-xs"/>
       <img class="h-16 w-16 self-center rounded-full"
-           :src="genImageUrl(notification?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')" alt="">
+           :src="genImageUrl(notification?.user?.avatar || 'https://minio.egosnet.click/social-network/user-128.png', '200x')"
+           alt="">
       <div>
-        <div class="text-sm"><p class="bold inline">{{ `${notification.user.name}` }}</p> {{ `${notification.content}` }}</div>
+        <div class="text-sm"><p class="bold inline">{{ `${notification.user.name}` }}</p> {{
+            `${notification.content}`
+          }}
+        </div>
         <div class="text-xs">{{ `${genTime(notification.createdAt)}` }}</div>
       </div>
     </div>
