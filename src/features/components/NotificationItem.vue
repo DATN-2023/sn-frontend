@@ -30,11 +30,11 @@ export default defineComponent({
       this.$props.notification.hasRead = 1
       this.$emit('onClickHasRead')
     },
-    onClickNoti() {
-      console.log('testttt')
+    async onClickNoti() {
       let endpoint = ''
       if (typeConfig.COMMENT === this.notification.type || typeConfig.REACT === this.notification.type) endpoint = `/feed/${this.notification.feed}`
       if (typeConfig.FOLLOW === this.notification.type) endpoint = `/user/${this.notification.user.customerId}`
+      await this.onClickHasRead()
       this.$router.push(endpoint)
     }
   },
