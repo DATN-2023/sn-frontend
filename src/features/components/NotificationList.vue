@@ -131,7 +131,7 @@ export default defineComponent({
               @click="value.onClick(index)">{{ value.title }}
       </button>
     </div>
-    <div class="mt-8 overflow-y-auto h-500px lg:h-600px">
+    <div class="mt-8 overflow-y-auto h-500px lg:h-100">
       <NotificationItem  @onClickHasRead="$emit('onClickHasRead')" v-for="item in notifications"
                         class="border-b-1 dark:border-gray-700 py-4" :notification="item"></NotificationItem>
       <InfiniteLoading @infinite="loadItem">
