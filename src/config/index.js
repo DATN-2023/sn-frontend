@@ -80,3 +80,7 @@ export function genTime(createdAt) {
         return `${Math.floor(diff / 3600 / 24)} ngày trước`
     }
 }
+
+export function genGroupName(name) {
+    return name.length > 28 ? `${name.substring(0, 27)}...` : name
+}

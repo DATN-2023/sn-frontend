@@ -1,6 +1,6 @@
 <script>
 import {defineComponent} from 'vue'
-import {genImageUrl} from "@/config";
+import {genImageUrl, genGroupName} from "@/config";
 import config from "@/config/config";
 
 const {joinStatusGroupConfig} = config
@@ -19,6 +19,7 @@ export default defineComponent({
   },
   methods: {
     genImageUrl,
+    genGroupName,
     async onJoin() {
       const body = {
         group: this.item?.data._id
@@ -43,7 +44,7 @@ export default defineComponent({
          :src="[item?.data?.banner ? genImageUrl(item?.data?.banner) : 'https://minio.egosnet.click/social-network/2975662.jpg']" alt="image">
     <div class="mx-4 my-2">
       <div @click="onClickTitle" class="cursor-pointer">
-        <div class="bold text-xl">{{ item?.data?.name || '' }}</div>
+        <div class="bold text-xl">{{ genGroupName(item?.data?.name || '') }}</div>
         <div>{{ `${item?.data?.memberTotal || 0} thành viên` }}</div>
       </div>
       <button v-show="!item?.data?.userStatus" @click="onJoin"
