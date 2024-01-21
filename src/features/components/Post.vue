@@ -42,7 +42,7 @@ export default {
       items: [],
       isUploaded: false,
       hideCommentBox: false,
-      comments: [],
+      // comments: [],
       commentContent: '',
       showComment: true,
       visibleRef: false,
@@ -128,7 +128,8 @@ export default {
       if (comment) {
         comment.isOwn = 1
         comment.user = this.$store.getters['auth/userInfo']
-        this.comments.unshift(comment)
+        if (!this.post?.comments) this.post.comments = []
+        this.post.comments.unshift(comment)
         this.$props.post.commentTotal++
       }
       this.files = []
@@ -139,10 +140,11 @@ export default {
     },
     async getComments() {
       const data = await this.$store.dispatch('feed/getComments', {feed: this.$props.post._id})
-      this.comments = data.data
+      this.post.comments = data.data
+      // console.log('comments', this.post.comments)
     },
     onDeleteComment(index) {
-      this.comments.splice(index, 1)
+      this.post.comments.splice(index, 1)
       this.$props.post.commentTotal--
     },
     onRoutingUser() {
@@ -201,6 +203,7 @@ export default {
       if (this.$props.isDetailPage) {
         this.items.shift()
       }
+      // this.post.comments = []
       this.genMedia()
       this.lightGallery.refresh(this.media)
     },
@@ -502,8 +505,8 @@ export default {
         </div>
       </div>
     </Transition>
-    <div v-show="showComment" v-if="comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
-      <Comment :is-own-post="post.isOwn" v-for="(comment, index) in comments" :comment="comment"
+    <div v-show="showComment" v-if="post?.comments && post?.comments.length" class="border-t-1 mt-2 border-ll-border dark:border-ld-border">
+      <Comment :is-own-post="post.isOwn" v-for="(comment, index) in post?.comments" :comment="comment"
                @onDeleteComment="onDeleteComment(index)"></Comment>
     </div>
   </div>
